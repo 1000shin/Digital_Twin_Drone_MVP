@@ -8,7 +8,7 @@ WITHOUT altering any official statusline-token.sh or settings.json files.
 
 import json
 import os
-import glob
+import sys
 import time
 from datetime import datetime
 from pathlib import Path
