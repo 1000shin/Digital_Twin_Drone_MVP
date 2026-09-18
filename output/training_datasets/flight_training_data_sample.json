@@ -1,0 +1,2810 @@
+{
+  "dataset_name": "flight_training_data_sample",
+  "version": "1.0.0",
+  "created_at": "2026-09-18T18:45:00.000Z",
+  "environment_id": "offshore_wind",
+  "total_samples": 50,
+  "sampling_rate_hz": 20,
+  "drone_spec": {
+    "num_arms": 6,
+    "arm_length_m": 0.26,
+    "aircraft_type": "vtol_tilt_rotor"
+  },
+  "pilot_questionnaires": [
+    {
+      "timestamp": "2026-09-18T18:45:05.000Z",
+      "reset_reason": "crash_damage",
+      "pilot_rating": "good",
+      "notes": "在 2.5m/s 側風下接近離岸風機葉片根部時氣流擾動強烈，機臂 #1 輕微擦撞塔架。",
+      "final_integrity": 82.0,
+      "final_position": [
+        1.225,
+        1.4048,
+        0.245
+      ],
+      "damaged_components": [
+        "機臂 #1 折損彎曲、旋翼 #1 斷槳失衡"
+      ]
+    }
+  ],
+  "trajectory": [
+    {
+      "step": 0,
+      "timestamp": 1789800000.0,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          0.0,
+          1.2,
+          0.0
+        ],
+        "linear_velocity": [
+          0.5,
+          0,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 100.0,
+        "battery_voltage": 11.8,
+        "damaged_parts": []
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 1,
+      "timestamp": 1789800000.05,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          0.025,
+          1.2091,
+          0.005
+        ],
+        "linear_velocity": [
+          0.5,
+          0.1456,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 100.0,
+        "battery_voltage": 11.8,
+        "damaged_parts": []
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 2,
+      "timestamp": 1789800000.1,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          0.05,
+          1.2158,
+          0.01
+        ],
+        "linear_velocity": [
+          0.5,
+          0.1268,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 100.0,
+        "battery_voltage": 11.8,
+        "damaged_parts": []
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 3,
+      "timestamp": 1789800000.15,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          0.075,
+          1.2219,
+          0.015
+        ],
+        "linear_velocity": [
+          0.5,
+          0.1169,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 100.0,
+        "battery_voltage": 11.8,
+        "damaged_parts": []
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 4,
+      "timestamp": 1789800000.2,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          0.1,
+          1.2276,
+          0.02
+        ],
+        "linear_velocity": [
+          0.5,
+          0.1104,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 100.0,
+        "battery_voltage": 11.8,
+        "damaged_parts": []
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 5,
+      "timestamp": 1789800000.25,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          0.125,
+          1.233,
+          0.025
+        ],
+        "linear_velocity": [
+          0.5,
+          0.1056,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 100.0,
+        "battery_voltage": 11.79,
+        "damaged_parts": []
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 6,
+      "timestamp": 1789800000.3,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          0.15,
+          1.2382,
+          0.03
+        ],
+        "linear_velocity": [
+          0.5,
+          0.1018,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 100.0,
+        "battery_voltage": 11.79,
+        "damaged_parts": []
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 7,
+      "timestamp": 1789800000.35,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          0.175,
+          1.2432,
+          0.035
+        ],
+        "linear_velocity": [
+          0.5,
+          0.0987,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 100.0,
+        "battery_voltage": 11.79,
+        "damaged_parts": []
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 8,
+      "timestamp": 1789800000.4,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          0.2,
+          1.248,
+          0.04
+        ],
+        "linear_velocity": [
+          0.5,
+          0.0961,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 100.0,
+        "battery_voltage": 11.79,
+        "damaged_parts": []
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 9,
+      "timestamp": 1789800000.45,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          0.225,
+          1.2528,
+          0.045
+        ],
+        "linear_velocity": [
+          0.5,
+          0.0939,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 100.0,
+        "battery_voltage": 11.79,
+        "damaged_parts": []
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 10,
+      "timestamp": 1789800000.5,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          0.25,
+          1.2574,
+          0.05
+        ],
+        "linear_velocity": [
+          0.5,
+          0.0919,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 100.0,
+        "battery_voltage": 11.79,
+        "damaged_parts": []
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 11,
+      "timestamp": 1789800000.55,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          0.275,
+          1.262,
+          0.055
+        ],
+        "linear_velocity": [
+          0.5,
+          0.0902,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 100.0,
+        "battery_voltage": 11.79,
+        "damaged_parts": []
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 12,
+      "timestamp": 1789800000.6,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          0.3,
+          1.2665,
+          0.06
+        ],
+        "linear_velocity": [
+          0.5,
+          0.0886,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 100.0,
+        "battery_voltage": 11.79,
+        "damaged_parts": []
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 13,
+      "timestamp": 1789800000.65,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          0.325,
+          1.2708,
+          0.065
+        ],
+        "linear_velocity": [
+          0.5,
+          0.0872,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 100.0,
+        "battery_voltage": 11.79,
+        "damaged_parts": []
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 14,
+      "timestamp": 1789800000.7,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          0.35,
+          1.2752,
+          0.07
+        ],
+        "linear_velocity": [
+          0.5,
+          0.0859,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 100.0,
+        "battery_voltage": 11.79,
+        "damaged_parts": []
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 15,
+      "timestamp": 1789800000.75,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          0.375,
+          1.2794,
+          0.075
+        ],
+        "linear_velocity": [
+          0.5,
+          0.0847,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 100.0,
+        "battery_voltage": 11.79,
+        "damaged_parts": []
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 16,
+      "timestamp": 1789800000.8,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          0.4,
+          1.2837,
+          0.08
+        ],
+        "linear_velocity": [
+          0.5,
+          0.0837,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 100.0,
+        "battery_voltage": 11.78,
+        "damaged_parts": []
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 17,
+      "timestamp": 1789800000.85,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          0.425,
+          1.2878,
+          0.085
+        ],
+        "linear_velocity": [
+          0.5,
+          0.0826,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 100.0,
+        "battery_voltage": 11.78,
+        "damaged_parts": []
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 18,
+      "timestamp": 1789800000.9,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          0.45,
+          1.2919,
+          0.09
+        ],
+        "linear_velocity": [
+          0.5,
+          0.0817,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 100.0,
+        "battery_voltage": 11.78,
+        "damaged_parts": []
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 19,
+      "timestamp": 1789800000.95,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          0.475,
+          1.296,
+          0.095
+        ],
+        "linear_velocity": [
+          0.5,
+          0.0808,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 100.0,
+        "battery_voltage": 11.78,
+        "damaged_parts": []
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 20,
+      "timestamp": 1789800001.0,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          0.5,
+          1.3,
+          0.1
+        ],
+        "linear_velocity": [
+          0.5,
+          0.08,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 100.0,
+        "battery_voltage": 11.78,
+        "damaged_parts": []
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 21,
+      "timestamp": 1789800001.05,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          0.525,
+          1.304,
+          0.105
+        ],
+        "linear_velocity": [
+          0.5,
+          0.0792,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 100.0,
+        "battery_voltage": 11.78,
+        "damaged_parts": []
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 22,
+      "timestamp": 1789800001.1,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          0.55,
+          1.3079,
+          0.11
+        ],
+        "linear_velocity": [
+          0.5,
+          0.0785,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 100.0,
+        "battery_voltage": 11.78,
+        "damaged_parts": []
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 23,
+      "timestamp": 1789800001.15,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          0.575,
+          1.3118,
+          0.115
+        ],
+        "linear_velocity": [
+          0.5,
+          0.0778,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 100.0,
+        "battery_voltage": 11.78,
+        "damaged_parts": []
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 24,
+      "timestamp": 1789800001.2,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          0.6,
+          1.3157,
+          0.12
+        ],
+        "linear_velocity": [
+          0.5,
+          0.0771,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 100.0,
+        "battery_voltage": 11.78,
+        "damaged_parts": []
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 25,
+      "timestamp": 1789800001.25,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          0.625,
+          1.3195,
+          0.125
+        ],
+        "linear_velocity": [
+          0.5,
+          0.0765,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 100.0,
+        "battery_voltage": 11.78,
+        "damaged_parts": []
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 26,
+      "timestamp": 1789800001.3,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          0.65,
+          1.3234,
+          0.13
+        ],
+        "linear_velocity": [
+          0.5,
+          0.0759,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 100.0,
+        "battery_voltage": 11.77,
+        "damaged_parts": []
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 27,
+      "timestamp": 1789800001.35,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          0.675,
+          1.3271,
+          0.135
+        ],
+        "linear_velocity": [
+          0.5,
+          0.0753,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 100.0,
+        "battery_voltage": 11.77,
+        "damaged_parts": []
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 28,
+      "timestamp": 1789800001.4,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          0.7,
+          1.3309,
+          0.14
+        ],
+        "linear_velocity": [
+          0.5,
+          0.0748,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 100.0,
+        "battery_voltage": 11.77,
+        "damaged_parts": []
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 29,
+      "timestamp": 1789800001.45,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          0.725,
+          1.3346,
+          0.145
+        ],
+        "linear_velocity": [
+          0.5,
+          0.0743,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 100.0,
+        "battery_voltage": 11.77,
+        "damaged_parts": []
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 30,
+      "timestamp": 1789800001.5,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          0.75,
+          1.3383,
+          0.15
+        ],
+        "linear_velocity": [
+          0.5,
+          0.0738,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 100.0,
+        "battery_voltage": 11.77,
+        "damaged_parts": []
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 31,
+      "timestamp": 1789800001.55,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          0.775,
+          1.342,
+          0.155
+        ],
+        "linear_velocity": [
+          0.5,
+          0.0733,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 100.0,
+        "battery_voltage": 11.77,
+        "damaged_parts": []
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 32,
+      "timestamp": 1789800001.6,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          0.8,
+          1.3456,
+          0.16
+        ],
+        "linear_velocity": [
+          0.5,
+          0.0728,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 100.0,
+        "battery_voltage": 11.77,
+        "damaged_parts": []
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 33,
+      "timestamp": 1789800001.65,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          0.825,
+          1.3493,
+          0.165
+        ],
+        "linear_velocity": [
+          0.5,
+          0.0724,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 100.0,
+        "battery_voltage": 11.77,
+        "damaged_parts": []
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 34,
+      "timestamp": 1789800001.7,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          0.85,
+          1.3529,
+          0.17
+        ],
+        "linear_velocity": [
+          0.5,
+          0.0719,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 100.0,
+        "battery_voltage": 11.77,
+        "damaged_parts": []
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 35,
+      "timestamp": 1789800001.75,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          0.875,
+          1.3565,
+          0.175
+        ],
+        "linear_velocity": [
+          0.5,
+          0.0715,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 100.0,
+        "battery_voltage": 11.77,
+        "damaged_parts": []
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 36,
+      "timestamp": 1789800001.8,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          0.9,
+          1.36,
+          0.18
+        ],
+        "linear_velocity": [
+          0.5,
+          0.0711,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 100.0,
+        "battery_voltage": 11.76,
+        "damaged_parts": []
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 37,
+      "timestamp": 1789800001.85,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          0.925,
+          1.3636,
+          0.185
+        ],
+        "linear_velocity": [
+          0.5,
+          0.0707,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 100.0,
+        "battery_voltage": 11.76,
+        "damaged_parts": []
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 38,
+      "timestamp": 1789800001.9,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          0.95,
+          1.3671,
+          0.19
+        ],
+        "linear_velocity": [
+          0.5,
+          0.0704,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 100.0,
+        "battery_voltage": 11.76,
+        "damaged_parts": []
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 39,
+      "timestamp": 1789800001.95,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          0.975,
+          1.3706,
+          0.195
+        ],
+        "linear_velocity": [
+          0.5,
+          0.07,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 100.0,
+        "battery_voltage": 11.76,
+        "damaged_parts": []
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 40,
+      "timestamp": 1789800002.0,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          1.0,
+          1.3741,
+          0.2
+        ],
+        "linear_velocity": [
+          0.5,
+          0.0696,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 82.0,
+        "battery_voltage": 11.76,
+        "damaged_parts": [
+          "機臂 #1 折損彎曲、旋翼 #1 斷槳失衡"
+        ]
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": {
+          "hit_object": "離岸風機塔柱",
+          "impact_speed": 1.65,
+          "impact_point": [
+            1.0,
+            1.3741,
+            0.2
+          ]
+        }
+      }
+    },
+    {
+      "step": 41,
+      "timestamp": 1789800002.05,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          1.025,
+          1.3776,
+          0.205
+        ],
+        "linear_velocity": [
+          0.5,
+          0.0693,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 82.0,
+        "battery_voltage": 11.76,
+        "damaged_parts": [
+          "機臂 #1 折損彎曲、旋翼 #1 斷槳失衡"
+        ]
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 42,
+      "timestamp": 1789800002.1,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          1.05,
+          1.381,
+          0.21
+        ],
+        "linear_velocity": [
+          0.5,
+          0.069,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 82.0,
+        "battery_voltage": 11.76,
+        "damaged_parts": [
+          "機臂 #1 折損彎曲、旋翼 #1 斷槳失衡"
+        ]
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 43,
+      "timestamp": 1789800002.15,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          1.075,
+          1.3845,
+          0.215
+        ],
+        "linear_velocity": [
+          0.5,
+          0.0686,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 82.0,
+        "battery_voltage": 11.76,
+        "damaged_parts": [
+          "機臂 #1 折損彎曲、旋翼 #1 斷槳失衡"
+        ]
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 44,
+      "timestamp": 1789800002.2,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          1.1,
+          1.3879,
+          0.22
+        ],
+        "linear_velocity": [
+          0.5,
+          0.0683,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 82.0,
+        "battery_voltage": 11.76,
+        "damaged_parts": [
+          "機臂 #1 折損彎曲、旋翼 #1 斷槳失衡"
+        ]
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 45,
+      "timestamp": 1789800002.25,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          1.125,
+          1.3913,
+          0.225
+        ],
+        "linear_velocity": [
+          0.5,
+          0.068,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 82.0,
+        "battery_voltage": 11.76,
+        "damaged_parts": [
+          "機臂 #1 折損彎曲、旋翼 #1 斷槳失衡"
+        ]
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 46,
+      "timestamp": 1789800002.3,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          1.15,
+          1.3947,
+          0.23
+        ],
+        "linear_velocity": [
+          0.5,
+          0.0677,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 82.0,
+        "battery_voltage": 11.75,
+        "damaged_parts": [
+          "機臂 #1 折損彎曲、旋翼 #1 斷槳失衡"
+        ]
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 47,
+      "timestamp": 1789800002.35,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          1.175,
+          1.3981,
+          0.235
+        ],
+        "linear_velocity": [
+          0.5,
+          0.0674,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 82.0,
+        "battery_voltage": 11.75,
+        "damaged_parts": [
+          "機臂 #1 折損彎曲、旋翼 #1 斷槳失衡"
+        ]
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 48,
+      "timestamp": 1789800002.4,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          1.2,
+          1.4015,
+          0.24
+        ],
+        "linear_velocity": [
+          0.5,
+          0.0672,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 82.0,
+        "battery_voltage": 11.75,
+        "damaged_parts": [
+          "機臂 #1 折損彎曲、旋翼 #1 斷槳失衡"
+        ]
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    },
+    {
+      "step": 49,
+      "timestamp": 1789800002.45,
+      "iso_time": "2026-09-18T18:45:00.000Z",
+      "state": {
+        "position": [
+          1.225,
+          1.4048,
+          0.245
+        ],
+        "linear_velocity": [
+          0.5,
+          0.0669,
+          0.1
+        ],
+        "attitude_rad": [
+          -0.05,
+          0.02,
+          0.01
+        ],
+        "attitude_deg": [
+          -2.86,
+          1.15,
+          0.57
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "integrity": 82.0,
+        "battery_voltage": 11.75,
+        "damaged_parts": [
+          "機臂 #1 折損彎曲、旋翼 #1 斷槳失衡"
+        ]
+      },
+      "action": {
+        "pitch_cmd": 1.0,
+        "roll_cmd": 0.0,
+        "yaw_cmd": 0.0,
+        "climb_cmd": 0.5,
+        "hover_active": false,
+        "raw_keys": [
+          "KeyW",
+          "ArrowUp"
+        ]
+      },
+      "environment": {
+        "environment_id": "offshore_wind",
+        "wind_velocity": [
+          2.5,
+          0.5,
+          0.0
+        ],
+        "collision_event": null
+      }
+    }
+  ]
+}

@@ -34,3 +34,6 @@ Thumbs.db
 *.swp
 # External repositories
 TokenUsageInsights/
+
+# Test output
+test_output/

@@ -100,6 +100,107 @@ class WebGLFlightSimulator:
         }}
         @keyframes fadeInOut {{ 0% {{ opacity: 0; transform: translate(-50%, -10px); }} 15% {{ opacity: 1; transform: translate(-50%, 0); }} 85% {{ opacity: 1; transform: translate(-50%, 0); }} 100% {{ opacity: 0; transform: translate(-50%, -10px); }} }}
 
+        /* Flight Data Recorder HUD Styles */
+        .recorder-section {{
+            margin-top: 12px; padding: 10px 12px;
+            background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 10px;
+        }}
+        .recorder-header {{
+            display: flex; align-items: center; justify-content: space-between;
+            font-size: 11px; font-weight: 700; color: #cbd5e1; margin-bottom: 7px;
+        }}
+        .rec-indicator {{
+            display: inline-flex; align-items: center; gap: 5px; font-size: 10px; font-weight: bold;
+            padding: 2px 7px; border-radius: 10px; background: rgba(148, 163, 184, 0.15); color: #94a3b8;
+        }}
+        .rec-indicator.recording {{
+            background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4);
+        }}
+        .rec-dot {{
+            width: 7px; height: 7px; border-radius: 50%; background: #94a3b8;
+        }}
+        .rec-indicator.recording .rec-dot {{
+            background: #ef4444; animation: blinkRec 0.8s infinite alternate;
+        }}
+        @keyframes blinkRec {{ 0% {{ opacity: 0.2; transform: scale(0.8); }} 100% {{ opacity: 1; transform: scale(1.2); }} }}
+        .recorder-stats {{
+            display: flex; justify-content: space-between; font-size: 11px; font-family: monospace;
+            color: #94a3b8; margin-bottom: 8px;
+        }}
+        .btn-rec-start {{
+            background: linear-gradient(135deg, #dc2626, #b91c1c); border: 1px solid #f87171; color: #fff;
+            box-shadow: 0 2px 8px rgba(220, 38, 38, 0.4);
+        }}
+        .btn-rec-start:hover {{
+            background: linear-gradient(135deg, #ef4444, #dc2626); box-shadow: 0 0 12px rgba(248, 113, 113, 0.6);
+        }}
+        .btn-rec-stop {{
+            background: rgba(148, 163, 184, 0.2); border: 1px solid rgba(148, 163, 184, 0.4); color: #cbd5e1;
+        }}
+        .btn-rec-stop:hover {{
+            background: rgba(148, 163, 184, 0.35); color: #fff;
+        }}
+        .btn-rec-export {{
+            background: linear-gradient(135deg, #059669, #047857); border: 1px solid #34d399; color: #fff;
+            box-shadow: 0 2px 8px rgba(5, 150, 105, 0.4);
+        }}
+        .btn-rec-export:hover {{
+            background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 0 12px rgba(52, 211, 153, 0.6);
+        }}
+
+        /* Reset Questionnaire Modal Styles */
+        #reset-modal-overlay {{
+            display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(4, 7, 16, 0.85); backdrop-filter: blur(8px);
+            z-index: 10000; align-items: center; justify-content: center;
+        }}
+        #reset-modal {{
+            background: #0f172a; border: 1px solid #38bdf8; border-radius: 16px;
+            width: 440px; max-width: 90vw; padding: 22px 24px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 20px rgba(56, 189, 248, 0.2);
+            color: #e2e8f0; font-family: 'Segoe UI', Tahoma, sans-serif;
+        }}
+        .modal-title {{
+            font-size: 15px; font-weight: 700; color: #38bdf8; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;
+        }}
+        .modal-desc {{
+            font-size: 12px; color: #94a3b8; margin-bottom: 14px; line-height: 1.5;
+        }}
+        .modal-field {{
+            margin-bottom: 12px;
+        }}
+        .modal-label {{
+            font-size: 11.5px; font-weight: 600; color: #cbd5e1; margin-bottom: 5px; display: block;
+        }}
+        .modal-select, .modal-textarea {{
+            width: 100%; box-sizing: border-box; background: #0b1120; border: 1px solid #334155;
+            color: #f1f5f9; padding: 8px 10px; border-radius: 8px; font-size: 12px; outline: none; transition: border-color 0.2s;
+        }}
+        .modal-select:focus, .modal-textarea:focus {{
+            border-color: #38bdf8; box-shadow: 0 0 8px rgba(56, 189, 248, 0.3);
+        }}
+        .modal-textarea {{
+            resize: vertical; min-height: 55px; font-family: inherit;
+        }}
+        .modal-btn-row {{
+            display: flex; justify-content: flex-end; gap: 10px; margin-top: 16px;
+        }}
+        .btn-modal-cancel {{
+            background: rgba(148, 163, 184, 0.15); border: 1px solid rgba(148, 163, 184, 0.3);
+            color: #94a3b8; padding: 7px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer;
+        }}
+        .btn-modal-cancel:hover {{
+            background: rgba(148, 163, 184, 0.25); color: #e2e8f0;
+        }}
+        .btn-modal-confirm {{
+            background: linear-gradient(135deg, #0284c7, #0369a1); border: 1px solid #38bdf8;
+            color: #fff; padding: 7px 16px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer;
+            box-shadow: 0 2px 10px rgba(2, 132, 199, 0.4);
+        }}
+        .btn-modal-confirm:hover {{
+            background: linear-gradient(135deg, #0369a1, #0284c7); box-shadow: 0 0 12px rgba(56, 189, 248, 0.6);
+        }}
+
         /* Environment Selector */
         .env-section {{
             margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(0, 229, 255, 0.2);
@@ -217,8 +318,24 @@ class WebGLFlightSimulator:
         </div>
         <div id="collision-alert" class="collision-warn">⚠️ 警告：觸發環境障礙物剛體碰撞！</div>
         <div class="hud-btn-row">
-            <button id="btn-repair" class="btn-action btn-repair" onclick="repairAndResetDrone()">🛠️ 維修與重置 (R)</button>
+            <button id="btn-repair" class="btn-action btn-repair" onclick="promptResetExperience()">🛠️ 維修與重置 (R)</button>
             <button id="btn-crash-test" class="btn-action btn-test-crash" onclick="simulateTestCrash()">💥 撞擊測試</button>
+        </div>
+
+        <!-- Flight Data Recorder HUD Panel -->
+        <div class="recorder-section">
+            <div class="recorder-header">
+                <span>📹 遙測示範資料錄製</span>
+                <span id="rec-status-badge" class="rec-indicator"><span class="rec-dot"></span><span id="rec-status-text">待命 IDLE</span></span>
+            </div>
+            <div class="recorder-stats">
+                <span>時長: <span id="rec-time" style="color:#38bdf8; font-weight:bold;">00:00.0</span></span>
+                <span>樣本: <span id="rec-samples" style="color:#4ade80; font-weight:bold;">0</span> 筆</span>
+            </div>
+            <div class="hud-btn-row" style="margin-top: 0;">
+                <button id="btn-rec-toggle" class="btn-action btn-rec-start" onclick="toggleRecording()">🔴 開始錄製 (G)</button>
+                <button id="btn-rec-export" class="btn-action btn-rec-export" onclick="exportFlightData()" style="display:none;">💾 導出訓練集</button>
+            </div>
         </div>
 
         <!-- Scene Environments Selector -->
@@ -336,7 +453,49 @@ class WebGLFlightSimulator:
         <div><span class="key">↑</span> <span class="key">↓</span> 油門</div>
         <div><span class="key">←</span> <span class="key">→</span> 偏航</div>
         <div><span class="key">Space</span> 自動懸停</div>
+        <div><span class="key">G</span> 錄製/停止</div>
         <div><span class="key">R</span> 維修重置</div>
+    </div>
+
+    <!-- Reset Questionnaire Modal Dialog -->
+    <div id="reset-modal-overlay">
+        <div id="reset-modal">
+            <div class="modal-title">
+                <span>📝 飛行重置經驗與回饋調查</span>
+            </div>
+            <div class="modal-desc">
+                在維修重置無人機之前，請分享本次飛行體驗，此資訊將與您的控制軌跡、碰撞座標及受損數據一併封裝為未來的 AI 自主飛行訓練經驗資料集。
+            </div>
+            <div class="modal-field">
+                <label class="modal-label">本次重置主因 (Reason for Reset):</label>
+                <select id="modal-reset-reason" class="modal-select">
+                    <option value="crash_damage">💥 機體撞擊障礙物 / 嚴重損壞墜毀</option>
+                    <option value="attitude_loss">🌀 姿態失控 / 翻滾難以穩定</option>
+                    <option value="test_completed">✅ 飛行測試完成 / 示範路線錄製完畢</option>
+                    <option value="out_of_bounds">🗺️ 飛出測試空域 / 迷失導航方位</option>
+                    <option value="parameter_tuning">⚙️ 調整控制參數與飛行環境</option>
+                    <option value="other">💬 其他特定原因</option>
+                </select>
+            </div>
+            <div class="modal-field">
+                <label class="modal-label">操縱手感與飛行經驗評估 (Pilot Feedback):</label>
+                <select id="modal-handling-rating" class="modal-select">
+                    <option value="excellent">⭐⭐⭐⭐⭐ 操控極度靈敏平穩，動力充足</option>
+                    <option value="good" selected>⭐⭐⭐⭐ 姿態良好，符合預期操控動態</option>
+                    <option value="sensitive">⭐⭐⭐ 稍嫌靈敏過衝，需要更細膩微調</option>
+                    <option value="sluggish">⭐⭐ 響應遲鈍，俯仰/滾轉補償不足</option>
+                    <option value="unstable">⭐ 容易震顫或失衡，建議重訓控制權重</option>
+                </select>
+            </div>
+            <div class="modal-field">
+                <label class="modal-label">詳細筆記與環境心得 (Optional Notes):</label>
+                <textarea id="modal-notes" class="modal-textarea" placeholder="例如：在 2.5m/s 側風下接近城市高樓時容易產生亂流撞牆..."></textarea>
+            </div>
+            <div class="modal-btn-row">
+                <button class="btn-modal-cancel" onclick="closeResetModal(false)">直接重置 (跳過)</button>
+                <button class="btn-modal-confirm" onclick="confirmResetWithFeedback()">💾 記錄經驗並重置</button>
+            </div>
+        </div>
     </div>
 
     <div id="toast-notice"></div>
@@ -1223,6 +1382,276 @@ class WebGLFlightSimulator:
             }}
         }}
 
+        // --- 6. Flight Data Recorder & Experience Questionnaire System ---
+        let isRecording = false;
+        let recordingStartTime = 0;
+        let recordingTimerId = null;
+        let recordSampleCount = 0;
+        let recordedFlightData = [];
+        let flightCollisionsLog = [];
+        let flightQuestionnaireHistory = [];
+        let currentStepIndex = 0;
+        let prevDronePosRec = new THREE.Vector3();
+        let prevDroneRotRec = new THREE.Euler();
+
+        function toggleRecording() {{
+            if (!isRecording) {{
+                startRecording();
+            }} else {{
+                stopRecording();
+            }}
+        }}
+
+        function startRecording() {{
+            isRecording = true;
+            recordSampleCount = 0;
+            currentStepIndex = 0;
+            recordedFlightData = [];
+            recordingStartTime = performance.now();
+            prevDronePosRec.copy(drone.position);
+            prevDroneRotRec.copy(drone.rotation);
+
+            const badge = document.getElementById('rec-status-badge');
+            const txt = document.getElementById('rec-status-text');
+            const btnToggle = document.getElementById('btn-rec-toggle');
+            const btnExp = document.getElementById('btn-rec-export');
+
+            if (badge) badge.classList.add('recording');
+            if (txt) txt.innerText = '🔴 錄製中 REC';
+            if (btnToggle) {{
+                btnToggle.innerText = '⏹️ 停止錄製 (G)';
+                btnToggle.className = 'btn-action btn-rec-stop';
+            }}
+            if (btnExp) btnExp.style.display = 'none';
+
+            showToast('🔴 飛航遙測與操作示範資料錄製已啟動！(20Hz 採樣)');
+
+            if (recordingTimerId) clearInterval(recordingTimerId);
+            // 20Hz sampling rate (50ms interval) for imitation & offline RL
+            recordingTimerId = setInterval(sampleRecorderStep, 50);
+        }}
+
+        function stopRecording() {{
+            if (!isRecording) return;
+            isRecording = false;
+            if (recordingTimerId) {{
+                clearInterval(recordingTimerId);
+                recordingTimerId = null;
+            }}
+
+            const badge = document.getElementById('rec-status-badge');
+            const txt = document.getElementById('rec-status-text');
+            const btnToggle = document.getElementById('btn-rec-toggle');
+            const btnExp = document.getElementById('btn-rec-export');
+
+            if (badge) badge.classList.remove('recording');
+            if (txt) txt.innerText = '待命 IDLE';
+            if (btnToggle) {{
+                btnToggle.innerText = '🔴 開始錄製 (G)';
+                btnToggle.className = 'btn-action btn-rec-start';
+            }}
+            if (btnExp) btnExp.style.display = 'inline-flex';
+
+            showToast('⏹️ 錄製完成！共採集 ' + recordedFlightData.length + ' 筆樣本，可點擊「導出訓練集」下載。');
+        }}
+
+        function sampleRecorderStep() {{
+            if (!isRecording) return;
+
+            const now = performance.now();
+            const elapsedSec = (now - recordingStartTime) / 1000.0;
+            const minutes = Math.floor(elapsedSec / 60);
+            const seconds = (elapsedSec % 60).toFixed(1);
+            const timeStr = String(minutes).padStart(2, '0') + ':' + (seconds < 10 ? '0' : '') + seconds;
+
+            const timeEl = document.getElementById('rec-time');
+            const samplesEl = document.getElementById('rec-samples');
+            if (timeEl) timeEl.innerText = timeStr;
+            if (samplesEl) samplesEl.innerText = recordSampleCount;
+
+            // Compute angular velocity approximations (wx, wy, wz) rad/s
+            const dt = 0.05;
+            const wx = Number(((drone.rotation.x - prevDroneRotRec.x) / dt).toFixed(4));
+            const wy = Number(((drone.rotation.y - prevDroneRotRec.y) / dt).toFixed(4));
+            const wz = Number(((drone.rotation.z - prevDroneRotRec.z) / dt).toFixed(4));
+            prevDroneRotRec.copy(drone.rotation);
+
+            // User Control Actions (Normalized command signals)
+            let pitch_cmd = 0.0;
+            let roll_cmd = 0.0;
+            let climb_cmd = 0.0;
+            let yaw_cmd = 0.0;
+
+            if (keys['KeyW']) pitch_cmd += 1.0;
+            if (keys['KeyS']) pitch_cmd -= 1.0;
+            if (keys['KeyA']) roll_cmd -= 1.0;
+            if (keys['KeyD']) roll_cmd += 1.0;
+            if (keys['ArrowUp']) climb_cmd += 1.0;
+            if (keys['ArrowDown']) climb_cmd -= 1.0;
+            if (keys['ArrowLeft']) yaw_cmd -= 1.0;
+            if (keys['ArrowRight']) yaw_cmd += 1.0;
+
+            const sample = {{
+                step: currentStepIndex++,
+                timestamp: Number(new Date().toISOString().replace('T', ' ').replace('Z', '').split('.')[0] + '.' + String(Math.floor((now % 1000))).padStart(3, '0')),
+                iso_time: new Date().toISOString(),
+                state: {{
+                    position: [Number(drone.position.x.toFixed(4)), Number(drone.position.y.toFixed(4)), Number(drone.position.z.toFixed(4))],
+                    linear_velocity: [Number(velocity.x.toFixed(4)), Number(velocity.y.toFixed(4)), Number(velocity.z.toFixed(4))],
+                    attitude_rad: [Number(pitch.toFixed(4)), Number(roll.toFixed(4)), Number(yaw.toFixed(4))],
+                    attitude_deg: [Number((pitch * 180 / Math.PI).toFixed(2)), Number((roll * 180 / Math.PI).toFixed(2)), Number((yaw * 180 / Math.PI).toFixed(2))],
+                    angular_velocity: [wx, wy, wz],
+                    integrity: Number(droneStructuralIntegrity.toFixed(1)),
+                    battery_voltage: Number(batteryVoltage.toFixed(2)),
+                    damaged_parts: [...damagedPartsHistory]
+                }},
+                action: {{
+                    pitch_cmd: pitch_cmd,
+                    roll_cmd: roll_cmd,
+                    yaw_cmd: yaw_cmd,
+                    climb_cmd: climb_cmd,
+                    hover_active: !!keys['Space'],
+                    raw_keys: Object.keys(keys).filter(k => keys[k])
+                }},
+                environment: {{
+                    environment_id: activeEnvKey,
+                    wind_velocity: [Number(currentWind[0].toFixed(2)), Number(currentWind[1].toFixed(2)), Number(currentWind[2].toFixed(2))],
+                    collision_event: activeCollisionThisStep ? {{
+                        hit_object: activeCollisionThisStep.object,
+                        impact_speed: Number(activeCollisionThisStep.speed.toFixed(2)),
+                        impact_point: [
+                            Number(activeCollisionThisStep.point.x.toFixed(3)),
+                            Number(activeCollisionThisStep.point.y.toFixed(3)),
+                            Number(activeCollisionThisStep.point.z.toFixed(3))
+                        ]
+                    }} : null
+                }}
+            }};
+
+            recordedFlightData.push(sample);
+            recordSampleCount++;
+            activeCollisionThisStep = null; // Clear latch after sampling
+        }}
+
+        let activeCollisionThisStep = null;
+
+        function exportFlightData() {{
+            if (recordedFlightData.length === 0) {{
+                showToast('⚠️ 目前尚無錄製之飛行數據，請先點擊開始錄製！');
+                return;
+            }}
+
+            const timestampStr = new Date().toISOString().replace(/[-:T]/g, '').slice(0, 14);
+            const fileNameBase = 'flight_training_data_' + timestampStr;
+
+            // 1. Prepare JSON format (Full Dataset with Metadata)
+            const exportPayload = {{
+                dataset_name: fileNameBase,
+                version: "1.0.0",
+                created_at: new Date().toISOString(),
+                environment_id: activeEnvKey,
+                total_samples: recordedFlightData.length,
+                sampling_rate_hz: 20,
+                drone_spec: {{
+                    num_arms: numArms,
+                    arm_length_m: armLength,
+                    aircraft_type: isVTOL ? 'vtol_tilt_rotor' : 'multirotor'
+                }},
+                pilot_questionnaires: flightQuestionnaireHistory,
+                trajectory: recordedFlightData
+            }};
+
+            // Export as .json
+            const jsonBlob = new Blob([JSON.stringify(exportPayload, null, 2)], {{ type: 'application/json' }});
+            downloadBlob(jsonBlob, fileNameBase + '.json');
+
+            // 2. Prepare JSONL format (One sample per line for direct streaming training)
+            const jsonlLines = recordedFlightData.map(step => JSON.stringify(step)).join('\\n');
+            const jsonlBlob = new Blob([jsonlLines], {{ type: 'application/x-ndjson' }});
+            downloadBlob(jsonlBlob, fileNameBase + '.jsonl');
+
+            // 3. Attempt local storage auto-save fallback via fetch (if hosted on local dev server)
+            try {{
+                fetch('/api/save_training_dataset', {{
+                    method: 'POST',
+                    headers: {{ 'Content-Type': 'application/json' }},
+                    body: JSON.stringify({{ filename: fileNameBase, json_data: exportPayload, jsonl_data: jsonlLines }})
+                }}).catch(() => {{}});
+            }} catch(e) {{}}
+
+            showToast('✅ 成功導出 ' + fileNameBase + '.json 與 .jsonl 訓練資料！');
+        }}
+
+        function downloadBlob(blob, filename) {{
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            setTimeout(() => URL.revokeObjectURL(url), 1000);
+        }}
+
+        // --- Questionnaire Dialog Handling ---
+        function promptResetExperience() {{
+            // Pause any ongoing key presses while modal is opened
+            Object.keys(keys).forEach(k => keys[k] = false);
+
+            const overlay = document.getElementById('reset-modal-overlay');
+            if (overlay) {{
+                overlay.style.display = 'flex';
+                // Preset crash reason if damaged
+                const reasonSelect = document.getElementById('modal-reset-reason');
+                if (reasonSelect) {{
+                    if (droneStructuralIntegrity < 50 || damagedPartsHistory.length > 0) {{
+                        reasonSelect.value = 'crash_damage';
+                    }} else {{
+                        reasonSelect.value = 'test_completed';
+                    }}
+                }}
+            }} else {{
+                repairAndResetDrone();
+            }}
+        }}
+
+        function closeResetModal(doReset = true) {{
+            const overlay = document.getElementById('reset-modal-overlay');
+            if (overlay) overlay.style.display = 'none';
+            if (doReset) repairAndResetDrone();
+        }}
+
+        function confirmResetWithFeedback() {{
+            const reasonEl = document.getElementById('modal-reset-reason');
+            const ratingEl = document.getElementById('modal-handling-rating');
+            const notesEl = document.getElementById('modal-notes');
+
+            const feedbackEntry = {{
+                timestamp: new Date().toISOString(),
+                reset_reason: reasonEl ? reasonEl.value : 'unspecified',
+                pilot_rating: ratingEl ? ratingEl.value : 'unspecified',
+                notes: notesEl ? notesEl.value.trim() : '',
+                final_integrity: droneStructuralIntegrity,
+                final_position: [Number(drone.position.x.toFixed(3)), Number(drone.position.y.toFixed(3)), Number(drone.position.z.toFixed(3))],
+                damaged_components: [...damagedPartsHistory]
+            }};
+
+            flightQuestionnaireHistory.push(feedbackEntry);
+            if (isRecording) {{
+                // Latch questionnaire into flight recorder as an event marker
+                recordedFlightData.push({{
+                    step: currentStepIndex++,
+                    timestamp: performance.now(),
+                    event_type: "pilot_reset_questionnaire",
+                    data: feedbackEntry
+                }});
+            }}
+
+            if (notesEl) notesEl.value = '';
+            closeResetModal(true);
+            showToast('💾 飛行經驗回饋已儲存至數據錄製緩衝區，機身修復完畢！');
+        }}
+
         function repairAndResetDrone() {{
             droneStructuralIntegrity = 100;
             damagedPartsHistory = [];
@@ -1343,11 +1772,19 @@ class WebGLFlightSimulator:
             velocity.y = 0.8;
         }}
 
-        // 6. Physics & Flight Dynamics (Harmonized 6-DOF Physics)
+        // 7. Physics & Flight Dynamics (Harmonized 6-DOF Physics)
         const keys = {{}};
         window.addEventListener('keydown', (e) => {{
+            // Ignore flight keys if modal questionnaire is open
+            const overlay = document.getElementById('reset-modal-overlay');
+            if (overlay && overlay.style.display === 'flex') {{
+                if (e.code === 'Escape') closeResetModal(false);
+                return;
+            }}
+
             keys[e.code] = true;
-            if (e.code === 'KeyR') repairAndResetDrone();
+            if (e.code === 'KeyR') promptResetExperience();
+            if (e.code === 'KeyG') toggleRecording();
         }});
         window.addEventListener('keyup', (e) => keys[e.code] = false);
 
@@ -1477,6 +1914,16 @@ class WebGLFlightSimulator:
                         collisionCooldown = 0.4;
                         const contactPt = new THREE.Vector3();
                         obs.box.clampPoint(drone.position, contactPt);
+                        activeCollisionThisStep = {{
+                            object: '剛體障礙物',
+                            speed: currentSpeed,
+                            point: contactPt.clone()
+                        }};
+                        flightCollisionsLog.push({{
+                            step: currentStepIndex,
+                            timestamp: performance.now(),
+                            ...activeCollisionThisStep
+                        }});
                         applyStructuralDamage(contactPt, currentSpeed, '剛體障礙物');
                     }}
                     velocity.negate().multiplyScalar(0.45); // Bouncing physics
@@ -1489,6 +1936,16 @@ class WebGLFlightSimulator:
                 collisionCooldown = 0.5;
                 const groundPt = drone.position.clone();
                 groundPt.y = 0.02;
+                activeCollisionThisStep = {{
+                    object: '地面猛烈觸地',
+                    speed: Math.abs(velocity.y),
+                    point: groundPt.clone()
+                }};
+                flightCollisionsLog.push({{
+                    step: currentStepIndex,
+                    timestamp: performance.now(),
+                    ...activeCollisionThisStep
+                }});
                 applyStructuralDamage(groundPt, Math.abs(velocity.y), '地面猛烈觸地');
                 velocity.y = Math.abs(velocity.y) * 0.35;
             }}
