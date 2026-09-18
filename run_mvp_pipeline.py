@@ -35,9 +35,15 @@ class DigitalTwinPipeline:
 
         # Stage 1: Morph Evolution
         print("\n[Stage 1/4] Morphing & Evolving Drone Configuration...")
-        evolved_spec = self.evolution_engine.evolve(mission_spec, population_size=30, generations=15)
+        evolved_spec = self.evolution_engine.evolve(
+            mission_spec,
+            population_size=30,
+            generations=15,
+            output_dir=self.output_dir
+        )
         print(f"  ✓ Evolved Shape: {evolved_spec['num_arms']}-arm frame, arm_length={evolved_spec['arm_length_m']}m")
         print(f"  ✓ Selected Motor: {evolved_spec['motor_id']}, Battery: {evolved_spec['battery_id']}")
+        print(f"  ✓ Lineage Decisions: {len(evolved_spec.get('morph_decisions', []))} key morphological adaptations logged")
 
         # Stage 2: Dynamic CAD & URDF/SDF Generation
         print("\n[Stage 2/4] Generating Physics-Accurate URDF & SDF Models...")
@@ -71,9 +77,13 @@ class DigitalTwinPipeline:
             "mission_spec": mission_spec,
             "evolved_drone_spec": evolved_spec,
             "drone_stats": evolved_spec.get("stats", {}),
+            "evolution_reasoning_log": evolved_spec.get("evolution_reasoning_log", []),
+            "morph_decisions": evolved_spec.get("morph_decisions", []),
             "generated_files": {
                 "urdf": str(model_paths["urdf"]),
-                "sdf": str(model_paths["sdf"])
+                "sdf": str(model_paths["sdf"]),
+                "evolution_lineage_report": str(self.output_dir / "evolution_lineage_report.md"),
+                "evolution_history": str(self.output_dir / "evolution_history.json")
             },
             "telemetry_log_frames": len(telemetry),
             "status": "SUCCESS"

@@ -17,6 +17,7 @@
 | **v6.0.0** | 2026-09-18 | **3D WebGL 幾何外觀與測試場景檢視器**：開發 `view_3d_drone.py` 自動生成可直接在瀏覽器開啟的 `view_3d_scene.html` 網頁檔，提供無人機 CAD 長相與 3D 測試空間 360° 旋轉檢視。 | 瀏覽器 WebGL 實機驗證 |
 | **v7.0.0** | 2026-09-19 | **WebGL 3D 模擬器與檢視器多情境切換引擎**：在 3D 模擬器與檢視器新增「情境切換選單 (Scene Environments)」，提供 4 大情境 (離岸風場、城市高樓搜救、碰撞競技場、夜間紅外線巡檢)，即時無縫切換材質、動態水波、風機旋轉、探照燈、FLIR 熱成像與物理碰撞盒。 | `test_webgl_environments.py` |
 | **v8.0.0** | 2026-09-19 | **3D WebGL 撞擊動態破損模擬系統 (Crash & Structural Damage Simulation)**：實作局部機臂彎曲折損、碳纖維焦黑碎裂紋理、斷槳剪切縮放、高溫火花與飛散碎片粒子系統 (Sparks & Debris Particles)、機身健康度 HUD、BOM 實時受損同步、推力失衡劇烈震顫/失速翻滾墜毀與一鍵快速維修重置 (Repair & Reset)。 | `test_webgl_environments.py` (100% Pass) |
+| **v9.0.0** | 2026-09-19 | **[DIG-13] 形態演化決策與變遷原因追蹤系統 (Evolutionary Change & Lineage Explainability Engine)**：在 DEAP 演化引擎實作物理變革動機 (Morphological Change Rationale: 機臂縮短消除空間約束懲罰、電池升級滿足滯空門檻、馬達槳葉更換達成安全與最佳 TWR)、世代躍遷決策歷史 (Generation-by-Generation Decision Trail & Ancestry Lineage)、結構化數據輸出 (`evolution_reasoning_log`, `morph_decisions`)，並自動導出 `output/evolution_lineage_report.md` 與 `output/evolution_history.json`。 | `test_morph_evolution.py` (5/5 Pass)<br/>`test_run_mvp_pipeline.py` (Pass) |
 
 ---
 
@@ -81,12 +82,13 @@ cd "/Users/jasonzheng/Documents/Obsidian workspace/AI agent workspace/Digital_Tw
 python3 test_db_loader.py          # ✅ PASSED (3/3 tests)
 python3 test_drone_builder.py      # ✅ PASSED (2/2 tests)
 python3 test_mavlink_controller.py # ✅ PASSED (2/2 tests)
-python3 test_morph_evolution.py   # ✅ PASSED (1/1 test)
+python3 test_morph_evolution.py   # ✅ PASSED (5/5 tests: 演化可解釋性、變革動機、血統溯源與報表導出全通)
 python3 test_run_mvp_pipeline.py   # ✅ PASSED (1/1 test)
 python3 test_next_phase.py         # ✅ PASSED (2/2 tests)
 python3 test_choice_1.py           # ✅ PASSED (2/2 tests)
 python3 test_choice_2.py           # ✅ PASSED (2/2 tests)
 python3 test_choice_3.py           # ✅ PASSED (2/2 tests)
+python3 test_webgl_environments.py # ✅ PASSED (4/4 tests)
 ```
 
 ---

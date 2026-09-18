@@ -97,10 +97,24 @@ python3 run_mvp_pipeline.py
 python3 test_db_loader.py
 python3 test_drone_builder.py
 python3 test_mavlink_controller.py
-python3 test_morph_evolution.py
+python3 test_morph_evolution.py       # 驗證演化決策動機、血統溯源與報表導出
+python3 test_run_mvp_pipeline.py
 python3 test_next_phase.py
+python3 test_choice_1.py
+python3 test_choice_2.py
 python3 test_choice_3.py
+python3 test_webgl_environments.py
 ```
+
+### 🧬 步驟 D-2：形態演化溯源與變遷原因報告 (Evolutionary Lineage & Explainability)
+在每次形態演化或執行 `python3 run_mvp_pipeline.py` 時，系統會自動在 `output/` 輸出完整的演化溯源報告：
+- **`output/evolution_lineage_report.md`**：完整 Markdown 格式溯源報告，包含任務約束、最佳形態規格、世代躍遷決策歷史、變革物理動機日誌、結構化決策矩陣與物理約束檢核清單。
+- **`output/evolution_history.json`**：完整結構化 JSON 歷史數據，記錄每一代最大/平均適應度、世代突破點、血統系譜鏈與 `morph_decisions`。
+- **變遷動機範例**：
+  * 「縮短機臂長度 (0.35m -> 0.17m)：因空間限制直徑超標 (原 0.85m > 0.50m)，消除約束懲罰 (-300)」
+  * 「升級 6S 5000mAh 電池：原續航 7.8min 未達任務門檻 (10.0min)，獲得續航加成 (+85.0 分)」
+  * 「更換 2212 920KV 馬達 + 1045 槳：原推重比 TWR=1.45 低於安全下限 (1.5)，改善後 TWR=2.15 進入最佳區間 (+30 分)」
+
 
 ### 🎮 步驟 E：3D WebGL 網頁鍵盤親自試飛與物理碰撞 (Flight Test Simulator)
 您可以直接在 Safari / Chrome 瀏覽器中開啟 **[flight_test_simulator.html](file:///Users/jasonzheng/Documents/Obsidian%20workspace/AI%20agent%20workspace/Digital_Twin_Drone_MVP/output/flight_test_simulator.html)**，直接用鍵盤親自駕駛長出的無人機：
@@ -124,6 +138,15 @@ python3 test_choice_3.py
     2. **🏙️ 城市高樓搜救 (Urban City Search & Rescue)**：現代摩天大樓群、樓頂搜救目標閃爍紅光信標、貨櫃路障與大樓街道亂流。
     3. **⚡ 碰撞測試場地 (Collision Arena)**：防撞包覆網格圍欄、螢光穿越賽道框 (FPV Gates)、警示條紋障礙立柱與室內零風速風洞。
     4. **🌙 夜間紅外線巡檢 (Night Thermal/Inspection)**：暗黑高對比夜間視角、機載前向強光探照燈、變壓器散熱鰭片與過熱異常管線 (FLIR LWIR 8-14μm 熱成像 HUD 焦點溫標)。
+- **📹 飛航遙測與操作示範數據錄製系統 (Flight Data Recorder for Imitation/RL Training)**：
+  - **20Hz 高頻率特徵取樣 (State-Action Pairs)**：在試飛過程中按 <kbd>G</kbd> 或點擊 HUD「🔴 開始錄製」即可即時紀錄高頻飛航遙測：
+    * `step` / `timestamp` / `iso_time`
+    * `state`：3D 空間位置 [x, y, z]、線速度 [vx, vy, vz]、姿態弧度/角度 [roll, pitch, yaw]、角速度 [wx, wy, wz]、機體結構完整度 `integrity`、鋰電池電壓與受損部件列表
+    * `action`：操縱鍵盤信號（俯仰 `pitch_cmd`、滾轉 `roll_cmd`、偏航 `yaw_cmd`、升力 `climb_cmd`、自動懸停旗標）
+    * `environment`：當前環境 ID、即時風場向量 [wx, wy, wz]、撞擊剛體事件與精確撞擊接觸點座標
+  - **UI 狀態指示與一鍵導出**：錄製時 HUD 顯示紅點呼吸閃爍、錄製碼表與即時樣本採集數 (`Samples: xxx`)；停止錄製後可一鍵下載為標準 `flight_training_data_YYYYMMDD_HHMMSS.json` 與串流訓練專用 `.jsonl` 檔案，支援保存於 `output/training_datasets/`。
+- **📝 重置前飛行經驗回饋問卷 (Pilot Experience & Reset Questionnaire)**：
+  - 按下 <kbd>R</kbd> 或點擊「🛠️ 維修與重置」時，系統會彈出「飛行經驗調查對話框」，詢問本次重置主因（撞擊障礙、姿態失速、測試完成、飛出邊界等）、操縱手感評分與詳細飛行心得，自動封裝整合進訓練集供後續自主飛行 AI 經驗學習。
 
 ---
 
