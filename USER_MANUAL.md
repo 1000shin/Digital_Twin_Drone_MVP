@@ -139,14 +139,14 @@ python3 test_webgl_environments.py
     3. **⚡ 碰撞測試場地 (Collision Arena)**：防撞包覆網格圍欄、螢光穿越賽道框 (FPV Gates)、警示條紋障礙立柱與室內零風速風洞。
     4. **🌙 夜間紅外線巡檢 (Night Thermal/Inspection)**：暗黑高對比夜間視角、機載前向強光探照燈、變壓器散熱鰭片與過熱異常管線 (FLIR LWIR 8-14μm 熱成像 HUD 焦點溫標)。
 - **📹 飛航遙測與操作示範數據錄製系統 (Flight Data Recorder for Imitation/RL Training)**：
-  - **20Hz 高頻率特徵取樣 (State-Action Pairs)**：在試飛過程中按 <kbd>G</kbd> 或點擊 HUD「🔴 開始錄製」即可即時紀錄高頻飛航遙測：
+  - **2Hz 輕量高精度特徵取樣 (State-Action Pairs, 500ms 間隔)**：在試飛過程中按 <kbd>G</kbd> 或點擊 HUD「🔴 開始錄製」即可即時紀錄高精準飛航遙測，降低龐大數據負擔：
     * `step` / `timestamp` / `iso_time`
     * `state`：3D 空間位置 [x, y, z]、線速度 [vx, vy, vz]、姿態弧度/角度 [roll, pitch, yaw]、角速度 [wx, wy, wz]、機體結構完整度 `integrity`、鋰電池電壓與受損部件列表
     * `action`：操縱鍵盤信號（俯仰 `pitch_cmd`、滾轉 `roll_cmd`、偏航 `yaw_cmd`、升力 `climb_cmd`、自動懸停旗標）
     * `environment`：當前環境 ID、即時風場向量 [wx, wy, wz]、撞擊剛體事件與精確撞擊接觸點座標
-  - **UI 狀態指示與一鍵導出**：錄製時 HUD 顯示紅點呼吸閃爍、錄製碼表與即時樣本採集數 (`Samples: xxx`)；停止錄製後可一鍵下載為標準 `flight_training_data_YYYYMMDD_HHMMSS.json` 與串流訓練專用 `.jsonl` 檔案，支援保存於 `output/training_datasets/`。
-- **📝 重置前飛行經驗回饋問卷 (Pilot Experience & Reset Questionnaire)**：
-  - 按下 <kbd>R</kbd> 或點擊「🛠️ 維修與重置」時，系統會彈出「飛行經驗調查對話框」，詢問本次重置主因（撞擊障礙、姿態失速、測試完成、飛出邊界等）、操縱手感評分與詳細飛行心得，自動封裝整合進訓練集供後續自主飛行 AI 經驗學習。
+  - **UI 狀態指示與靜默自動保存**：錄製時 HUD 顯示紅點呼吸閃爍、錄製碼表與即時樣本採集數 (`Samples: xxx`)；停止錄製後系統自動將訓練數據寫入 LocalStorage 本地儲存庫並靜默備份，移除繁瑣的手動下載步驟。
+- **📝 重置前飛行經驗回饋 (Pilot Experience & Reset Feedback)**：
+  - 按下 <kbd>R</kbd> 或點擊「🛠️ 維修與重置」時，系統會彈出簡潔的「飛行經驗回饋對話框」，提供純文字輸入框供自由填寫飛行心得、操控體驗或重置原因，點擊「確定重置並保存」即自動整合進訓練集供後續自主飛行 AI 經驗學習。
 
 ---
 

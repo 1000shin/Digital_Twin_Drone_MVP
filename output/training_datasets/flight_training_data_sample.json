@@ -4,7 +4,7 @@
   "created_at": "2026-09-18T18:45:00.000Z",
   "environment_id": "offshore_wind",
   "total_samples": 50,
-  "sampling_rate_hz": 20,
+  "sampling_rate_hz": 2,
   "drone_spec": {
     "num_arms": 6,
     "arm_length_m": 0.26,
@@ -13,8 +13,7 @@
   "pilot_questionnaires": [
     {
       "timestamp": "2026-09-18T18:45:05.000Z",
-      "reset_reason": "crash_damage",
-      "pilot_rating": "good",
+      "feedback": "在 2.5m/s 側風下接近離岸風機葉片根部時氣流擾動強烈，機臂 #1 輕微擦撞塔架。",
       "notes": "在 2.5m/s 側風下接近離岸風機葉片根部時氣流擾動強烈，機臂 #1 輕微擦撞塔架。",
       "final_integrity": 82.0,
       "final_position": [

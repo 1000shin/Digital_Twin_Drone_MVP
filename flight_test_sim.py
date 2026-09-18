@@ -334,7 +334,6 @@ class WebGLFlightSimulator:
             </div>
             <div class="hud-btn-row" style="margin-top: 0;">
                 <button id="btn-rec-toggle" class="btn-action btn-rec-start" onclick="toggleRecording()">🔴 開始錄製 (G)</button>
-                <button id="btn-rec-export" class="btn-action btn-rec-export" onclick="exportFlightData()" style="display:none;">💾 導出訓練集</button>
             </div>
         </div>
 
@@ -461,39 +460,18 @@ class WebGLFlightSimulator:
     <div id="reset-modal-overlay">
         <div id="reset-modal">
             <div class="modal-title">
-                <span>📝 飛行重置經驗與回饋調查</span>
+                <span>📝 飛行經驗回饋</span>
             </div>
             <div class="modal-desc">
-                在維修重置無人機之前，請分享本次飛行體驗，此資訊將與您的控制軌跡、碰撞座標及受損數據一併封裝為未來的 AI 自主飛行訓練經驗資料集。
+                在維修重置無人機之前，請填寫本次飛行心得、操控感受或重置原因。此資訊將自動與飛行控制軌跡及受損數據一併封裝保存為 AI 訓練經驗集。
             </div>
             <div class="modal-field">
-                <label class="modal-label">本次重置主因 (Reason for Reset):</label>
-                <select id="modal-reset-reason" class="modal-select">
-                    <option value="crash_damage">💥 機體撞擊障礙物 / 嚴重損壞墜毀</option>
-                    <option value="attitude_loss">🌀 姿態失控 / 翻滾難以穩定</option>
-                    <option value="test_completed">✅ 飛行測試完成 / 示範路線錄製完畢</option>
-                    <option value="out_of_bounds">🗺️ 飛出測試空域 / 迷失導航方位</option>
-                    <option value="parameter_tuning">⚙️ 調整控制參數與飛行環境</option>
-                    <option value="other">💬 其他特定原因</option>
-                </select>
-            </div>
-            <div class="modal-field">
-                <label class="modal-label">操縱手感與飛行經驗評估 (Pilot Feedback):</label>
-                <select id="modal-handling-rating" class="modal-select">
-                    <option value="excellent">⭐⭐⭐⭐⭐ 操控極度靈敏平穩，動力充足</option>
-                    <option value="good" selected>⭐⭐⭐⭐ 姿態良好，符合預期操控動態</option>
-                    <option value="sensitive">⭐⭐⭐ 稍嫌靈敏過衝，需要更細膩微調</option>
-                    <option value="sluggish">⭐⭐ 響應遲鈍，俯仰/滾轉補償不足</option>
-                    <option value="unstable">⭐ 容易震顫或失衡，建議重訓控制權重</option>
-                </select>
-            </div>
-            <div class="modal-field">
-                <label class="modal-label">詳細筆記與環境心得 (Optional Notes):</label>
-                <textarea id="modal-notes" class="modal-textarea" placeholder="例如：在 2.5m/s 側風下接近城市高樓時容易產生亂流撞牆..."></textarea>
+                <label class="modal-label">飛行心得與重置原因：</label>
+                <textarea id="modal-notes" class="modal-textarea" placeholder="請在此填寫本次飛行心得、操控感受或重置原因..."></textarea>
             </div>
             <div class="modal-btn-row">
-                <button class="btn-modal-cancel" onclick="closeResetModal(false)">直接重置 (跳過)</button>
-                <button class="btn-modal-confirm" onclick="confirmResetWithFeedback()">💾 記錄經驗並重置</button>
+                <button class="btn-modal-cancel" onclick="closeResetModal(true)">直接重置 (跳過)</button>
+                <button class="btn-modal-confirm" onclick="confirmResetWithFeedback()">確定重置並保存</button>
             </div>
         </div>
     </div>
@@ -1414,7 +1392,6 @@ class WebGLFlightSimulator:
             const badge = document.getElementById('rec-status-badge');
             const txt = document.getElementById('rec-status-text');
             const btnToggle = document.getElementById('btn-rec-toggle');
-            const btnExp = document.getElementById('btn-rec-export');
 
             if (badge) badge.classList.add('recording');
             if (txt) txt.innerText = '🔴 錄製中 REC';
@@ -1422,13 +1399,12 @@ class WebGLFlightSimulator:
                 btnToggle.innerText = '⏹️ 停止錄製 (G)';
                 btnToggle.className = 'btn-action btn-rec-stop';
             }}
-            if (btnExp) btnExp.style.display = 'none';
 
-            showToast('🔴 飛航遙測與操作示範資料錄製已啟動！(20Hz 採樣)');
+            showToast('🔴 飛航遙測與操作示範資料錄製已啟動！(2Hz 採樣)');
 
             if (recordingTimerId) clearInterval(recordingTimerId);
-            // 20Hz sampling rate (50ms interval) for imitation & offline RL
-            recordingTimerId = setInterval(sampleRecorderStep, 50);
+            // 2Hz sampling rate (500ms interval) for lightweight trajectory logging
+            recordingTimerId = setInterval(sampleRecorderStep, 500);
         }}
 
         function stopRecording() {{
@@ -1442,7 +1418,6 @@ class WebGLFlightSimulator:
             const badge = document.getElementById('rec-status-badge');
             const txt = document.getElementById('rec-status-text');
             const btnToggle = document.getElementById('btn-rec-toggle');
-            const btnExp = document.getElementById('btn-rec-export');
 
             if (badge) badge.classList.remove('recording');
             if (txt) txt.innerText = '待命 IDLE';
@@ -1450,9 +1425,14 @@ class WebGLFlightSimulator:
                 btnToggle.innerText = '🔴 開始錄製 (G)';
                 btnToggle.className = 'btn-action btn-rec-start';
             }}
-            if (btnExp) btnExp.style.display = 'inline-flex';
 
-            showToast('⏹️ 錄製完成！共採集 ' + recordedFlightData.length + ' 筆樣本，可點擊「導出訓練集」下載。');
+            // 停止錄製時，直接靜默自動保存到本地儲存庫，無需手動下載彈窗
+            if (recordedFlightData.length > 0) {{
+                saveFlightData();
+                showToast('⏹️ 錄製完成！共採集 ' + recordedFlightData.length + ' 筆樣本 (2Hz)，已直接自動保存至訓練集。');
+            }} else {{
+                showToast('⏹️ 停止錄製（無有效飛行樣本）');
+            }}
         }}
 
         function sampleRecorderStep() {{
@@ -1469,8 +1449,8 @@ class WebGLFlightSimulator:
             if (timeEl) timeEl.innerText = timeStr;
             if (samplesEl) samplesEl.innerText = recordSampleCount;
 
-            // Compute angular velocity approximations (wx, wy, wz) rad/s
-            const dt = 0.05;
+            // Compute angular velocity approximations (wx, wy, wz) rad/s (dt = 0.5s for 2Hz)
+            const dt = 0.5;
             const wx = Number(((drone.rotation.x - prevDroneRotRec.x) / dt).toFixed(4));
             const wy = Number(((drone.rotation.y - prevDroneRotRec.y) / dt).toFixed(4));
             const wz = Number(((drone.rotation.z - prevDroneRotRec.z) / dt).toFixed(4));
@@ -1535,23 +1515,20 @@ class WebGLFlightSimulator:
 
         let activeCollisionThisStep = null;
 
-        function exportFlightData() {{
-            if (recordedFlightData.length === 0) {{
-                showToast('⚠️ 目前尚無錄製之飛行數據，請先點擊開始錄製！');
-                return;
-            }}
+        function saveFlightData() {{
+            if (recordedFlightData.length === 0) return null;
 
             const timestampStr = new Date().toISOString().replace(/[-:T]/g, '').slice(0, 14);
             const fileNameBase = 'flight_training_data_' + timestampStr;
 
-            // 1. Prepare JSON format (Full Dataset with Metadata)
+            // 1. Prepare JSON format (Full Dataset with Metadata, 2Hz Sampling)
             const exportPayload = {{
                 dataset_name: fileNameBase,
                 version: "1.0.0",
                 created_at: new Date().toISOString(),
                 environment_id: activeEnvKey,
                 total_samples: recordedFlightData.length,
-                sampling_rate_hz: 20,
+                sampling_rate_hz: 2,
                 drone_spec: {{
                     num_arms: numArms,
                     arm_length_m: armLength,
@@ -1561,16 +1538,20 @@ class WebGLFlightSimulator:
                 trajectory: recordedFlightData
             }};
 
-            // Export as .json
-            const jsonBlob = new Blob([JSON.stringify(exportPayload, null, 2)], {{ type: 'application/json' }});
-            downloadBlob(jsonBlob, fileNameBase + '.json');
-
-            // 2. Prepare JSONL format (One sample per line for direct streaming training)
+            // 2. Prepare JSONL format (One sample per line)
             const jsonlLines = recordedFlightData.map(step => JSON.stringify(step)).join('\\n');
-            const jsonlBlob = new Blob([jsonlLines], {{ type: 'application/x-ndjson' }});
-            downloadBlob(jsonlBlob, fileNameBase + '.jsonl');
 
-            // 3. Attempt local storage auto-save fallback via fetch (if hosted on local dev server)
+            // 3. 直接靜默自動存檔寫入 LocalStorage，無需手動下載彈窗
+            try {{
+                localStorage.setItem(fileNameBase, JSON.stringify(exportPayload));
+                localStorage.setItem('flight_training_data_latest', JSON.stringify(exportPayload));
+                localStorage.setItem('flight_training_data_latest_jsonl', jsonlLines);
+                console.log('[FlightDataRecorder] Direct auto-save to localStorage complete:', fileNameBase);
+            }} catch (e) {{
+                console.warn('[FlightDataRecorder] LocalStorage auto-save warning:', e);
+            }}
+
+            // 4. 嘗試背景呼叫後端 API 靜默保存 (若環境有支援)
             try {{
                 fetch('/api/save_training_dataset', {{
                     method: 'POST',
@@ -1579,18 +1560,15 @@ class WebGLFlightSimulator:
                 }}).catch(() => {{}});
             }} catch(e) {{}}
 
-            showToast('✅ 成功導出 ' + fileNameBase + '.json 與 .jsonl 訓練資料！');
+            return exportPayload;
         }}
 
-        function downloadBlob(blob, filename) {{
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = filename;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            setTimeout(() => URL.revokeObjectURL(url), 1000);
+        // 提供相容方法名稱
+        function autoSaveFlightData() {{
+            return saveFlightData();
+        }}
+        function exportFlightData() {{
+            return saveFlightData();
         }}
 
         // --- Questionnaire Dialog Handling ---
@@ -1601,14 +1579,9 @@ class WebGLFlightSimulator:
             const overlay = document.getElementById('reset-modal-overlay');
             if (overlay) {{
                 overlay.style.display = 'flex';
-                // Preset crash reason if damaged
-                const reasonSelect = document.getElementById('modal-reset-reason');
-                if (reasonSelect) {{
-                    if (droneStructuralIntegrity < 50 || damagedPartsHistory.length > 0) {{
-                        reasonSelect.value = 'crash_damage';
-                    }} else {{
-                        reasonSelect.value = 'test_completed';
-                    }}
+                const notesEl = document.getElementById('modal-notes');
+                if (notesEl) {{
+                    notesEl.focus();
                 }}
             }} else {{
                 repairAndResetDrone();
@@ -1622,15 +1595,13 @@ class WebGLFlightSimulator:
         }}
 
         function confirmResetWithFeedback() {{
-            const reasonEl = document.getElementById('modal-reset-reason');
-            const ratingEl = document.getElementById('modal-handling-rating');
             const notesEl = document.getElementById('modal-notes');
+            const feedbackText = notesEl ? notesEl.value.trim() : '';
 
             const feedbackEntry = {{
                 timestamp: new Date().toISOString(),
-                reset_reason: reasonEl ? reasonEl.value : 'unspecified',
-                pilot_rating: ratingEl ? ratingEl.value : 'unspecified',
-                notes: notesEl ? notesEl.value.trim() : '',
+                feedback: feedbackText,
+                notes: feedbackText,
                 final_integrity: droneStructuralIntegrity,
                 final_position: [Number(drone.position.x.toFixed(3)), Number(drone.position.y.toFixed(3)), Number(drone.position.z.toFixed(3))],
                 damaged_components: [...damagedPartsHistory]
@@ -1642,14 +1613,14 @@ class WebGLFlightSimulator:
                 recordedFlightData.push({{
                     step: currentStepIndex++,
                     timestamp: performance.now(),
-                    event_type: "pilot_reset_questionnaire",
+                    event_type: "pilot_feedback",
                     data: feedbackEntry
                 }});
             }}
 
             if (notesEl) notesEl.value = '';
             closeResetModal(true);
-            showToast('💾 飛行經驗回饋已儲存至數據錄製緩衝區，機身修復完畢！');
+            showToast('💾 飛行經驗回饋已儲存，機身維修重置完畢！');
         }}
 
         function repairAndResetDrone() {{

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Unit tests for WebGL 3D Flight Data Recorder & Pilot Reset Questionnaire System (DIG-12)
-Validates state-action trajectory logging, 20Hz sampling fields, imitation learning datasets,
+Validates state-action trajectory logging, 2Hz sampling fields, imitation learning datasets,
 and prompt questionnaire schema.
 """
 
@@ -54,27 +54,26 @@ class TestFlightDataRecorder(unittest.TestCase):
         self.assertIn('id="rec-time"', content)
         self.assertIn('id="rec-samples"', content)
         self.assertIn('id="btn-rec-toggle"', content)
-        self.assertIn('id="btn-rec-export"', content)
         self.assertIn('toggleRecording()', content)
-        self.assertIn('exportFlightData()', content)
+        self.assertIn('saveFlightData()', content)
 
         # 2. Check Keyboard Shortcuts
         self.assertIn("KeyG", content)
         self.assertIn("KeyR", content)
         self.assertIn(">G</span> 錄製/停止", content)
 
-        # 3. Check Reset Questionnaire Modal
+        # 3. Check Reset Questionnaire Modal (Simplified single textarea & confirm button)
         self.assertIn('id="reset-modal-overlay"', content)
         self.assertIn('id="reset-modal"', content)
-        self.assertIn('id="modal-reset-reason"', content)
-        self.assertIn('id="modal-handling-rating"', content)
         self.assertIn('id="modal-notes"', content)
+        self.assertIn('確定重置並保存', content)
         self.assertIn('promptResetExperience', content)
         self.assertIn('confirmResetWithFeedback', content)
         self.assertIn('closeResetModal', content)
 
-        # 4. Check State-Action Fields
+        # 4. Check State-Action Fields & 2Hz sampling interval
         self.assertIn("sampleRecorderStep", content)
+        self.assertIn("setInterval(sampleRecorderStep, 500)", content)
         self.assertIn("pitch_cmd", content)
         self.assertIn("roll_cmd", content)
         self.assertIn("yaw_cmd", content)
@@ -104,7 +103,7 @@ class TestFlightDataRecorder(unittest.TestCase):
 
         self.assertIn("dataset_name", data)
         self.assertIn("sampling_rate_hz", data)
-        self.assertEqual(data["sampling_rate_hz"], 20)
+        self.assertEqual(data["sampling_rate_hz"], 2)
         self.assertIn("trajectory", data)
         self.assertGreater(len(data["trajectory"]), 0)
 
