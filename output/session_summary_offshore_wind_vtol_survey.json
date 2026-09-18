@@ -1,0 +1,86 @@
+{
+  "mission": {
+    "id": "offshore_wind_vtol_survey",
+    "name": "VTOL Tilt-Rotor Long-Range Aerodynamic Survey",
+    "description": "Hybrid VTOL morphing aircraft featuring dynamic wings, tilt servos (0-90 deg), aerodynamic L/D optimization, flight time > 25min.",
+    "mission_type": "vtol_tilt_rotor",
+    "max_size_m": 1.4,
+    "min_flight_time_min": 25.0,
+    "target_payload_g": 450,
+    "required_sensors": [
+      "s_opt_cam_hd",
+      "s_imu_standard"
+    ],
+    "wind_velocity_xyz": [
+      6.0,
+      2.5,
+      0.0
+    ],
+    "obstacles": [
+      {
+        "type": "cylinder",
+        "pos": [
+          12.0,
+          3.0,
+          6.0
+        ],
+        "size": [
+          2.0,
+          2.0,
+          12.0
+        ]
+      }
+    ]
+  },
+  "evolved_spec": {
+    "aircraft_type": "vtol_tilt_rotor",
+    "wingspan_m": 1.12,
+    "wing_chord_m": 0.12,
+    "num_tilt_servos": 4,
+    "num_hover_motors": 4,
+    "motor_id": "m_1806_2300kv",
+    "prop_id": "p_0504",
+    "battery_id": "b_6s_5000mah",
+    "sensors_mount": [
+      {
+        "sensor_id": "s_opt_cam_hd",
+        "rel_pos_xyz": [
+          0.15,
+          0.0,
+          0.02
+        ]
+      },
+      {
+        "sensor_id": "s_imu_standard",
+        "rel_pos_xyz": [
+          0.15,
+          0.0,
+          0.02
+        ]
+      }
+    ],
+    "design_id": "evolved_vtol_vtol_tilt_rotor"
+  },
+  "coverage_metrics": {
+    "sensor_count": 2,
+    "total_fov_deg": 454.0,
+    "coverage_ratio": 1.0,
+    "blind_spot_ratio": 0.0
+  },
+  "world_file": "/Users/jasonzheng/Documents/Obsidian workspace/AI agent workspace/Digital_Twin_Drone_MVP/output/world_offshore_wind_vtol_survey.world",
+  "sdf_model": "/Users/jasonzheng/Documents/Obsidian workspace/AI agent workspace/Digital_Twin_Drone_MVP/output/evolved_vtol_vtol_tilt_rotor.sdf",
+  "telemetry_frames": 50,
+  "bridge_status": {
+    "pid": 99945,
+    "script": "/Users/jasonzheng/Documents/Obsidian workspace/AI agent workspace/Digital_Twin_Drone_MVP/launch_simulation.sh",
+    "model": "/Users/jasonzheng/Documents/Obsidian workspace/AI agent workspace/Digital_Twin_Drone_MVP/output/evolved_vtol_vtol_tilt_rotor.sdf",
+    "world": "/Users/jasonzheng/Documents/Obsidian workspace/AI agent workspace/Digital_Twin_Drone_MVP/output/world_offshore_wind_vtol_survey.world",
+    "mavlink_offboard_port": 14540,
+    "qgroundcontrol_port": 14550,
+    "system_status": {
+      "gazebo_sim": false,
+      "px4_sitl": false,
+      "qgroundcontrol": true
+    }
+  }
+}

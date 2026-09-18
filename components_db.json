@@ -1,0 +1,132 @@
+{
+  "motors": [
+    {
+      "id": "m_1806_2300kv",
+      "name": "1806 2300KV Micro Motor",
+      "kv": 2300,
+      "max_thrust_g": 450,
+      "weight_g": 18,
+      "max_power_w": 110,
+      "recommended_prop": "p_0504"
+    },
+    {
+      "id": "m_2212_920kv",
+      "name": "2212 920KV Standard Motor",
+      "kv": 920,
+      "max_thrust_g": 850,
+      "weight_g": 52,
+      "max_power_w": 180,
+      "recommended_prop": "p_1045"
+    },
+    {
+      "id": "m_4114_340kv",
+      "name": "4114 340KV Heavy Lift Motor",
+      "kv": 340,
+      "max_thrust_g": 2400,
+      "weight_g": 150,
+      "max_power_w": 480,
+      "recommended_prop": "p_1555"
+    }
+  ],
+  "propellers": [
+    {
+      "id": "p_0504",
+      "name": "5x4.5 inch Propeller",
+      "diameter_in": 5.0,
+      "pitch_in": 4.5,
+      "weight_g": 4.5
+    },
+    {
+      "id": "p_1045",
+      "name": "10x4.5 inch Propeller",
+      "diameter_in": 10.0,
+      "pitch_in": 4.5,
+      "weight_g": 12.0
+    },
+    {
+      "id": "p_1555",
+      "name": "15x5.5 inch Carbon Propeller",
+      "diameter_in": 15.0,
+      "pitch_in": 5.5,
+      "weight_g": 28.0
+    }
+  ],
+  "batteries": [
+    {
+      "id": "b_3s_1500mah",
+      "name": "3S 11.1V 1500mAh LiPo",
+      "voltage_v": 11.1,
+      "capacity_mah": 1500,
+      "weight_g": 120,
+      "max_discharge_c": 45
+    },
+    {
+      "id": "b_3s_2200mah",
+      "name": "3S 11.1V 2200mAh LiPo",
+      "voltage_v": 11.1,
+      "capacity_mah": 2200,
+      "weight_g": 185,
+      "max_discharge_c": 35
+    },
+    {
+      "id": "b_6s_5000mah",
+      "name": "6S 22.2V 5000mAh LiPo",
+      "voltage_v": 22.2,
+      "capacity_mah": 5000,
+      "weight_g": 720,
+      "max_discharge_c": 60
+    }
+  ],
+  "sensors": [
+    {
+      "id": "s_imu_standard",
+      "name": "6-DOF IMU + Magnetometer",
+      "type": "imu",
+      "weight_g": 5,
+      "power_w": 0.2,
+      "fov_deg": 360,
+      "range_m": 0.0
+    },
+    {
+      "id": "s_lidar_2d",
+      "name": "360° 2D Laser Rangefinder",
+      "type": "lidar_2d",
+      "weight_g": 135,
+      "power_w": 2.5,
+      "fov_deg": 360,
+      "range_m": 12.0
+    },
+    {
+      "id": "s_depth_cam",
+      "name": "Stereo Depth Camera",
+      "type": "depth_camera",
+      "weight_g": 60,
+      "power_w": 1.8,
+      "fov_deg": 87,
+      "range_m": 6.0
+    },
+    {
+      "id": "s_opt_cam_hd",
+      "name": "4K Inspection RGB Camera",
+      "type": "rgb_camera",
+      "weight_g": 45,
+      "power_w": 1.5,
+      "fov_deg": 94,
+      "range_m": 50.0
+    }
+  ],
+  "materials": [
+    {
+      "id": "mat_carbon_fiber",
+      "name": "Carbon Fiber Composite",
+      "density_g_cm3": 1.6,
+      "tensile_strength_mpa": 600
+    },
+    {
+      "id": "mat_aluminum_6061",
+      "name": "6061-T6 Aluminum Alloy",
+      "density_g_cm3": 2.7,
+      "tensile_strength_mpa": 310
+    }
+  ]
+}

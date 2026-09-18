@@ -1,0 +1,96 @@
+{
+  "mission": {
+    "id": "bridge_confined_inspection",
+    "name": "Bridge & Tunnel Confined Space Inspection",
+    "description": "Requires small diagonal footprint (<50cm), high obstacle agility, 360 LiDAR + front depth camera.",
+    "mission_type": "confined_space",
+    "max_size_m": 0.5,
+    "min_flight_time_min": 12.0,
+    "target_payload_g": 180,
+    "required_sensors": [
+      "s_lidar_2d",
+      "s_depth_cam"
+    ],
+    "wind_velocity_xyz": [
+      1.5,
+      0.5,
+      0.0
+    ],
+    "obstacles": [
+      {
+        "type": "cylinder",
+        "pos": [
+          2.5,
+          0.5,
+          1.2
+        ],
+        "size": [
+          0.3,
+          0.3,
+          2.5
+        ]
+      },
+      {
+        "type": "box",
+        "pos": [
+          4.0,
+          -1.0,
+          1.0
+        ],
+        "size": [
+          0.8,
+          0.8,
+          1.5
+        ]
+      }
+    ]
+  },
+  "evolved_spec": {
+    "num_arms": 6,
+    "arm_length_m": 0.16,
+    "motor_id": "m_1806_2300kv",
+    "prop_id": "p_0504",
+    "battery_id": "b_6s_5000mah",
+    "sensors_mount": [
+      {
+        "sensor_id": "s_lidar_2d",
+        "rel_pos_xyz": [
+          -0.08,
+          -0.02,
+          0.05
+        ]
+      },
+      {
+        "sensor_id": "s_depth_cam",
+        "rel_pos_xyz": [
+          0.02,
+          0.05,
+          0.05
+        ]
+      }
+    ],
+    "design_id": "evolved_confined_space"
+  },
+  "coverage_metrics": {
+    "sensor_count": 2,
+    "total_fov_deg": 447.0,
+    "coverage_ratio": 1.0,
+    "blind_spot_ratio": 0.0
+  },
+  "world_file": "/Users/jasonzheng/Documents/Obsidian workspace/AI agent workspace/Digital_Twin_Drone_MVP/output/world_bridge_confined_inspection.world",
+  "sdf_model": "/Users/jasonzheng/Documents/Obsidian workspace/AI agent workspace/Digital_Twin_Drone_MVP/output/evolved_confined_space.sdf",
+  "telemetry_frames": 50,
+  "bridge_status": {
+    "pid": 99243,
+    "script": "/Users/jasonzheng/Documents/Obsidian workspace/AI agent workspace/Digital_Twin_Drone_MVP/launch_simulation.sh",
+    "model": "/Users/jasonzheng/Documents/Obsidian workspace/AI agent workspace/Digital_Twin_Drone_MVP/output/evolved_confined_space.sdf",
+    "world": "/Users/jasonzheng/Documents/Obsidian workspace/AI agent workspace/Digital_Twin_Drone_MVP/output/world_bridge_confined_inspection.world",
+    "mavlink_offboard_port": 14540,
+    "qgroundcontrol_port": 14550,
+    "system_status": {
+      "gazebo_sim": false,
+      "px4_sitl": false,
+      "qgroundcontrol": true
+    }
+  }
+}

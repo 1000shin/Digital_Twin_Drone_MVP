@@ -1,0 +1,90 @@
+{
+  "configById": {
+    "3D!1": {
+      "cameraState": {
+        "perspective": true,
+        "distance": 8.0,
+        "phi": 55.0,
+        "thetaOffset": 45.0,
+        "target": [1.5, 1.0, 1.5],
+        "targetOrientation": [0, 0, 0, 1]
+      },
+      "grid": {
+        "enabled": true,
+        "size": 20,
+        "divisions": 20,
+        "color": "#444444"
+      },
+      "customFrameTransforms": {},
+      "scene": {
+        "transforms": {
+          "showFrameLabels": true,
+          "editable": false
+        }
+      },
+      "topics": {
+        "/pose": {
+          "visible": true,
+          "axisScale": 1.0
+        }
+      }
+    },
+    "Plot!2": {
+      "paths": [
+        {
+          "value": "/telemetry.position.z",
+          "enabled": true,
+          "color": "#00aaff",
+          "timestampMethod": "receiveTime"
+        },
+        {
+          "value": "/telemetry.battery.voltage_v",
+          "enabled": true,
+          "color": "#ffaa00",
+          "timestampMethod": "receiveTime"
+        }
+      ],
+      "showXAxisLabels": true,
+      "showYAxisLabels": true
+    },
+    "StateTransitions!3": {
+      "paths": [
+        {
+          "value": "/telemetry.mode",
+          "enabled": true
+        }
+      ]
+    },
+    "Indicator!4": {
+      "path": "/telemetry.armed",
+      "fallbackLabel": "DISARMED",
+      "rules": [
+        {
+          "operator": "equal",
+          "value": "true",
+          "color": "#00cc66",
+          "label": "ARMED - FLYING"
+        }
+      ]
+    }
+  },
+  "globalVariables": {},
+  "userNodes": {},
+  "linkedGlobalVariables": [],
+  "layout": {
+    "direction": "row",
+    "first": "3D!1",
+    "second": {
+      "direction": "column",
+      "first": "Plot!2",
+      "second": {
+        "direction": "row",
+        "first": "Indicator!4",
+        "second": "StateTransitions!3",
+        "splitPercentage": 40
+      },
+      "splitPercentage": 60
+    },
+    "splitPercentage": 65
+  }
+}

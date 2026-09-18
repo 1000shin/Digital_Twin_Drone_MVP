@@ -1,0 +1,36 @@
+{
+  "timestamp": 1789695907.9234,
+  "mission_spec": {
+    "mission_type": "unit_test_inspection",
+    "max_size_m": 0.6,
+    "min_flight_time_min": 10.0,
+    "required_sensors": [
+      "s_depth_cam"
+    ]
+  },
+  "evolved_drone_spec": {
+    "num_arms": 4,
+    "arm_length_m": 0.2,
+    "motor_id": "m_1806_2300kv",
+    "prop_id": "p_0504",
+    "battery_id": "b_6s_5000mah",
+    "sensors_mount": [
+      {
+        "sensor_id": "s_depth_cam",
+        "rel_pos_xyz": [
+          0.09,
+          -0.09,
+          0.05
+        ]
+      }
+    ],
+    "design_id": "evolved_unit_test_inspection"
+  },
+  "drone_stats": {},
+  "generated_files": {
+    "urdf": "/Users/jasonzheng/Documents/Obsidian workspace/AI agent workspace/Digital_Twin_Drone_MVP/output/evolved_unit_test_inspection.urdf",
+    "sdf": "/Users/jasonzheng/Documents/Obsidian workspace/AI agent workspace/Digital_Twin_Drone_MVP/output/evolved_unit_test_inspection.sdf"
+  },
+  "telemetry_log_frames": 4,
+  "status": "SUCCESS"
+}

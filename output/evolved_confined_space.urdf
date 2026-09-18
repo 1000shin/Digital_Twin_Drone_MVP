@@ -1,0 +1,165 @@
+<?xml version="1.0"?>
+<robot name="evolved_confined_space">
+  <!-- Base Link / Central Hub -->
+  <link name="base_link">
+    <inertial>
+      <mass value="0.8000"/>
+      <inertia ixx="0.001927" ixy="0" ixz="0" iyy="0.001927" iyz="0" izz="0.003000"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <box size="0.15 0.15 0.08"/>
+      </geometry>
+      <material name="dark_grey"><color rgba="0.2 0.2 0.2 1.0"/></material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.15 0.15 0.08"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Arm 0 -->
+  <link name="arm_0">
+    <inertial>
+      <mass value="0.0225"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0002"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <cylinder length="0.160" radius="0.01"/>
+      </geometry>
+      <material name="carbon"><color rgba="0.1 0.1 0.1 1.0"/></material>
+    </visual>
+  </link>
+  <joint name="joint_base_arm_0" type="fixed">
+    <parent link="base_link"/>
+    <child link="arm_0"/>
+    <origin xyz="0.0800 0.0000 0.0" rpy="0 1.5708 0.0000"/>
+  </joint>
+  <!-- Arm 1 -->
+  <link name="arm_1">
+    <inertial>
+      <mass value="0.0225"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0002"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <cylinder length="0.160" radius="0.01"/>
+      </geometry>
+      <material name="carbon"><color rgba="0.1 0.1 0.1 1.0"/></material>
+    </visual>
+  </link>
+  <joint name="joint_base_arm_1" type="fixed">
+    <parent link="base_link"/>
+    <child link="arm_1"/>
+    <origin xyz="0.0400 0.0693 0.0" rpy="0 1.5708 1.0472"/>
+  </joint>
+  <!-- Arm 2 -->
+  <link name="arm_2">
+    <inertial>
+      <mass value="0.0225"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0002"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <cylinder length="0.160" radius="0.01"/>
+      </geometry>
+      <material name="carbon"><color rgba="0.1 0.1 0.1 1.0"/></material>
+    </visual>
+  </link>
+  <joint name="joint_base_arm_2" type="fixed">
+    <parent link="base_link"/>
+    <child link="arm_2"/>
+    <origin xyz="-0.0400 0.0693 0.0" rpy="0 1.5708 2.0944"/>
+  </joint>
+  <!-- Arm 3 -->
+  <link name="arm_3">
+    <inertial>
+      <mass value="0.0225"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0002"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <cylinder length="0.160" radius="0.01"/>
+      </geometry>
+      <material name="carbon"><color rgba="0.1 0.1 0.1 1.0"/></material>
+    </visual>
+  </link>
+  <joint name="joint_base_arm_3" type="fixed">
+    <parent link="base_link"/>
+    <child link="arm_3"/>
+    <origin xyz="-0.0800 0.0000 0.0" rpy="0 1.5708 3.1416"/>
+  </joint>
+  <!-- Arm 4 -->
+  <link name="arm_4">
+    <inertial>
+      <mass value="0.0225"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0002"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <cylinder length="0.160" radius="0.01"/>
+      </geometry>
+      <material name="carbon"><color rgba="0.1 0.1 0.1 1.0"/></material>
+    </visual>
+  </link>
+  <joint name="joint_base_arm_4" type="fixed">
+    <parent link="base_link"/>
+    <child link="arm_4"/>
+    <origin xyz="-0.0400 -0.0693 0.0" rpy="0 1.5708 4.1888"/>
+  </joint>
+  <!-- Arm 5 -->
+  <link name="arm_5">
+    <inertial>
+      <mass value="0.0225"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0002"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <cylinder length="0.160" radius="0.01"/>
+      </geometry>
+      <material name="carbon"><color rgba="0.1 0.1 0.1 1.0"/></material>
+    </visual>
+  </link>
+  <joint name="joint_base_arm_5" type="fixed">
+    <parent link="base_link"/>
+    <child link="arm_5"/>
+    <origin xyz="0.0400 -0.0693 0.0" rpy="0 1.5708 5.2360"/>
+  </joint>
+  <!-- Sensor: sensor_0_s_lidar_2d -->
+  <link name="sensor_0_s_lidar_2d">
+    <inertial>
+      <mass value="0.1350"/>
+      <inertia ixx="0.00005" ixy="0" ixz="0" iyy="0.00005" iyz="0" izz="0.00005"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <box size="0.04 0.04 0.04"/>
+      </geometry>
+      <material name="blue"><color rgba="0.0 0.4 0.8 1.0"/></material>
+    </visual>
+  </link>
+  <joint name="joint_base_sensor_0_s_lidar_2d" type="fixed">
+    <parent link="base_link"/>
+    <child link="sensor_0_s_lidar_2d"/>
+    <origin xyz="-0.0800 -0.0200 0.0500" rpy="0 0 0"/>
+  </joint>
+  <!-- Sensor: sensor_1_s_depth_cam -->
+  <link name="sensor_1_s_depth_cam">
+    <inertial>
+      <mass value="0.0600"/>
+      <inertia ixx="0.00005" ixy="0" ixz="0" iyy="0.00005" iyz="0" izz="0.00005"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <box size="0.04 0.04 0.04"/>
+      </geometry>
+      <material name="blue"><color rgba="0.0 0.4 0.8 1.0"/></material>
+    </visual>
+  </link>
+  <joint name="joint_base_sensor_1_s_depth_cam" type="fixed">
+    <parent link="base_link"/>
+    <child link="sensor_1_s_depth_cam"/>
+    <origin xyz="0.0200 0.0500 0.0500" rpy="0 0 0"/>
+  </joint>
+</robot>

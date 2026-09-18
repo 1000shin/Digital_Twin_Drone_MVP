@@ -1,0 +1,59 @@
+{
+  "missions": [
+    {
+      "id": "bridge_confined_inspection",
+      "name": "Bridge & Tunnel Confined Space Inspection",
+      "description": "Requires small diagonal footprint (<50cm), high obstacle agility, 360 LiDAR + front depth camera.",
+      "mission_type": "confined_space",
+      "max_size_m": 0.50,
+      "min_flight_time_min": 12.0,
+      "target_payload_g": 180,
+      "required_sensors": ["s_lidar_2d", "s_depth_cam"],
+      "wind_velocity_xyz": [1.5, 0.5, 0.0],
+      "obstacles": [
+        { "type": "cylinder", "pos": [2.5, 0.5, 1.2], "size": [0.3, 0.3, 2.5] },
+        { "type": "box", "pos": [4.0, -1.0, 1.0], "size": [0.8, 0.8, 1.5] }
+      ]
+    },
+    {
+      "id": "wind_farm_offshore_survey",
+      "name": "Offshore Wind Turbine Long-Range Survey",
+      "description": "High wind resistance (up to 6m/s wind gust), long range flight time (>18min), 4K RGB Camera.",
+      "mission_type": "offshore_survey",
+      "max_size_m": 0.85,
+      "min_flight_time_min": 18.0,
+      "target_payload_g": 350,
+      "required_sensors": ["s_opt_cam_hd", "s_imu_standard"],
+      "wind_velocity_xyz": [5.5, 2.0, 0.0],
+      "obstacles": [
+        { "type": "cylinder", "pos": [8.0, 0.0, 5.0], "size": [1.5, 1.5, 10.0] }
+      ]
+    },
+    {
+      "id": "heavy_payload_emergency_delivery",
+      "name": "Emergency Medical Payload Delivery",
+      "description": "Heavy lift multi-rotor frame (6 or 8 arms), high torque motors, payload > 800g.",
+      "mission_type": "heavy_delivery",
+      "max_size_m": 1.20,
+      "min_flight_time_min": 15.0,
+      "target_payload_g": 850,
+      "required_sensors": ["s_imu_standard"],
+      "wind_velocity_xyz": [3.0, 1.0, 0.0],
+      "obstacles": []
+    },
+    {
+      "id": "offshore_wind_vtol_survey",
+      "name": "VTOL Tilt-Rotor Long-Range Aerodynamic Survey",
+      "description": "Hybrid VTOL morphing aircraft featuring dynamic wings, tilt servos (0-90 deg), aerodynamic L/D optimization, flight time > 25min.",
+      "mission_type": "vtol_tilt_rotor",
+      "max_size_m": 1.40,
+      "min_flight_time_min": 25.0,
+      "target_payload_g": 450,
+      "required_sensors": ["s_opt_cam_hd", "s_imu_standard"],
+      "wind_velocity_xyz": [6.0, 2.5, 0.0],
+      "obstacles": [
+        { "type": "cylinder", "pos": [12.0, 3.0, 6.0], "size": [2.0, 2.0, 12.0] }
+      ]
+    }
+  ]
+}
