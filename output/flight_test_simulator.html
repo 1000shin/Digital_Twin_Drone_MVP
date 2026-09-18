@@ -227,21 +227,19 @@
             velocity.z *= 0.98;
             velocity.y *= 0.95;
 
-            // Update Drone Position
+            // Update Drone Position & Smooth Camera Tracking preserving 360 Orbit Controls
+            const prevDronePos = drone.position.clone();
             drone.position.addScaledVector(velocity, 0.016);
             if (drone.position.y < 0.05) {
                 drone.position.y = 0.05;
                 velocity.y = 0;
             }
+            const moveDelta = drone.position.clone().sub(prevDronePos);
+            camera.position.add(moveDelta);
+            controls.target.copy(drone.position);
 
             // Spin Propellers in CW / CCW Motor Directions
             propDisks.forEach(p => p.mesh.rotation.y += 0.4 * p.dir);
-
-            // Update Camera to follow drone smoothly
-            camera.position.x = drone.position.x;
-            camera.position.y = drone.position.y + 2.5;
-            camera.position.z = drone.position.z + 4.5;
-            controls.target.copy(drone.position);
 
             // Collision Detection with Gazebo Obstacles
             const droneBox = new THREE.Box3().setFromObject(drone);
