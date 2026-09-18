@@ -15,6 +15,8 @@
 | **v4.0.0** | 2026-09-18 | **Phase 3 選擇 1 完成 (MAVLink v2 協定修復與 Foxglove 3D)**：升級通訊為原生 MAVLink v2 (`0xFD` 標頭)，加入 QGC 航點自動回應；開發 `foxglove_layout.json` (3D 戰情室)、`foxglove_bridge.py` 與 `mcap_exporter.py`，匯出原生 `.mcap` 檔案。 | `test_choice_1.py` |
 | **v5.0.0** | 2026-09-18 | **Phase 3 選擇 2 完成**：開發 `vtol_builder.py` 與 `vtol_evolution.py` 實現 **VTOL 垂直起降與傾轉旋翼 (Tilt-Rotor) 複合幾何演化長成**，支援空氣動力升阻比 ($L/D$) 最佳化與 Gazebo Lift-Drag 外掛。 | `test_choice_2.py` |
 | **v6.0.0** | 2026-09-18 | **3D WebGL 幾何外觀與測試場景檢視器**：開發 `view_3d_drone.py` 自動生成可直接在瀏覽器開啟的 `view_3d_scene.html` 網頁檔，提供無人機 CAD 長相與 3D 測試空間 360° 旋轉檢視。 | 瀏覽器 WebGL 實機驗證 |
+| **v7.0.0** | 2026-09-19 | **WebGL 3D 模擬器與檢視器多情境切換引擎**：在 3D 模擬器與檢視器新增「情境切換選單 (Scene Environments)」，提供 4 大情境 (離岸風場、城市高樓搜救、碰撞競技場、夜間紅外線巡檢)，即時無縫切換材質、動態水波、風機旋轉、探照燈、FLIR 熱成像與物理碰撞盒。 | `test_webgl_environments.py` |
+| **v8.0.0** | 2026-09-19 | **3D WebGL 撞擊動態破損模擬系統 (Crash & Structural Damage Simulation)**：實作局部機臂彎曲折損、碳纖維焦黑碎裂紋理、斷槳剪切縮放、高溫火花與飛散碎片粒子系統 (Sparks & Debris Particles)、機身健康度 HUD、BOM 實時受損同步、推力失衡劇烈震顫/失速翻滾墜毀與一鍵快速維修重置 (Repair & Reset)。 | `test_webgl_environments.py` (100% Pass) |
 
 ---
 
