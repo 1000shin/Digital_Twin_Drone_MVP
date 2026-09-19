@@ -1,5 +1,5 @@
 {
-  "timestamp": 1789757592.878068,
+  "timestamp": 1789760417.09219,
   "mission_spec": {
     "mission_type": "unit_test_inspection",
     "max_size_m": 0.6,
@@ -9,8 +9,8 @@
     ]
   },
   "evolved_drone_spec": {
-    "num_arms": 4,
-    "arm_length_m": 0.16,
+    "num_arms": 6,
+    "arm_length_m": 0.17,
     "motor_id": "m_1806_2300kv",
     "prop_id": "p_0504",
     "battery_id": "b_6s_5000mah",
@@ -18,31 +18,32 @@
       {
         "sensor_id": "s_depth_cam",
         "rel_pos_xyz": [
-          0.1,
-          -0.01,
+          0.06,
+          -0.09,
           0.05
         ]
       }
     ],
     "design_id": "evolved_unit_test_inspection",
     "stats": {
-      "num_arms": 4,
-      "arm_length_m": 0.16,
-      "total_diameter_m": 0.47,
+      "num_arms": 6,
+      "arm_length_m": 0.17,
+      "total_diameter_m": 0.49,
       "motor_id": "m_1806_2300kv",
       "motor_name": "1806 2300KV Micro Motor",
       "prop_id": "p_0504",
       "prop_name": "5x4.5 inch Propeller",
       "battery_id": "b_6s_5000mah",
       "battery_name": "6S 22.2V 5000mAh LiPo",
-      "total_mass_g": 1020.0,
-      "max_thrust_g": 1800,
-      "thrust_to_weight_ratio": 1.76,
-      "estimated_flight_time_min": 38.77,
-      "fitness": 367.3
+      "total_mass_g": 1115.0,
+      "max_thrust_g": 2700,
+      "thrust_to_weight_ratio": 2.42,
+      "estimated_flight_time_min": 35.49,
+      "fitness": 362.6
     },
     "evolution_reasoning_log": [
-      "[Gen 0 \u521d\u59cb\u7a2e\u5b50\u5960\u5b9a] \u521d\u59cb\u96a8\u6a5f\u7a2e\u5b50\u6700\u512a\u500b\u9ad4\uff1a\u9078\u5b9a 4 \u8ef8\u6a5f\u67b6\uff0c\u6a5f\u81c2\u9577\u5ea6 0.16m (\u76f4\u5f91 0.47m)\uff0c\u9078\u914d 1806 2300KV Micro Motor + 5x4.5 inch Propeller + 6S 22.2V 5000mAh LiPo\u3002\u521d\u671f\u6307\u6a19\uff1aTWR=1.76\u3001\u7e8c\u822a=38.8min\u3001\u8cea\u91cf=1020.0g\uff0c\u521d\u59cb\u9069\u61c9\u5ea6: 367.3"
+      "[Gen 0 \u521d\u59cb\u7a2e\u5b50\u5960\u5b9a] \u521d\u59cb\u96a8\u6a5f\u7a2e\u5b50\u6700\u512a\u500b\u9ad4\uff1a\u9078\u5b9a 4 \u8ef8\u6a5f\u67b6\uff0c\u6a5f\u81c2\u9577\u5ea6 0.16m (\u76f4\u5f91 0.47m)\uff0c\u9078\u914d 1806 2300KV Micro Motor + 10x4.5 inch Propeller + 6S 22.2V 5000mAh LiPo\u3002\u521d\u671f\u6307\u6a19\uff1aTWR=1.71\u3001\u7e8c\u822a=37.7min\u3001\u8cea\u91cf=1050.0g\uff0c\u521d\u59cb\u9069\u61c9\u5ea6: 355.7",
+      "[Gen 1 \u4e16\u4ee3\u8e8d\u9077\u7a81\u7834] \u5fae\u8abf\u6a5f\u81c2\u9577\u5ea6 (0.16m -> 0.17m)\uff1a\u64f4\u5927\u65cb\u7ffc\u8ef8\u8ddd\u7a69\u5b9a\u6027\uff0c\u76f4\u5f91\u4fdd\u6301\u5728\u7a7a\u9593\u9650\u5236\u5167 (0.49m <= 0.60m)\uff1b\u66f4\u63db 1806 2300KV Micro Motor \u99ac\u9054 + 5x4.5 inch Propeller \u69f3\uff1a\u63a8\u91cd\u6bd4\u7531 TWR=1.71 \u8abf\u6821\u70ba TWR=2.42\uff0c\u9032\u5165\u6700\u4f73\u5340\u9593 (+30 \u5206)\uff1b\u8abf\u6574\u65cb\u7ffc\u4f48\u5c40 (4 \u8ef8 -> 6 \u8ef8)\uff1a\u63a8\u529b\u8abf\u6574\u81f3 2700g\uff0c\u6574\u6a5f\u8cea\u91cf\u8b8a\u66f4\u70ba 1115.0g\u3002\u9069\u61c9\u5ea6\u7531 355.7 \u63d0\u5347\u81f3 362.6 (+6.9 \u5206)"
     ],
     "morph_decisions": [
       {
@@ -50,7 +51,7 @@
         "component": "seed_initialization",
         "action": "initial_seed",
         "change": "random_seed -> gen0_elite",
-        "rationale": "\u521d\u59cb\u96a8\u6a5f\u7a2e\u5b50\u6700\u512a\u500b\u9ad4\uff1a\u9078\u5b9a 4 \u8ef8\u6a5f\u67b6\uff0c\u6a5f\u81c2\u9577\u5ea6 0.16m (\u76f4\u5f91 0.47m)\uff0c\u9078\u914d 1806 2300KV Micro Motor + 5x4.5 inch Propeller + 6S 22.2V 5000mAh LiPo\u3002\u521d\u671f\u6307\u6a19\uff1aTWR=1.76\u3001\u7e8c\u822a=38.8min\u3001\u8cea\u91cf=1020.0g\uff0c\u521d\u59cb\u9069\u61c9\u5ea6: 367.3",
+        "rationale": "\u521d\u59cb\u96a8\u6a5f\u7a2e\u5b50\u6700\u512a\u500b\u9ad4\uff1a\u9078\u5b9a 4 \u8ef8\u6a5f\u67b6\uff0c\u6a5f\u81c2\u9577\u5ea6 0.16m (\u76f4\u5f91 0.47m)\uff0c\u9078\u914d 1806 2300KV Micro Motor + 10x4.5 inch Propeller + 6S 22.2V 5000mAh LiPo\u3002\u521d\u671f\u6307\u6a19\uff1aTWR=1.71\u3001\u7e8c\u822a=37.7min\u3001\u8cea\u91cf=1050.0g\uff0c\u521d\u59cb\u9069\u61c9\u5ea6: 355.7",
         "metrics_before": null,
         "metrics_after": {
           "num_arms": 4,
@@ -58,43 +59,188 @@
           "total_diameter_m": 0.47,
           "motor_id": "m_1806_2300kv",
           "motor_name": "1806 2300KV Micro Motor",
-          "prop_id": "p_0504",
-          "prop_name": "5x4.5 inch Propeller",
+          "prop_id": "p_1045",
+          "prop_name": "10x4.5 inch Propeller",
           "battery_id": "b_6s_5000mah",
           "battery_name": "6S 22.2V 5000mAh LiPo",
-          "total_mass_g": 1020.0,
+          "total_mass_g": 1050.0,
           "max_thrust_g": 1800,
-          "thrust_to_weight_ratio": 1.76,
-          "estimated_flight_time_min": 38.77,
-          "fitness": 367.3
+          "thrust_to_weight_ratio": 1.71,
+          "estimated_flight_time_min": 37.67,
+          "fitness": 355.7
         },
-        "fitness_delta": 367.3
-      }
-    ],
-    "lineage_trail": [
+        "fitness_delta": 355.7
+      },
       {
-        "individual_id": "gen0_ind_4",
-        "generation": 0,
-        "parent_id": null,
-        "mutation_type": "seed",
-        "metrics": {
+        "generation": 1,
+        "component": "arm_length",
+        "action": "expand_arm_stability",
+        "change": "0.16m -> 0.17m",
+        "rationale": "\u5fae\u8abf\u6a5f\u81c2\u9577\u5ea6 (0.16m -> 0.17m)\uff1a\u64f4\u5927\u65cb\u7ffc\u8ef8\u8ddd\u7a69\u5b9a\u6027\uff0c\u76f4\u5f91\u4fdd\u6301\u5728\u7a7a\u9593\u9650\u5236\u5167 (0.49m <= 0.60m)",
+        "metrics_before": {
           "num_arms": 4,
           "arm_length_m": 0.16,
           "total_diameter_m": 0.47,
+          "motor_id": "m_1806_2300kv",
+          "motor_name": "1806 2300KV Micro Motor",
+          "prop_id": "p_1045",
+          "prop_name": "10x4.5 inch Propeller",
+          "battery_id": "b_6s_5000mah",
+          "battery_name": "6S 22.2V 5000mAh LiPo",
+          "total_mass_g": 1050.0,
+          "max_thrust_g": 1800,
+          "thrust_to_weight_ratio": 1.71,
+          "estimated_flight_time_min": 37.67,
+          "fitness": 355.7
+        },
+        "metrics_after": {
+          "num_arms": 6,
+          "arm_length_m": 0.17,
+          "total_diameter_m": 0.49,
           "motor_id": "m_1806_2300kv",
           "motor_name": "1806 2300KV Micro Motor",
           "prop_id": "p_0504",
           "prop_name": "5x4.5 inch Propeller",
           "battery_id": "b_6s_5000mah",
           "battery_name": "6S 22.2V 5000mAh LiPo",
-          "total_mass_g": 1020.0,
+          "total_mass_g": 1115.0,
+          "max_thrust_g": 2700,
+          "thrust_to_weight_ratio": 2.42,
+          "estimated_flight_time_min": 35.49,
+          "fitness": 362.6
+        },
+        "fitness_delta": 6.9
+      },
+      {
+        "generation": 1,
+        "component": "propulsion",
+        "action": "twr_enter_optimal",
+        "change": "m_1806_2300kv+p_1045 -> m_1806_2300kv+p_0504",
+        "rationale": "\u66f4\u63db 1806 2300KV Micro Motor \u99ac\u9054 + 5x4.5 inch Propeller \u69f3\uff1a\u63a8\u91cd\u6bd4\u7531 TWR=1.71 \u8abf\u6821\u70ba TWR=2.42\uff0c\u9032\u5165\u6700\u4f73\u5340\u9593 (+30 \u5206)",
+        "metrics_before": {
+          "num_arms": 4,
+          "arm_length_m": 0.16,
+          "total_diameter_m": 0.47,
+          "motor_id": "m_1806_2300kv",
+          "motor_name": "1806 2300KV Micro Motor",
+          "prop_id": "p_1045",
+          "prop_name": "10x4.5 inch Propeller",
+          "battery_id": "b_6s_5000mah",
+          "battery_name": "6S 22.2V 5000mAh LiPo",
+          "total_mass_g": 1050.0,
           "max_thrust_g": 1800,
-          "thrust_to_weight_ratio": 1.76,
-          "estimated_flight_time_min": 38.77,
-          "fitness": 367.3
+          "thrust_to_weight_ratio": 1.71,
+          "estimated_flight_time_min": 37.67,
+          "fitness": 355.7
+        },
+        "metrics_after": {
+          "num_arms": 6,
+          "arm_length_m": 0.17,
+          "total_diameter_m": 0.49,
+          "motor_id": "m_1806_2300kv",
+          "motor_name": "1806 2300KV Micro Motor",
+          "prop_id": "p_0504",
+          "prop_name": "5x4.5 inch Propeller",
+          "battery_id": "b_6s_5000mah",
+          "battery_name": "6S 22.2V 5000mAh LiPo",
+          "total_mass_g": 1115.0,
+          "max_thrust_g": 2700,
+          "thrust_to_weight_ratio": 2.42,
+          "estimated_flight_time_min": 35.49,
+          "fitness": 362.6
+        },
+        "fitness_delta": 6.9
+      },
+      {
+        "generation": 1,
+        "component": "num_arms",
+        "action": "reconfigure_arms",
+        "change": "4 -> 6",
+        "rationale": "\u8abf\u6574\u65cb\u7ffc\u4f48\u5c40 (4 \u8ef8 -> 6 \u8ef8)\uff1a\u63a8\u529b\u8abf\u6574\u81f3 2700g\uff0c\u6574\u6a5f\u8cea\u91cf\u8b8a\u66f4\u70ba 1115.0g",
+        "metrics_before": {
+          "num_arms": 4,
+          "arm_length_m": 0.16,
+          "total_diameter_m": 0.47,
+          "motor_id": "m_1806_2300kv",
+          "motor_name": "1806 2300KV Micro Motor",
+          "prop_id": "p_1045",
+          "prop_name": "10x4.5 inch Propeller",
+          "battery_id": "b_6s_5000mah",
+          "battery_name": "6S 22.2V 5000mAh LiPo",
+          "total_mass_g": 1050.0,
+          "max_thrust_g": 1800,
+          "thrust_to_weight_ratio": 1.71,
+          "estimated_flight_time_min": 37.67,
+          "fitness": 355.7
+        },
+        "metrics_after": {
+          "num_arms": 6,
+          "arm_length_m": 0.17,
+          "total_diameter_m": 0.49,
+          "motor_id": "m_1806_2300kv",
+          "motor_name": "1806 2300KV Micro Motor",
+          "prop_id": "p_0504",
+          "prop_name": "5x4.5 inch Propeller",
+          "battery_id": "b_6s_5000mah",
+          "battery_name": "6S 22.2V 5000mAh LiPo",
+          "total_mass_g": 1115.0,
+          "max_thrust_g": 2700,
+          "thrust_to_weight_ratio": 2.42,
+          "estimated_flight_time_min": 35.49,
+          "fitness": 362.6
+        },
+        "fitness_delta": 6.9
+      }
+    ],
+    "lineage_trail": [
+      {
+        "individual_id": "gen0_ind_27",
+        "generation": 0,
+        "parent_id": null,
+        "mutation_type": "seed",
+        "metrics": {
+          "num_arms": 6,
+          "arm_length_m": 0.17,
+          "total_diameter_m": 0.49,
+          "motor_id": "m_1806_2300kv",
+          "motor_name": "1806 2300KV Micro Motor",
+          "prop_id": "p_0504",
+          "prop_name": "5x4.5 inch Propeller",
+          "battery_id": "b_3s_2200mah",
+          "battery_name": "3S 11.1V 2200mAh LiPo",
+          "total_mass_g": 580.0,
+          "max_thrust_g": 2700,
+          "thrust_to_weight_ratio": 4.66,
+          "estimated_flight_time_min": 14.88,
+          "fitness": 137.2
         },
         "rationales": [
           "\u59cb\u7956\u7a2e\u5b50\u500b\u9ad4"
+        ]
+      },
+      {
+        "individual_id": "gen1_ind_5",
+        "generation": 1,
+        "parent_id": "gen0_ind_27",
+        "mutation_type": "battery",
+        "metrics": {
+          "num_arms": 6,
+          "arm_length_m": 0.17,
+          "total_diameter_m": 0.49,
+          "motor_id": "m_1806_2300kv",
+          "motor_name": "1806 2300KV Micro Motor",
+          "prop_id": "p_0504",
+          "prop_name": "5x4.5 inch Propeller",
+          "battery_id": "b_6s_5000mah",
+          "battery_name": "6S 22.2V 5000mAh LiPo",
+          "total_mass_g": 1115.0,
+          "max_thrust_g": 2700,
+          "thrust_to_weight_ratio": 2.42,
+          "estimated_flight_time_min": 35.49,
+          "fitness": 362.6
+        },
+        "rationales": [
+          "\u66f4\u63db 6S 22.2V 5000mAh LiPo \u96fb\u6c60\uff1a\u539f\u7e8c\u822a 14.9min\uff0c\u6539\u5584\u5f8c\u7e8c\u822a\u63d0\u5347\u81f3 35.5min (+20.6min)"
         ]
       }
     ],
@@ -102,16 +248,16 @@
       "summary": {
         "population_size": 30,
         "generations": 15,
-        "initial_fitness": 367.3,
-        "final_fitness": 367.3,
-        "fitness_improvement": 0.0,
-        "total_breakthroughs": 1
+        "initial_fitness": 355.7,
+        "final_fitness": 362.6,
+        "fitness_improvement": 6.9,
+        "total_breakthroughs": 2
       },
       "breakthrough_trail": [
         {
           "generation": 0,
-          "previous_best_score": 367.3,
-          "new_best_score": 367.3,
+          "previous_best_score": 355.7,
+          "new_best_score": 355.7,
           "delta_score": 0.0,
           "metrics_before": null,
           "metrics_after": {
@@ -120,18 +266,18 @@
             "total_diameter_m": 0.47,
             "motor_id": "m_1806_2300kv",
             "motor_name": "1806 2300KV Micro Motor",
-            "prop_id": "p_0504",
-            "prop_name": "5x4.5 inch Propeller",
+            "prop_id": "p_1045",
+            "prop_name": "10x4.5 inch Propeller",
             "battery_id": "b_6s_5000mah",
             "battery_name": "6S 22.2V 5000mAh LiPo",
-            "total_mass_g": 1020.0,
+            "total_mass_g": 1050.0,
             "max_thrust_g": 1800,
-            "thrust_to_weight_ratio": 1.76,
-            "estimated_flight_time_min": 38.77,
-            "fitness": 367.3
+            "thrust_to_weight_ratio": 1.71,
+            "estimated_flight_time_min": 37.67,
+            "fitness": 355.7
           },
           "rationales": [
-            "\u521d\u59cb\u96a8\u6a5f\u7a2e\u5b50\u6700\u512a\u500b\u9ad4\uff1a\u9078\u5b9a 4 \u8ef8\u6a5f\u67b6\uff0c\u6a5f\u81c2\u9577\u5ea6 0.16m (\u76f4\u5f91 0.47m)\uff0c\u9078\u914d 1806 2300KV Micro Motor + 5x4.5 inch Propeller + 6S 22.2V 5000mAh LiPo\u3002\u521d\u671f\u6307\u6a19\uff1aTWR=1.76\u3001\u7e8c\u822a=38.8min\u3001\u8cea\u91cf=1020.0g\uff0c\u521d\u59cb\u9069\u61c9\u5ea6: 367.3"
+            "\u521d\u59cb\u96a8\u6a5f\u7a2e\u5b50\u6700\u512a\u500b\u9ad4\uff1a\u9078\u5b9a 4 \u8ef8\u6a5f\u67b6\uff0c\u6a5f\u81c2\u9577\u5ea6 0.16m (\u76f4\u5f91 0.47m)\uff0c\u9078\u914d 1806 2300KV Micro Motor + 10x4.5 inch Propeller + 6S 22.2V 5000mAh LiPo\u3002\u521d\u671f\u6307\u6a19\uff1aTWR=1.71\u3001\u7e8c\u822a=37.7min\u3001\u8cea\u91cf=1050.0g\uff0c\u521d\u59cb\u9069\u61c9\u5ea6: 355.7"
           ],
           "decisions": [
             {
@@ -139,7 +285,7 @@
               "component": "seed_initialization",
               "action": "initial_seed",
               "change": "random_seed -> gen0_elite",
-              "rationale": "\u521d\u59cb\u96a8\u6a5f\u7a2e\u5b50\u6700\u512a\u500b\u9ad4\uff1a\u9078\u5b9a 4 \u8ef8\u6a5f\u67b6\uff0c\u6a5f\u81c2\u9577\u5ea6 0.16m (\u76f4\u5f91 0.47m)\uff0c\u9078\u914d 1806 2300KV Micro Motor + 5x4.5 inch Propeller + 6S 22.2V 5000mAh LiPo\u3002\u521d\u671f\u6307\u6a19\uff1aTWR=1.76\u3001\u7e8c\u822a=38.8min\u3001\u8cea\u91cf=1020.0g\uff0c\u521d\u59cb\u9069\u61c9\u5ea6: 367.3",
+              "rationale": "\u521d\u59cb\u96a8\u6a5f\u7a2e\u5b50\u6700\u512a\u500b\u9ad4\uff1a\u9078\u5b9a 4 \u8ef8\u6a5f\u67b6\uff0c\u6a5f\u81c2\u9577\u5ea6 0.16m (\u76f4\u5f91 0.47m)\uff0c\u9078\u914d 1806 2300KV Micro Motor + 10x4.5 inch Propeller + 6S 22.2V 5000mAh LiPo\u3002\u521d\u671f\u6307\u6a19\uff1aTWR=1.71\u3001\u7e8c\u822a=37.7min\u3001\u8cea\u91cf=1050.0g\uff0c\u521d\u59cb\u9069\u61c9\u5ea6: 355.7",
               "metrics_before": null,
               "metrics_after": {
                 "num_arms": 4,
@@ -147,138 +293,328 @@
                 "total_diameter_m": 0.47,
                 "motor_id": "m_1806_2300kv",
                 "motor_name": "1806 2300KV Micro Motor",
-                "prop_id": "p_0504",
-                "prop_name": "5x4.5 inch Propeller",
+                "prop_id": "p_1045",
+                "prop_name": "10x4.5 inch Propeller",
                 "battery_id": "b_6s_5000mah",
                 "battery_name": "6S 22.2V 5000mAh LiPo",
-                "total_mass_g": 1020.0,
+                "total_mass_g": 1050.0,
                 "max_thrust_g": 1800,
-                "thrust_to_weight_ratio": 1.76,
-                "estimated_flight_time_min": 38.77,
-                "fitness": 367.3
+                "thrust_to_weight_ratio": 1.71,
+                "estimated_flight_time_min": 37.67,
+                "fitness": 355.7
               },
-              "fitness_delta": 367.3
+              "fitness_delta": 355.7
             }
           ]
-        }
-      ],
-      "direct_lineage": [
+        },
         {
-          "individual_id": "gen0_ind_4",
-          "generation": 0,
-          "parent_id": null,
-          "mutation_type": "seed",
-          "metrics": {
+          "generation": 1,
+          "previous_best_score": 355.7,
+          "new_best_score": 362.6,
+          "delta_score": 6.9,
+          "metrics_before": {
             "num_arms": 4,
             "arm_length_m": 0.16,
             "total_diameter_m": 0.47,
+            "motor_id": "m_1806_2300kv",
+            "motor_name": "1806 2300KV Micro Motor",
+            "prop_id": "p_1045",
+            "prop_name": "10x4.5 inch Propeller",
+            "battery_id": "b_6s_5000mah",
+            "battery_name": "6S 22.2V 5000mAh LiPo",
+            "total_mass_g": 1050.0,
+            "max_thrust_g": 1800,
+            "thrust_to_weight_ratio": 1.71,
+            "estimated_flight_time_min": 37.67,
+            "fitness": 355.7
+          },
+          "metrics_after": {
+            "num_arms": 6,
+            "arm_length_m": 0.17,
+            "total_diameter_m": 0.49,
             "motor_id": "m_1806_2300kv",
             "motor_name": "1806 2300KV Micro Motor",
             "prop_id": "p_0504",
             "prop_name": "5x4.5 inch Propeller",
             "battery_id": "b_6s_5000mah",
             "battery_name": "6S 22.2V 5000mAh LiPo",
-            "total_mass_g": 1020.0,
-            "max_thrust_g": 1800,
-            "thrust_to_weight_ratio": 1.76,
-            "estimated_flight_time_min": 38.77,
-            "fitness": 367.3
+            "total_mass_g": 1115.0,
+            "max_thrust_g": 2700,
+            "thrust_to_weight_ratio": 2.42,
+            "estimated_flight_time_min": 35.49,
+            "fitness": 362.6
+          },
+          "rationales": [
+            "\u5fae\u8abf\u6a5f\u81c2\u9577\u5ea6 (0.16m -> 0.17m)\uff1a\u64f4\u5927\u65cb\u7ffc\u8ef8\u8ddd\u7a69\u5b9a\u6027\uff0c\u76f4\u5f91\u4fdd\u6301\u5728\u7a7a\u9593\u9650\u5236\u5167 (0.49m <= 0.60m)",
+            "\u66f4\u63db 1806 2300KV Micro Motor \u99ac\u9054 + 5x4.5 inch Propeller \u69f3\uff1a\u63a8\u91cd\u6bd4\u7531 TWR=1.71 \u8abf\u6821\u70ba TWR=2.42\uff0c\u9032\u5165\u6700\u4f73\u5340\u9593 (+30 \u5206)",
+            "\u8abf\u6574\u65cb\u7ffc\u4f48\u5c40 (4 \u8ef8 -> 6 \u8ef8)\uff1a\u63a8\u529b\u8abf\u6574\u81f3 2700g\uff0c\u6574\u6a5f\u8cea\u91cf\u8b8a\u66f4\u70ba 1115.0g"
+          ],
+          "decisions": [
+            {
+              "generation": 1,
+              "component": "arm_length",
+              "action": "expand_arm_stability",
+              "change": "0.16m -> 0.17m",
+              "rationale": "\u5fae\u8abf\u6a5f\u81c2\u9577\u5ea6 (0.16m -> 0.17m)\uff1a\u64f4\u5927\u65cb\u7ffc\u8ef8\u8ddd\u7a69\u5b9a\u6027\uff0c\u76f4\u5f91\u4fdd\u6301\u5728\u7a7a\u9593\u9650\u5236\u5167 (0.49m <= 0.60m)",
+              "metrics_before": {
+                "num_arms": 4,
+                "arm_length_m": 0.16,
+                "total_diameter_m": 0.47,
+                "motor_id": "m_1806_2300kv",
+                "motor_name": "1806 2300KV Micro Motor",
+                "prop_id": "p_1045",
+                "prop_name": "10x4.5 inch Propeller",
+                "battery_id": "b_6s_5000mah",
+                "battery_name": "6S 22.2V 5000mAh LiPo",
+                "total_mass_g": 1050.0,
+                "max_thrust_g": 1800,
+                "thrust_to_weight_ratio": 1.71,
+                "estimated_flight_time_min": 37.67,
+                "fitness": 355.7
+              },
+              "metrics_after": {
+                "num_arms": 6,
+                "arm_length_m": 0.17,
+                "total_diameter_m": 0.49,
+                "motor_id": "m_1806_2300kv",
+                "motor_name": "1806 2300KV Micro Motor",
+                "prop_id": "p_0504",
+                "prop_name": "5x4.5 inch Propeller",
+                "battery_id": "b_6s_5000mah",
+                "battery_name": "6S 22.2V 5000mAh LiPo",
+                "total_mass_g": 1115.0,
+                "max_thrust_g": 2700,
+                "thrust_to_weight_ratio": 2.42,
+                "estimated_flight_time_min": 35.49,
+                "fitness": 362.6
+              },
+              "fitness_delta": 6.9
+            },
+            {
+              "generation": 1,
+              "component": "propulsion",
+              "action": "twr_enter_optimal",
+              "change": "m_1806_2300kv+p_1045 -> m_1806_2300kv+p_0504",
+              "rationale": "\u66f4\u63db 1806 2300KV Micro Motor \u99ac\u9054 + 5x4.5 inch Propeller \u69f3\uff1a\u63a8\u91cd\u6bd4\u7531 TWR=1.71 \u8abf\u6821\u70ba TWR=2.42\uff0c\u9032\u5165\u6700\u4f73\u5340\u9593 (+30 \u5206)",
+              "metrics_before": {
+                "num_arms": 4,
+                "arm_length_m": 0.16,
+                "total_diameter_m": 0.47,
+                "motor_id": "m_1806_2300kv",
+                "motor_name": "1806 2300KV Micro Motor",
+                "prop_id": "p_1045",
+                "prop_name": "10x4.5 inch Propeller",
+                "battery_id": "b_6s_5000mah",
+                "battery_name": "6S 22.2V 5000mAh LiPo",
+                "total_mass_g": 1050.0,
+                "max_thrust_g": 1800,
+                "thrust_to_weight_ratio": 1.71,
+                "estimated_flight_time_min": 37.67,
+                "fitness": 355.7
+              },
+              "metrics_after": {
+                "num_arms": 6,
+                "arm_length_m": 0.17,
+                "total_diameter_m": 0.49,
+                "motor_id": "m_1806_2300kv",
+                "motor_name": "1806 2300KV Micro Motor",
+                "prop_id": "p_0504",
+                "prop_name": "5x4.5 inch Propeller",
+                "battery_id": "b_6s_5000mah",
+                "battery_name": "6S 22.2V 5000mAh LiPo",
+                "total_mass_g": 1115.0,
+                "max_thrust_g": 2700,
+                "thrust_to_weight_ratio": 2.42,
+                "estimated_flight_time_min": 35.49,
+                "fitness": 362.6
+              },
+              "fitness_delta": 6.9
+            },
+            {
+              "generation": 1,
+              "component": "num_arms",
+              "action": "reconfigure_arms",
+              "change": "4 -> 6",
+              "rationale": "\u8abf\u6574\u65cb\u7ffc\u4f48\u5c40 (4 \u8ef8 -> 6 \u8ef8)\uff1a\u63a8\u529b\u8abf\u6574\u81f3 2700g\uff0c\u6574\u6a5f\u8cea\u91cf\u8b8a\u66f4\u70ba 1115.0g",
+              "metrics_before": {
+                "num_arms": 4,
+                "arm_length_m": 0.16,
+                "total_diameter_m": 0.47,
+                "motor_id": "m_1806_2300kv",
+                "motor_name": "1806 2300KV Micro Motor",
+                "prop_id": "p_1045",
+                "prop_name": "10x4.5 inch Propeller",
+                "battery_id": "b_6s_5000mah",
+                "battery_name": "6S 22.2V 5000mAh LiPo",
+                "total_mass_g": 1050.0,
+                "max_thrust_g": 1800,
+                "thrust_to_weight_ratio": 1.71,
+                "estimated_flight_time_min": 37.67,
+                "fitness": 355.7
+              },
+              "metrics_after": {
+                "num_arms": 6,
+                "arm_length_m": 0.17,
+                "total_diameter_m": 0.49,
+                "motor_id": "m_1806_2300kv",
+                "motor_name": "1806 2300KV Micro Motor",
+                "prop_id": "p_0504",
+                "prop_name": "5x4.5 inch Propeller",
+                "battery_id": "b_6s_5000mah",
+                "battery_name": "6S 22.2V 5000mAh LiPo",
+                "total_mass_g": 1115.0,
+                "max_thrust_g": 2700,
+                "thrust_to_weight_ratio": 2.42,
+                "estimated_flight_time_min": 35.49,
+                "fitness": 362.6
+              },
+              "fitness_delta": 6.9
+            }
+          ]
+        }
+      ],
+      "direct_lineage": [
+        {
+          "individual_id": "gen0_ind_27",
+          "generation": 0,
+          "parent_id": null,
+          "mutation_type": "seed",
+          "metrics": {
+            "num_arms": 6,
+            "arm_length_m": 0.17,
+            "total_diameter_m": 0.49,
+            "motor_id": "m_1806_2300kv",
+            "motor_name": "1806 2300KV Micro Motor",
+            "prop_id": "p_0504",
+            "prop_name": "5x4.5 inch Propeller",
+            "battery_id": "b_3s_2200mah",
+            "battery_name": "3S 11.1V 2200mAh LiPo",
+            "total_mass_g": 580.0,
+            "max_thrust_g": 2700,
+            "thrust_to_weight_ratio": 4.66,
+            "estimated_flight_time_min": 14.88,
+            "fitness": 137.2
           },
           "rationales": [
             "\u59cb\u7956\u7a2e\u5b50\u500b\u9ad4"
+          ]
+        },
+        {
+          "individual_id": "gen1_ind_5",
+          "generation": 1,
+          "parent_id": "gen0_ind_27",
+          "mutation_type": "battery",
+          "metrics": {
+            "num_arms": 6,
+            "arm_length_m": 0.17,
+            "total_diameter_m": 0.49,
+            "motor_id": "m_1806_2300kv",
+            "motor_name": "1806 2300KV Micro Motor",
+            "prop_id": "p_0504",
+            "prop_name": "5x4.5 inch Propeller",
+            "battery_id": "b_6s_5000mah",
+            "battery_name": "6S 22.2V 5000mAh LiPo",
+            "total_mass_g": 1115.0,
+            "max_thrust_g": 2700,
+            "thrust_to_weight_ratio": 2.42,
+            "estimated_flight_time_min": 35.49,
+            "fitness": 362.6
+          },
+          "rationales": [
+            "\u66f4\u63db 6S 22.2V 5000mAh LiPo \u96fb\u6c60\uff1a\u539f\u7e8c\u822a 14.9min\uff0c\u6539\u5584\u5f8c\u7e8c\u822a\u63d0\u5347\u81f3 35.5min (+20.6min)"
           ]
         }
       ],
       "generations_summary": [
         {
           "generation": 0,
-          "max_fitness": 367.3,
-          "avg_fitness": -245.56,
-          "min_fitness": -345.0
+          "max_fitness": 355.7,
+          "avg_fitness": -221.73,
+          "min_fitness": -343.0
         },
         {
           "generation": 1,
-          "max_fitness": 367.3,
-          "avg_fitness": -90.41,
-          "min_fitness": -317.0
+          "max_fitness": 362.6,
+          "avg_fitness": -36.24,
+          "min_fitness": -313.0
         },
         {
           "generation": 2,
-          "max_fitness": 367.3,
-          "avg_fitness": 56.94,
-          "min_fitness": -311.0
+          "max_fitness": 362.6,
+          "avg_fitness": 185.83,
+          "min_fitness": 58.77
         },
         {
           "generation": 3,
-          "max_fitness": 367.3,
-          "avg_fitness": 279.97,
-          "min_fitness": 105.68
+          "max_fitness": 362.6,
+          "avg_fitness": 236.43,
+          "min_fitness": -303.0
         },
         {
           "generation": 4,
-          "max_fitness": 367.3,
-          "avg_fitness": 315.35,
-          "min_fitness": 130.7
+          "max_fitness": 362.6,
+          "avg_fitness": 310.05,
+          "min_fitness": 88.68
         },
         {
           "generation": 5,
-          "max_fitness": 367.3,
-          "avg_fitness": 316.34,
-          "min_fitness": 130.7
+          "max_fitness": 362.6,
+          "avg_fitness": 271.27,
+          "min_fitness": 93.8
         },
         {
           "generation": 6,
-          "max_fitness": 367.3,
-          "avg_fitness": 309.47,
-          "min_fitness": 130.7
+          "max_fitness": 362.6,
+          "avg_fitness": 195.66,
+          "min_fitness": -303.0
         },
         {
           "generation": 7,
-          "max_fitness": 367.3,
-          "avg_fitness": 268.4,
-          "min_fitness": -309.0
+          "max_fitness": 362.6,
+          "avg_fitness": 219.65,
+          "min_fitness": -307.0
         },
         {
           "generation": 8,
-          "max_fitness": 367.3,
-          "avg_fitness": 292.72,
-          "min_fitness": 130.7
+          "max_fitness": 362.6,
+          "avg_fitness": 289.15,
+          "min_fitness": 58.77
         },
         {
           "generation": 9,
-          "max_fitness": 367.3,
-          "avg_fitness": 319.25,
-          "min_fitness": 121.1
+          "max_fitness": 362.6,
+          "avg_fitness": 284.27,
+          "min_fitness": -301.0
         },
         {
           "generation": 10,
-          "max_fitness": 367.3,
-          "avg_fitness": 307.16,
-          "min_fitness": 121.1
-        },
-        {
-          "generation": 11,
-          "max_fitness": 367.3,
-          "avg_fitness": 305.7,
-          "min_fitness": 130.7
-        },
-        {
-          "generation": 12,
-          "max_fitness": 367.3,
-          "avg_fitness": 320.09,
-          "min_fitness": 130.7
-        },
-        {
-          "generation": 13,
-          "max_fitness": 367.3,
-          "avg_fitness": 275.74,
+          "max_fitness": 362.6,
+          "avg_fitness": 246.32,
           "min_fitness": -305.0
         },
         {
+          "generation": 11,
+          "max_fitness": 362.6,
+          "avg_fitness": 287.88,
+          "min_fitness": 93.8
+        },
+        {
+          "generation": 12,
+          "max_fitness": 362.6,
+          "avg_fitness": 287.04,
+          "min_fitness": 93.8
+        },
+        {
+          "generation": 13,
+          "max_fitness": 362.6,
+          "avg_fitness": 264.66,
+          "min_fitness": -307.0
+        },
+        {
           "generation": 14,
-          "max_fitness": 367.3,
-          "avg_fitness": 306.45,
-          "min_fitness": 130.7
+          "max_fitness": 362.6,
+          "avg_fitness": 271.37,
+          "min_fitness": -305.0
         }
       ]
     },
@@ -288,23 +624,24 @@
     }
   },
   "drone_stats": {
-    "num_arms": 4,
-    "arm_length_m": 0.16,
-    "total_diameter_m": 0.47,
+    "num_arms": 6,
+    "arm_length_m": 0.17,
+    "total_diameter_m": 0.49,
     "motor_id": "m_1806_2300kv",
     "motor_name": "1806 2300KV Micro Motor",
     "prop_id": "p_0504",
     "prop_name": "5x4.5 inch Propeller",
     "battery_id": "b_6s_5000mah",
     "battery_name": "6S 22.2V 5000mAh LiPo",
-    "total_mass_g": 1020.0,
-    "max_thrust_g": 1800,
-    "thrust_to_weight_ratio": 1.76,
-    "estimated_flight_time_min": 38.77,
-    "fitness": 367.3
+    "total_mass_g": 1115.0,
+    "max_thrust_g": 2700,
+    "thrust_to_weight_ratio": 2.42,
+    "estimated_flight_time_min": 35.49,
+    "fitness": 362.6
   },
   "evolution_reasoning_log": [
-    "[Gen 0 \u521d\u59cb\u7a2e\u5b50\u5960\u5b9a] \u521d\u59cb\u96a8\u6a5f\u7a2e\u5b50\u6700\u512a\u500b\u9ad4\uff1a\u9078\u5b9a 4 \u8ef8\u6a5f\u67b6\uff0c\u6a5f\u81c2\u9577\u5ea6 0.16m (\u76f4\u5f91 0.47m)\uff0c\u9078\u914d 1806 2300KV Micro Motor + 5x4.5 inch Propeller + 6S 22.2V 5000mAh LiPo\u3002\u521d\u671f\u6307\u6a19\uff1aTWR=1.76\u3001\u7e8c\u822a=38.8min\u3001\u8cea\u91cf=1020.0g\uff0c\u521d\u59cb\u9069\u61c9\u5ea6: 367.3"
+    "[Gen 0 \u521d\u59cb\u7a2e\u5b50\u5960\u5b9a] \u521d\u59cb\u96a8\u6a5f\u7a2e\u5b50\u6700\u512a\u500b\u9ad4\uff1a\u9078\u5b9a 4 \u8ef8\u6a5f\u67b6\uff0c\u6a5f\u81c2\u9577\u5ea6 0.16m (\u76f4\u5f91 0.47m)\uff0c\u9078\u914d 1806 2300KV Micro Motor + 10x4.5 inch Propeller + 6S 22.2V 5000mAh LiPo\u3002\u521d\u671f\u6307\u6a19\uff1aTWR=1.71\u3001\u7e8c\u822a=37.7min\u3001\u8cea\u91cf=1050.0g\uff0c\u521d\u59cb\u9069\u61c9\u5ea6: 355.7",
+    "[Gen 1 \u4e16\u4ee3\u8e8d\u9077\u7a81\u7834] \u5fae\u8abf\u6a5f\u81c2\u9577\u5ea6 (0.16m -> 0.17m)\uff1a\u64f4\u5927\u65cb\u7ffc\u8ef8\u8ddd\u7a69\u5b9a\u6027\uff0c\u76f4\u5f91\u4fdd\u6301\u5728\u7a7a\u9593\u9650\u5236\u5167 (0.49m <= 0.60m)\uff1b\u66f4\u63db 1806 2300KV Micro Motor \u99ac\u9054 + 5x4.5 inch Propeller \u69f3\uff1a\u63a8\u91cd\u6bd4\u7531 TWR=1.71 \u8abf\u6821\u70ba TWR=2.42\uff0c\u9032\u5165\u6700\u4f73\u5340\u9593 (+30 \u5206)\uff1b\u8abf\u6574\u65cb\u7ffc\u4f48\u5c40 (4 \u8ef8 -> 6 \u8ef8)\uff1a\u63a8\u529b\u8abf\u6574\u81f3 2700g\uff0c\u6574\u6a5f\u8cea\u91cf\u8b8a\u66f4\u70ba 1115.0g\u3002\u9069\u61c9\u5ea6\u7531 355.7 \u63d0\u5347\u81f3 362.6 (+6.9 \u5206)"
   ],
   "morph_decisions": [
     {
@@ -312,7 +649,7 @@
       "component": "seed_initialization",
       "action": "initial_seed",
       "change": "random_seed -> gen0_elite",
-      "rationale": "\u521d\u59cb\u96a8\u6a5f\u7a2e\u5b50\u6700\u512a\u500b\u9ad4\uff1a\u9078\u5b9a 4 \u8ef8\u6a5f\u67b6\uff0c\u6a5f\u81c2\u9577\u5ea6 0.16m (\u76f4\u5f91 0.47m)\uff0c\u9078\u914d 1806 2300KV Micro Motor + 5x4.5 inch Propeller + 6S 22.2V 5000mAh LiPo\u3002\u521d\u671f\u6307\u6a19\uff1aTWR=1.76\u3001\u7e8c\u822a=38.8min\u3001\u8cea\u91cf=1020.0g\uff0c\u521d\u59cb\u9069\u61c9\u5ea6: 367.3",
+      "rationale": "\u521d\u59cb\u96a8\u6a5f\u7a2e\u5b50\u6700\u512a\u500b\u9ad4\uff1a\u9078\u5b9a 4 \u8ef8\u6a5f\u67b6\uff0c\u6a5f\u81c2\u9577\u5ea6 0.16m (\u76f4\u5f91 0.47m)\uff0c\u9078\u914d 1806 2300KV Micro Motor + 10x4.5 inch Propeller + 6S 22.2V 5000mAh LiPo\u3002\u521d\u671f\u6307\u6a19\uff1aTWR=1.71\u3001\u7e8c\u822a=37.7min\u3001\u8cea\u91cf=1050.0g\uff0c\u521d\u59cb\u9069\u61c9\u5ea6: 355.7",
       "metrics_before": null,
       "metrics_after": {
         "num_arms": 4,
@@ -320,17 +657,137 @@
         "total_diameter_m": 0.47,
         "motor_id": "m_1806_2300kv",
         "motor_name": "1806 2300KV Micro Motor",
+        "prop_id": "p_1045",
+        "prop_name": "10x4.5 inch Propeller",
+        "battery_id": "b_6s_5000mah",
+        "battery_name": "6S 22.2V 5000mAh LiPo",
+        "total_mass_g": 1050.0,
+        "max_thrust_g": 1800,
+        "thrust_to_weight_ratio": 1.71,
+        "estimated_flight_time_min": 37.67,
+        "fitness": 355.7
+      },
+      "fitness_delta": 355.7
+    },
+    {
+      "generation": 1,
+      "component": "arm_length",
+      "action": "expand_arm_stability",
+      "change": "0.16m -> 0.17m",
+      "rationale": "\u5fae\u8abf\u6a5f\u81c2\u9577\u5ea6 (0.16m -> 0.17m)\uff1a\u64f4\u5927\u65cb\u7ffc\u8ef8\u8ddd\u7a69\u5b9a\u6027\uff0c\u76f4\u5f91\u4fdd\u6301\u5728\u7a7a\u9593\u9650\u5236\u5167 (0.49m <= 0.60m)",
+      "metrics_before": {
+        "num_arms": 4,
+        "arm_length_m": 0.16,
+        "total_diameter_m": 0.47,
+        "motor_id": "m_1806_2300kv",
+        "motor_name": "1806 2300KV Micro Motor",
+        "prop_id": "p_1045",
+        "prop_name": "10x4.5 inch Propeller",
+        "battery_id": "b_6s_5000mah",
+        "battery_name": "6S 22.2V 5000mAh LiPo",
+        "total_mass_g": 1050.0,
+        "max_thrust_g": 1800,
+        "thrust_to_weight_ratio": 1.71,
+        "estimated_flight_time_min": 37.67,
+        "fitness": 355.7
+      },
+      "metrics_after": {
+        "num_arms": 6,
+        "arm_length_m": 0.17,
+        "total_diameter_m": 0.49,
+        "motor_id": "m_1806_2300kv",
+        "motor_name": "1806 2300KV Micro Motor",
         "prop_id": "p_0504",
         "prop_name": "5x4.5 inch Propeller",
         "battery_id": "b_6s_5000mah",
         "battery_name": "6S 22.2V 5000mAh LiPo",
-        "total_mass_g": 1020.0,
-        "max_thrust_g": 1800,
-        "thrust_to_weight_ratio": 1.76,
-        "estimated_flight_time_min": 38.77,
-        "fitness": 367.3
+        "total_mass_g": 1115.0,
+        "max_thrust_g": 2700,
+        "thrust_to_weight_ratio": 2.42,
+        "estimated_flight_time_min": 35.49,
+        "fitness": 362.6
       },
-      "fitness_delta": 367.3
+      "fitness_delta": 6.9
+    },
+    {
+      "generation": 1,
+      "component": "propulsion",
+      "action": "twr_enter_optimal",
+      "change": "m_1806_2300kv+p_1045 -> m_1806_2300kv+p_0504",
+      "rationale": "\u66f4\u63db 1806 2300KV Micro Motor \u99ac\u9054 + 5x4.5 inch Propeller \u69f3\uff1a\u63a8\u91cd\u6bd4\u7531 TWR=1.71 \u8abf\u6821\u70ba TWR=2.42\uff0c\u9032\u5165\u6700\u4f73\u5340\u9593 (+30 \u5206)",
+      "metrics_before": {
+        "num_arms": 4,
+        "arm_length_m": 0.16,
+        "total_diameter_m": 0.47,
+        "motor_id": "m_1806_2300kv",
+        "motor_name": "1806 2300KV Micro Motor",
+        "prop_id": "p_1045",
+        "prop_name": "10x4.5 inch Propeller",
+        "battery_id": "b_6s_5000mah",
+        "battery_name": "6S 22.2V 5000mAh LiPo",
+        "total_mass_g": 1050.0,
+        "max_thrust_g": 1800,
+        "thrust_to_weight_ratio": 1.71,
+        "estimated_flight_time_min": 37.67,
+        "fitness": 355.7
+      },
+      "metrics_after": {
+        "num_arms": 6,
+        "arm_length_m": 0.17,
+        "total_diameter_m": 0.49,
+        "motor_id": "m_1806_2300kv",
+        "motor_name": "1806 2300KV Micro Motor",
+        "prop_id": "p_0504",
+        "prop_name": "5x4.5 inch Propeller",
+        "battery_id": "b_6s_5000mah",
+        "battery_name": "6S 22.2V 5000mAh LiPo",
+        "total_mass_g": 1115.0,
+        "max_thrust_g": 2700,
+        "thrust_to_weight_ratio": 2.42,
+        "estimated_flight_time_min": 35.49,
+        "fitness": 362.6
+      },
+      "fitness_delta": 6.9
+    },
+    {
+      "generation": 1,
+      "component": "num_arms",
+      "action": "reconfigure_arms",
+      "change": "4 -> 6",
+      "rationale": "\u8abf\u6574\u65cb\u7ffc\u4f48\u5c40 (4 \u8ef8 -> 6 \u8ef8)\uff1a\u63a8\u529b\u8abf\u6574\u81f3 2700g\uff0c\u6574\u6a5f\u8cea\u91cf\u8b8a\u66f4\u70ba 1115.0g",
+      "metrics_before": {
+        "num_arms": 4,
+        "arm_length_m": 0.16,
+        "total_diameter_m": 0.47,
+        "motor_id": "m_1806_2300kv",
+        "motor_name": "1806 2300KV Micro Motor",
+        "prop_id": "p_1045",
+        "prop_name": "10x4.5 inch Propeller",
+        "battery_id": "b_6s_5000mah",
+        "battery_name": "6S 22.2V 5000mAh LiPo",
+        "total_mass_g": 1050.0,
+        "max_thrust_g": 1800,
+        "thrust_to_weight_ratio": 1.71,
+        "estimated_flight_time_min": 37.67,
+        "fitness": 355.7
+      },
+      "metrics_after": {
+        "num_arms": 6,
+        "arm_length_m": 0.17,
+        "total_diameter_m": 0.49,
+        "motor_id": "m_1806_2300kv",
+        "motor_name": "1806 2300KV Micro Motor",
+        "prop_id": "p_0504",
+        "prop_name": "5x4.5 inch Propeller",
+        "battery_id": "b_6s_5000mah",
+        "battery_name": "6S 22.2V 5000mAh LiPo",
+        "total_mass_g": 1115.0,
+        "max_thrust_g": 2700,
+        "thrust_to_weight_ratio": 2.42,
+        "estimated_flight_time_min": 35.49,
+        "fitness": 362.6
+      },
+      "fitness_delta": 6.9
     }
   ],
   "generated_files": {

@@ -37,7 +37,7 @@
     </inertial>
     <visual>
       <geometry>
-        <cylinder length="0.160" radius="0.01"/>
+        <cylinder length="0.170" radius="0.01"/>
       </geometry>
       <material name="carbon"><color rgba="0.1 0.1 0.1 1.0"/></material>
     </visual>
@@ -45,7 +45,7 @@
   <joint name="joint_base_arm_0" type="fixed">
     <parent link="base_link"/>
     <child link="arm_0"/>
-    <origin xyz="0.0800 0.0000 0.0" rpy="0 1.5708 0.0000"/>
+    <origin xyz="0.0850 0.0000 0.0" rpy="0 1.5708 0.0000"/>
   </joint>
   <!-- Arm 1 -->
   <link name="arm_1">
@@ -55,7 +55,7 @@
     </inertial>
     <visual>
       <geometry>
-        <cylinder length="0.160" radius="0.01"/>
+        <cylinder length="0.170" radius="0.01"/>
       </geometry>
       <material name="carbon"><color rgba="0.1 0.1 0.1 1.0"/></material>
     </visual>
@@ -63,7 +63,7 @@
   <joint name="joint_base_arm_1" type="fixed">
     <parent link="base_link"/>
     <child link="arm_1"/>
-    <origin xyz="0.0000 0.0800 0.0" rpy="0 1.5708 1.5708"/>
+    <origin xyz="0.0425 0.0736 0.0" rpy="0 1.5708 1.0472"/>
   </joint>
   <!-- Arm 2 -->
   <link name="arm_2">
@@ -73,7 +73,7 @@
     </inertial>
     <visual>
       <geometry>
-        <cylinder length="0.160" radius="0.01"/>
+        <cylinder length="0.170" radius="0.01"/>
       </geometry>
       <material name="carbon"><color rgba="0.1 0.1 0.1 1.0"/></material>
     </visual>
@@ -81,7 +81,7 @@
   <joint name="joint_base_arm_2" type="fixed">
     <parent link="base_link"/>
     <child link="arm_2"/>
-    <origin xyz="-0.0800 0.0000 0.0" rpy="0 1.5708 3.1416"/>
+    <origin xyz="-0.0425 0.0736 0.0" rpy="0 1.5708 2.0944"/>
   </joint>
   <!-- Arm 3 -->
   <link name="arm_3">
@@ -91,7 +91,7 @@
     </inertial>
     <visual>
       <geometry>
-        <cylinder length="0.160" radius="0.01"/>
+        <cylinder length="0.170" radius="0.01"/>
       </geometry>
       <material name="carbon"><color rgba="0.1 0.1 0.1 1.0"/></material>
     </visual>
@@ -99,7 +99,43 @@
   <joint name="joint_base_arm_3" type="fixed">
     <parent link="base_link"/>
     <child link="arm_3"/>
-    <origin xyz="-0.0000 -0.0800 0.0" rpy="0 1.5708 4.7124"/>
+    <origin xyz="-0.0850 0.0000 0.0" rpy="0 1.5708 3.1416"/>
+  </joint>
+  <!-- Arm 4 -->
+  <link name="arm_4">
+    <inertial>
+      <mass value="0.0225"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0002"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <cylinder length="0.170" radius="0.01"/>
+      </geometry>
+      <material name="carbon"><color rgba="0.1 0.1 0.1 1.0"/></material>
+    </visual>
+  </link>
+  <joint name="joint_base_arm_4" type="fixed">
+    <parent link="base_link"/>
+    <child link="arm_4"/>
+    <origin xyz="-0.0425 -0.0736 0.0" rpy="0 1.5708 4.1888"/>
+  </joint>
+  <!-- Arm 5 -->
+  <link name="arm_5">
+    <inertial>
+      <mass value="0.0225"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0002"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <cylinder length="0.170" radius="0.01"/>
+      </geometry>
+      <material name="carbon"><color rgba="0.1 0.1 0.1 1.0"/></material>
+    </visual>
+  </link>
+  <joint name="joint_base_arm_5" type="fixed">
+    <parent link="base_link"/>
+    <child link="arm_5"/>
+    <origin xyz="0.0425 -0.0736 0.0" rpy="0 1.5708 5.2360"/>
   </joint>
   <!-- Sensor: sensor_0_s_depth_cam -->
   <link name="sensor_0_s_depth_cam">
@@ -117,7 +153,7 @@
   <joint name="joint_base_sensor_0_s_depth_cam" type="fixed">
     <parent link="base_link"/>
     <child link="sensor_0_s_depth_cam"/>
-    <origin xyz="0.1000 -0.0100 0.0500" rpy="0 0 0"/>
+    <origin xyz="0.0600 -0.0900 0.0500" rpy="0 0 0"/>
   </joint>
 
   </model>
