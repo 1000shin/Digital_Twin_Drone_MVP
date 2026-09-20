@@ -1785,25 +1785,25 @@
             roll += (targetRoll - roll) * 0.1;
             yaw += rotationSpeed;
 
-            drone.rotation.x = pitch;
-            drone.rotation.z = roll;
-            drone.rotation.y = yaw;
+            // Standard Aerospace Attitude Interpolation & Heading Order (Yaw -> Pitch -> Roll)
+            drone.rotation.order = 'YXZ';
+            drone.rotation.set(pitch, yaw, roll, 'YXZ');
+
+            // True 3D Thrust Vector (Multi-rotor thrust along body local UP [0, 1, 0])
+            const thrustVector = new THREE.Vector3(0, 1, 0).applyEuler(drone.rotation);
 
             // Thrust Vectoring & Gravity (9.81 m/s^2) with damage degradation
             const gravity = 9.81;
             const nominalLift = (drone.position.y > 0.05 ? 9.81 : 0) + throttleAcc;
             const effectiveLift = nominalLift * (0.15 + 0.85 * intactRatio);
 
-            velocity.y += (effectiveLift - gravity) * 0.016;
+            velocity.y += (effectiveLift * thrustVector.y - gravity) * 0.016;
 
-            // Thrust Vector Calculation
-            const forwardZ = Math.sin(pitch) * Math.cos(yaw) - Math.sin(roll) * Math.sin(yaw);
-            const forwardX = Math.sin(pitch) * Math.sin(yaw) + Math.sin(-roll) * Math.cos(yaw);
-
+            // Horizontal thrust components from tilted rotor plane (Exact projection in world frame)
             const windX = currentWind[0];
             const thrustMultiplier = 15.0 * (0.3 + 0.7 * intactRatio);
-            velocity.x += (forwardX * thrustMultiplier + windX * 0.2) * 0.016;
-            velocity.z += (forwardZ * thrustMultiplier) * 0.016;
+            velocity.x += (thrustVector.x * thrustMultiplier + windX * 0.2) * 0.016;
+            velocity.z += (thrustVector.z * thrustMultiplier) * 0.016;
 
             // Air Drag Damping
             velocity.x *= 0.98;

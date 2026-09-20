@@ -10,7 +10,7 @@
   "final_best_spec": {
     "design_id": "evolved_unit_test_inspection",
     "num_arms": 6,
-    "arm_length_m": 0.17,
+    "arm_length_m": 0.21,
     "motor_id": "m_1806_2300kv",
     "prop_id": "p_0504",
     "battery_id": "b_6s_5000mah",
@@ -18,16 +18,16 @@
       {
         "sensor_id": "s_depth_cam",
         "rel_pos_xyz": [
-          0.06,
-          -0.09,
+          -0.04,
+          -0.04,
           0.05
         ]
       }
     ],
     "stats": {
       "num_arms": 6,
-      "arm_length_m": 0.17,
-      "total_diameter_m": 0.49,
+      "arm_length_m": 0.21,
+      "total_diameter_m": 0.57,
       "motor_id": "m_1806_2300kv",
       "motor_name": "1806 2300KV Micro Motor",
       "prop_id": "p_0504",
@@ -44,14 +44,14 @@
   "summary": {
     "population_size": 30,
     "generations": 15,
-    "initial_fitness": 355.7,
+    "initial_fitness": 348.1,
     "final_fitness": 362.6,
-    "fitness_improvement": 6.9,
+    "fitness_improvement": 14.5,
     "total_breakthroughs": 2
   },
   "evolution_reasoning_log": [
-    "[Gen 0 初始種子奠定] 初始隨機種子最優個體：選定 4 軸機架，機臂長度 0.16m (直徑 0.47m)，選配 1806 2300KV Micro Motor + 10x4.5 inch Propeller + 6S 22.2V 5000mAh LiPo。初期指標：TWR=1.71、續航=37.7min、質量=1050.0g，初始適應度: 355.7",
-    "[Gen 1 世代躍遷突破] 微調機臂長度 (0.16m -> 0.17m)：擴大旋翼軸距穩定性，直徑保持在空間限制內 (0.49m <= 0.60m)；更換 1806 2300KV Micro Motor 馬達 + 5x4.5 inch Propeller 槳：推重比由 TWR=1.71 調校為 TWR=2.42，進入最佳區間 (+30 分)；調整旋翼佈局 (4 軸 -> 6 軸)：推力調整至 2700g，整機質量變更為 1115.0g。適應度由 355.7 提升至 362.6 (+6.9 分)"
+    "[Gen 0 初始種子奠定] 初始隨機種子最優個體：選定 6 軸機架，機臂長度 0.19m (直徑 0.53m)，選配 1806 2300KV Micro Motor + 10x4.5 inch Propeller + 6S 22.2V 5000mAh LiPo。初期指標：TWR=2.33、續航=34.1min、質量=1160.0g，初始適應度: 348.1",
+    "[Gen 2 世代躍遷突破] 微調機臂長度 (0.19m -> 0.21m)：擴大旋翼軸距穩定性，直徑保持在空間限制內 (0.57m <= 0.60m)；升級 1806 2300KV Micro Motor 馬達 + 5x4.5 inch Propeller 槳：推重比由 TWR=2.33 提升至 TWR=2.42 (最大推力 2700g)。適應度由 348.1 提升至 362.6 (+14.5 分)"
   ],
   "morph_decisions": [
     {
@@ -59,52 +59,52 @@
       "component": "seed_initialization",
       "action": "initial_seed",
       "change": "random_seed -> gen0_elite",
-      "rationale": "初始隨機種子最優個體：選定 4 軸機架，機臂長度 0.16m (直徑 0.47m)，選配 1806 2300KV Micro Motor + 10x4.5 inch Propeller + 6S 22.2V 5000mAh LiPo。初期指標：TWR=1.71、續航=37.7min、質量=1050.0g，初始適應度: 355.7",
+      "rationale": "初始隨機種子最優個體：選定 6 軸機架，機臂長度 0.19m (直徑 0.53m)，選配 1806 2300KV Micro Motor + 10x4.5 inch Propeller + 6S 22.2V 5000mAh LiPo。初期指標：TWR=2.33、續航=34.1min、質量=1160.0g，初始適應度: 348.1",
       "metrics_before": null,
       "metrics_after": {
-        "num_arms": 4,
-        "arm_length_m": 0.16,
-        "total_diameter_m": 0.47,
+        "num_arms": 6,
+        "arm_length_m": 0.19,
+        "total_diameter_m": 0.53,
         "motor_id": "m_1806_2300kv",
         "motor_name": "1806 2300KV Micro Motor",
         "prop_id": "p_1045",
         "prop_name": "10x4.5 inch Propeller",
         "battery_id": "b_6s_5000mah",
         "battery_name": "6S 22.2V 5000mAh LiPo",
-        "total_mass_g": 1050.0,
-        "max_thrust_g": 1800,
-        "thrust_to_weight_ratio": 1.71,
-        "estimated_flight_time_min": 37.67,
-        "fitness": 355.7
+        "total_mass_g": 1160.0,
+        "max_thrust_g": 2700,
+        "thrust_to_weight_ratio": 2.33,
+        "estimated_flight_time_min": 34.13,
+        "fitness": 348.1
       },
-      "fitness_delta": 355.7
+      "fitness_delta": 348.1
     },
     {
-      "generation": 1,
+      "generation": 2,
       "component": "arm_length",
       "action": "expand_arm_stability",
-      "change": "0.16m -> 0.17m",
-      "rationale": "微調機臂長度 (0.16m -> 0.17m)：擴大旋翼軸距穩定性，直徑保持在空間限制內 (0.49m <= 0.60m)",
+      "change": "0.19m -> 0.21m",
+      "rationale": "微調機臂長度 (0.19m -> 0.21m)：擴大旋翼軸距穩定性，直徑保持在空間限制內 (0.57m <= 0.60m)",
       "metrics_before": {
-        "num_arms": 4,
-        "arm_length_m": 0.16,
-        "total_diameter_m": 0.47,
+        "num_arms": 6,
+        "arm_length_m": 0.19,
+        "total_diameter_m": 0.53,
         "motor_id": "m_1806_2300kv",
         "motor_name": "1806 2300KV Micro Motor",
         "prop_id": "p_1045",
         "prop_name": "10x4.5 inch Propeller",
         "battery_id": "b_6s_5000mah",
         "battery_name": "6S 22.2V 5000mAh LiPo",
-        "total_mass_g": 1050.0,
-        "max_thrust_g": 1800,
-        "thrust_to_weight_ratio": 1.71,
-        "estimated_flight_time_min": 37.67,
-        "fitness": 355.7
+        "total_mass_g": 1160.0,
+        "max_thrust_g": 2700,
+        "thrust_to_weight_ratio": 2.33,
+        "estimated_flight_time_min": 34.13,
+        "fitness": 348.1
       },
       "metrics_after": {
         "num_arms": 6,
-        "arm_length_m": 0.17,
-        "total_diameter_m": 0.49,
+        "arm_length_m": 0.21,
+        "total_diameter_m": 0.57,
         "motor_id": "m_1806_2300kv",
         "motor_name": "1806 2300KV Micro Motor",
         "prop_id": "p_0504",
@@ -117,34 +117,34 @@
         "estimated_flight_time_min": 35.49,
         "fitness": 362.6
       },
-      "fitness_delta": 6.9
+      "fitness_delta": 14.5
     },
     {
-      "generation": 1,
+      "generation": 2,
       "component": "propulsion",
-      "action": "twr_enter_optimal",
+      "action": "increase_twr",
       "change": "m_1806_2300kv+p_1045 -> m_1806_2300kv+p_0504",
-      "rationale": "更換 1806 2300KV Micro Motor 馬達 + 5x4.5 inch Propeller 槳：推重比由 TWR=1.71 調校為 TWR=2.42，進入最佳區間 (+30 分)",
+      "rationale": "升級 1806 2300KV Micro Motor 馬達 + 5x4.5 inch Propeller 槳：推重比由 TWR=2.33 提升至 TWR=2.42 (最大推力 2700g)",
       "metrics_before": {
-        "num_arms": 4,
-        "arm_length_m": 0.16,
-        "total_diameter_m": 0.47,
+        "num_arms": 6,
+        "arm_length_m": 0.19,
+        "total_diameter_m": 0.53,
         "motor_id": "m_1806_2300kv",
         "motor_name": "1806 2300KV Micro Motor",
         "prop_id": "p_1045",
         "prop_name": "10x4.5 inch Propeller",
         "battery_id": "b_6s_5000mah",
         "battery_name": "6S 22.2V 5000mAh LiPo",
-        "total_mass_g": 1050.0,
-        "max_thrust_g": 1800,
-        "thrust_to_weight_ratio": 1.71,
-        "estimated_flight_time_min": 37.67,
-        "fitness": 355.7
+        "total_mass_g": 1160.0,
+        "max_thrust_g": 2700,
+        "thrust_to_weight_ratio": 2.33,
+        "estimated_flight_time_min": 34.13,
+        "fitness": 348.1
       },
       "metrics_after": {
         "num_arms": 6,
-        "arm_length_m": 0.17,
-        "total_diameter_m": 0.49,
+        "arm_length_m": 0.21,
+        "total_diameter_m": 0.57,
         "motor_id": "m_1806_2300kv",
         "motor_name": "1806 2300KV Micro Motor",
         "prop_id": "p_0504",
@@ -157,74 +157,34 @@
         "estimated_flight_time_min": 35.49,
         "fitness": 362.6
       },
-      "fitness_delta": 6.9
-    },
-    {
-      "generation": 1,
-      "component": "num_arms",
-      "action": "reconfigure_arms",
-      "change": "4 -> 6",
-      "rationale": "調整旋翼佈局 (4 軸 -> 6 軸)：推力調整至 2700g，整機質量變更為 1115.0g",
-      "metrics_before": {
-        "num_arms": 4,
-        "arm_length_m": 0.16,
-        "total_diameter_m": 0.47,
-        "motor_id": "m_1806_2300kv",
-        "motor_name": "1806 2300KV Micro Motor",
-        "prop_id": "p_1045",
-        "prop_name": "10x4.5 inch Propeller",
-        "battery_id": "b_6s_5000mah",
-        "battery_name": "6S 22.2V 5000mAh LiPo",
-        "total_mass_g": 1050.0,
-        "max_thrust_g": 1800,
-        "thrust_to_weight_ratio": 1.71,
-        "estimated_flight_time_min": 37.67,
-        "fitness": 355.7
-      },
-      "metrics_after": {
-        "num_arms": 6,
-        "arm_length_m": 0.17,
-        "total_diameter_m": 0.49,
-        "motor_id": "m_1806_2300kv",
-        "motor_name": "1806 2300KV Micro Motor",
-        "prop_id": "p_0504",
-        "prop_name": "5x4.5 inch Propeller",
-        "battery_id": "b_6s_5000mah",
-        "battery_name": "6S 22.2V 5000mAh LiPo",
-        "total_mass_g": 1115.0,
-        "max_thrust_g": 2700,
-        "thrust_to_weight_ratio": 2.42,
-        "estimated_flight_time_min": 35.49,
-        "fitness": 362.6
-      },
-      "fitness_delta": 6.9
+      "fitness_delta": 14.5
     }
   ],
   "breakthrough_trail": [
     {
       "generation": 0,
-      "previous_best_score": 355.7,
-      "new_best_score": 355.7,
+      "previous_best_score": 348.1,
+      "new_best_score": 348.1,
       "delta_score": 0.0,
       "metrics_before": null,
       "metrics_after": {
-        "num_arms": 4,
-        "arm_length_m": 0.16,
-        "total_diameter_m": 0.47,
+        "num_arms": 6,
+        "arm_length_m": 0.19,
+        "total_diameter_m": 0.53,
         "motor_id": "m_1806_2300kv",
         "motor_name": "1806 2300KV Micro Motor",
         "prop_id": "p_1045",
         "prop_name": "10x4.5 inch Propeller",
         "battery_id": "b_6s_5000mah",
         "battery_name": "6S 22.2V 5000mAh LiPo",
-        "total_mass_g": 1050.0,
-        "max_thrust_g": 1800,
-        "thrust_to_weight_ratio": 1.71,
-        "estimated_flight_time_min": 37.67,
-        "fitness": 355.7
+        "total_mass_g": 1160.0,
+        "max_thrust_g": 2700,
+        "thrust_to_weight_ratio": 2.33,
+        "estimated_flight_time_min": 34.13,
+        "fitness": 348.1
       },
       "rationales": [
-        "初始隨機種子最優個體：選定 4 軸機架，機臂長度 0.16m (直徑 0.47m)，選配 1806 2300KV Micro Motor + 10x4.5 inch Propeller + 6S 22.2V 5000mAh LiPo。初期指標：TWR=1.71、續航=37.7min、質量=1050.0g，初始適應度: 355.7"
+        "初始隨機種子最優個體：選定 6 軸機架，機臂長度 0.19m (直徑 0.53m)，選配 1806 2300KV Micro Motor + 10x4.5 inch Propeller + 6S 22.2V 5000mAh LiPo。初期指標：TWR=2.33、續航=34.1min、質量=1160.0g，初始適應度: 348.1"
       ],
       "decisions": [
         {
@@ -232,53 +192,53 @@
           "component": "seed_initialization",
           "action": "initial_seed",
           "change": "random_seed -> gen0_elite",
-          "rationale": "初始隨機種子最優個體：選定 4 軸機架，機臂長度 0.16m (直徑 0.47m)，選配 1806 2300KV Micro Motor + 10x4.5 inch Propeller + 6S 22.2V 5000mAh LiPo。初期指標：TWR=1.71、續航=37.7min、質量=1050.0g，初始適應度: 355.7",
+          "rationale": "初始隨機種子最優個體：選定 6 軸機架，機臂長度 0.19m (直徑 0.53m)，選配 1806 2300KV Micro Motor + 10x4.5 inch Propeller + 6S 22.2V 5000mAh LiPo。初期指標：TWR=2.33、續航=34.1min、質量=1160.0g，初始適應度: 348.1",
           "metrics_before": null,
           "metrics_after": {
-            "num_arms": 4,
-            "arm_length_m": 0.16,
-            "total_diameter_m": 0.47,
+            "num_arms": 6,
+            "arm_length_m": 0.19,
+            "total_diameter_m": 0.53,
             "motor_id": "m_1806_2300kv",
             "motor_name": "1806 2300KV Micro Motor",
             "prop_id": "p_1045",
             "prop_name": "10x4.5 inch Propeller",
             "battery_id": "b_6s_5000mah",
             "battery_name": "6S 22.2V 5000mAh LiPo",
-            "total_mass_g": 1050.0,
-            "max_thrust_g": 1800,
-            "thrust_to_weight_ratio": 1.71,
-            "estimated_flight_time_min": 37.67,
-            "fitness": 355.7
+            "total_mass_g": 1160.0,
+            "max_thrust_g": 2700,
+            "thrust_to_weight_ratio": 2.33,
+            "estimated_flight_time_min": 34.13,
+            "fitness": 348.1
           },
-          "fitness_delta": 355.7
+          "fitness_delta": 348.1
         }
       ]
     },
     {
-      "generation": 1,
-      "previous_best_score": 355.7,
+      "generation": 2,
+      "previous_best_score": 348.1,
       "new_best_score": 362.6,
-      "delta_score": 6.9,
+      "delta_score": 14.5,
       "metrics_before": {
-        "num_arms": 4,
-        "arm_length_m": 0.16,
-        "total_diameter_m": 0.47,
+        "num_arms": 6,
+        "arm_length_m": 0.19,
+        "total_diameter_m": 0.53,
         "motor_id": "m_1806_2300kv",
         "motor_name": "1806 2300KV Micro Motor",
         "prop_id": "p_1045",
         "prop_name": "10x4.5 inch Propeller",
         "battery_id": "b_6s_5000mah",
         "battery_name": "6S 22.2V 5000mAh LiPo",
-        "total_mass_g": 1050.0,
-        "max_thrust_g": 1800,
-        "thrust_to_weight_ratio": 1.71,
-        "estimated_flight_time_min": 37.67,
-        "fitness": 355.7
+        "total_mass_g": 1160.0,
+        "max_thrust_g": 2700,
+        "thrust_to_weight_ratio": 2.33,
+        "estimated_flight_time_min": 34.13,
+        "fitness": 348.1
       },
       "metrics_after": {
         "num_arms": 6,
-        "arm_length_m": 0.17,
-        "total_diameter_m": 0.49,
+        "arm_length_m": 0.21,
+        "total_diameter_m": 0.57,
         "motor_id": "m_1806_2300kv",
         "motor_name": "1806 2300KV Micro Motor",
         "prop_id": "p_0504",
@@ -292,37 +252,36 @@
         "fitness": 362.6
       },
       "rationales": [
-        "微調機臂長度 (0.16m -> 0.17m)：擴大旋翼軸距穩定性，直徑保持在空間限制內 (0.49m <= 0.60m)",
-        "更換 1806 2300KV Micro Motor 馬達 + 5x4.5 inch Propeller 槳：推重比由 TWR=1.71 調校為 TWR=2.42，進入最佳區間 (+30 分)",
-        "調整旋翼佈局 (4 軸 -> 6 軸)：推力調整至 2700g，整機質量變更為 1115.0g"
+        "微調機臂長度 (0.19m -> 0.21m)：擴大旋翼軸距穩定性，直徑保持在空間限制內 (0.57m <= 0.60m)",
+        "升級 1806 2300KV Micro Motor 馬達 + 5x4.5 inch Propeller 槳：推重比由 TWR=2.33 提升至 TWR=2.42 (最大推力 2700g)"
       ],
       "decisions": [
         {
-          "generation": 1,
+          "generation": 2,
           "component": "arm_length",
           "action": "expand_arm_stability",
-          "change": "0.16m -> 0.17m",
-          "rationale": "微調機臂長度 (0.16m -> 0.17m)：擴大旋翼軸距穩定性，直徑保持在空間限制內 (0.49m <= 0.60m)",
+          "change": "0.19m -> 0.21m",
+          "rationale": "微調機臂長度 (0.19m -> 0.21m)：擴大旋翼軸距穩定性，直徑保持在空間限制內 (0.57m <= 0.60m)",
           "metrics_before": {
-            "num_arms": 4,
-            "arm_length_m": 0.16,
-            "total_diameter_m": 0.47,
+            "num_arms": 6,
+            "arm_length_m": 0.19,
+            "total_diameter_m": 0.53,
             "motor_id": "m_1806_2300kv",
             "motor_name": "1806 2300KV Micro Motor",
             "prop_id": "p_1045",
             "prop_name": "10x4.5 inch Propeller",
             "battery_id": "b_6s_5000mah",
             "battery_name": "6S 22.2V 5000mAh LiPo",
-            "total_mass_g": 1050.0,
-            "max_thrust_g": 1800,
-            "thrust_to_weight_ratio": 1.71,
-            "estimated_flight_time_min": 37.67,
-            "fitness": 355.7
+            "total_mass_g": 1160.0,
+            "max_thrust_g": 2700,
+            "thrust_to_weight_ratio": 2.33,
+            "estimated_flight_time_min": 34.13,
+            "fitness": 348.1
           },
           "metrics_after": {
             "num_arms": 6,
-            "arm_length_m": 0.17,
-            "total_diameter_m": 0.49,
+            "arm_length_m": 0.21,
+            "total_diameter_m": 0.57,
             "motor_id": "m_1806_2300kv",
             "motor_name": "1806 2300KV Micro Motor",
             "prop_id": "p_0504",
@@ -335,34 +294,34 @@
             "estimated_flight_time_min": 35.49,
             "fitness": 362.6
           },
-          "fitness_delta": 6.9
+          "fitness_delta": 14.5
         },
         {
-          "generation": 1,
+          "generation": 2,
           "component": "propulsion",
-          "action": "twr_enter_optimal",
+          "action": "increase_twr",
           "change": "m_1806_2300kv+p_1045 -> m_1806_2300kv+p_0504",
-          "rationale": "更換 1806 2300KV Micro Motor 馬達 + 5x4.5 inch Propeller 槳：推重比由 TWR=1.71 調校為 TWR=2.42，進入最佳區間 (+30 分)",
+          "rationale": "升級 1806 2300KV Micro Motor 馬達 + 5x4.5 inch Propeller 槳：推重比由 TWR=2.33 提升至 TWR=2.42 (最大推力 2700g)",
           "metrics_before": {
-            "num_arms": 4,
-            "arm_length_m": 0.16,
-            "total_diameter_m": 0.47,
+            "num_arms": 6,
+            "arm_length_m": 0.19,
+            "total_diameter_m": 0.53,
             "motor_id": "m_1806_2300kv",
             "motor_name": "1806 2300KV Micro Motor",
             "prop_id": "p_1045",
             "prop_name": "10x4.5 inch Propeller",
             "battery_id": "b_6s_5000mah",
             "battery_name": "6S 22.2V 5000mAh LiPo",
-            "total_mass_g": 1050.0,
-            "max_thrust_g": 1800,
-            "thrust_to_weight_ratio": 1.71,
-            "estimated_flight_time_min": 37.67,
-            "fitness": 355.7
+            "total_mass_g": 1160.0,
+            "max_thrust_g": 2700,
+            "thrust_to_weight_ratio": 2.33,
+            "estimated_flight_time_min": 34.13,
+            "fitness": 348.1
           },
           "metrics_after": {
             "num_arms": 6,
-            "arm_length_m": 0.17,
-            "total_diameter_m": 0.49,
+            "arm_length_m": 0.21,
+            "total_diameter_m": 0.57,
             "motor_id": "m_1806_2300kv",
             "motor_name": "1806 2300KV Micro Motor",
             "prop_id": "p_0504",
@@ -375,61 +334,46 @@
             "estimated_flight_time_min": 35.49,
             "fitness": 362.6
           },
-          "fitness_delta": 6.9
-        },
-        {
-          "generation": 1,
-          "component": "num_arms",
-          "action": "reconfigure_arms",
-          "change": "4 -> 6",
-          "rationale": "調整旋翼佈局 (4 軸 -> 6 軸)：推力調整至 2700g，整機質量變更為 1115.0g",
-          "metrics_before": {
-            "num_arms": 4,
-            "arm_length_m": 0.16,
-            "total_diameter_m": 0.47,
-            "motor_id": "m_1806_2300kv",
-            "motor_name": "1806 2300KV Micro Motor",
-            "prop_id": "p_1045",
-            "prop_name": "10x4.5 inch Propeller",
-            "battery_id": "b_6s_5000mah",
-            "battery_name": "6S 22.2V 5000mAh LiPo",
-            "total_mass_g": 1050.0,
-            "max_thrust_g": 1800,
-            "thrust_to_weight_ratio": 1.71,
-            "estimated_flight_time_min": 37.67,
-            "fitness": 355.7
-          },
-          "metrics_after": {
-            "num_arms": 6,
-            "arm_length_m": 0.17,
-            "total_diameter_m": 0.49,
-            "motor_id": "m_1806_2300kv",
-            "motor_name": "1806 2300KV Micro Motor",
-            "prop_id": "p_0504",
-            "prop_name": "5x4.5 inch Propeller",
-            "battery_id": "b_6s_5000mah",
-            "battery_name": "6S 22.2V 5000mAh LiPo",
-            "total_mass_g": 1115.0,
-            "max_thrust_g": 2700,
-            "thrust_to_weight_ratio": 2.42,
-            "estimated_flight_time_min": 35.49,
-            "fitness": 362.6
-          },
-          "fitness_delta": 6.9
+          "fitness_delta": 14.5
         }
       ]
     }
   ],
   "direct_lineage": [
     {
-      "individual_id": "gen0_ind_27",
+      "individual_id": "gen0_ind_4",
       "generation": 0,
       "parent_id": null,
       "mutation_type": "seed",
       "metrics": {
         "num_arms": 6,
-        "arm_length_m": 0.17,
-        "total_diameter_m": 0.49,
+        "arm_length_m": 0.21,
+        "total_diameter_m": 0.57,
+        "motor_id": "m_1806_2300kv",
+        "motor_name": "1806 2300KV Micro Motor",
+        "prop_id": "p_1045",
+        "prop_name": "10x4.5 inch Propeller",
+        "battery_id": "b_3s_2200mah",
+        "battery_name": "3S 11.1V 2200mAh LiPo",
+        "total_mass_g": 625.0,
+        "max_thrust_g": 2700,
+        "thrust_to_weight_ratio": 4.32,
+        "estimated_flight_time_min": 13.83,
+        "fitness": 125.8
+      },
+      "rationales": [
+        "始祖種子個體"
+      ]
+    },
+    {
+      "individual_id": "gen1_ind_13",
+      "generation": 1,
+      "parent_id": "gen0_ind_4",
+      "mutation_type": "prop",
+      "metrics": {
+        "num_arms": 6,
+        "arm_length_m": 0.21,
+        "total_diameter_m": 0.57,
         "motor_id": "m_1806_2300kv",
         "motor_name": "1806 2300KV Micro Motor",
         "prop_id": "p_0504",
@@ -443,18 +387,18 @@
         "fitness": 137.2
       },
       "rationales": [
-        "始祖種子個體"
+        "升級 1806 2300KV Micro Motor 馬達 + 5x4.5 inch Propeller 槳：推重比由 TWR=4.32 提升至 TWR=4.66 (最大推力 2700g)"
       ]
     },
     {
-      "individual_id": "gen1_ind_5",
-      "generation": 1,
-      "parent_id": "gen0_ind_27",
+      "individual_id": "gen2_ind_22",
+      "generation": 2,
+      "parent_id": "gen1_ind_13",
       "mutation_type": "battery",
       "metrics": {
         "num_arms": 6,
-        "arm_length_m": 0.17,
-        "total_diameter_m": 0.49,
+        "arm_length_m": 0.21,
+        "total_diameter_m": 0.57,
         "motor_id": "m_1806_2300kv",
         "motor_name": "1806 2300KV Micro Motor",
         "prop_id": "p_0504",
@@ -475,93 +419,93 @@
   "generations_summary": [
     {
       "generation": 0,
-      "max_fitness": 355.7,
-      "avg_fitness": -221.73,
+      "max_fitness": 348.1,
+      "avg_fitness": -229.36,
       "min_fitness": -343.0
     },
     {
       "generation": 1,
-      "max_fitness": 362.6,
-      "avg_fitness": -36.24,
-      "min_fitness": -313.0
+      "max_fitness": 348.1,
+      "avg_fitness": -108.21,
+      "min_fitness": -317.0
     },
     {
       "generation": 2,
       "max_fitness": 362.6,
-      "avg_fitness": 185.83,
-      "min_fitness": 58.77
+      "avg_fitness": 92.64,
+      "min_fitness": -307.0
     },
     {
       "generation": 3,
       "max_fitness": 362.6,
-      "avg_fitness": 236.43,
-      "min_fitness": -303.0
+      "avg_fitness": 143.5,
+      "min_fitness": -305.0
     },
     {
       "generation": 4,
       "max_fitness": 362.6,
-      "avg_fitness": 310.05,
-      "min_fitness": 88.68
+      "avg_fitness": 183.72,
+      "min_fitness": -305.0
     },
     {
       "generation": 5,
       "max_fitness": 362.6,
-      "avg_fitness": 271.27,
-      "min_fitness": 93.8
+      "avg_fitness": 197.83,
+      "min_fitness": -307.0
     },
     {
       "generation": 6,
       "max_fitness": 362.6,
-      "avg_fitness": 195.66,
-      "min_fitness": -303.0
+      "avg_fitness": 201.14,
+      "min_fitness": -305.0
     },
     {
       "generation": 7,
       "max_fitness": 362.6,
-      "avg_fitness": 219.65,
+      "avg_fitness": 212.06,
       "min_fitness": -307.0
     },
     {
       "generation": 8,
       "max_fitness": 362.6,
-      "avg_fitness": 289.15,
-      "min_fitness": 58.77
+      "avg_fitness": 227.62,
+      "min_fitness": -307.0
     },
     {
       "generation": 9,
       "max_fitness": 362.6,
-      "avg_fitness": 284.27,
-      "min_fitness": -301.0
+      "avg_fitness": 274.18,
+      "min_fitness": 93.8
     },
     {
       "generation": 10,
       "max_fitness": 362.6,
-      "avg_fitness": 246.32,
-      "min_fitness": -305.0
+      "avg_fitness": 274.53,
+      "min_fitness": -307.0
     },
     {
       "generation": 11,
       "max_fitness": 362.6,
-      "avg_fitness": 287.88,
-      "min_fitness": 93.8
+      "avg_fitness": 268.68,
+      "min_fitness": -303.0
     },
     {
       "generation": 12,
       "max_fitness": 362.6,
-      "avg_fitness": 287.04,
-      "min_fitness": 93.8
+      "avg_fitness": 269.78,
+      "min_fitness": -307.0
     },
     {
       "generation": 13,
       "max_fitness": 362.6,
-      "avg_fitness": 264.66,
-      "min_fitness": -307.0
+      "avg_fitness": 261.79,
+      "min_fitness": 103.7
     },
     {
       "generation": 14,
       "max_fitness": 362.6,
-      "avg_fitness": 271.37,
-      "min_fitness": -305.0
+      "avg_fitness": 250.14,
+      "min_fitness": -303.0
     }
   ]
 }
