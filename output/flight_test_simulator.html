@@ -59,6 +59,30 @@
         }
         @keyframes fadeInOut { 0% { opacity: 0; transform: translate(-50%, -10px); } 15% { opacity: 1; transform: translate(-50%, 0); } 85% { opacity: 1; transform: translate(-50%, 0); } 100% { opacity: 0; transform: translate(-50%, -10px); } }
 
+        /* LiDAR & Proximity Sensor HUD Styles */
+        .sensor-section {
+            margin-top: 10px; padding: 10px 12px;
+            background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(56, 189, 248, 0.35);
+            border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+        .sensor-header {
+            display: flex; align-items: center; justify-content: space-between;
+            font-size: 11px; font-weight: 700; color: #38bdf8; margin-bottom: 6px;
+        }
+        .sensor-indicator {
+            display: inline-flex; align-items: center; gap: 5px; font-size: 10px; font-weight: bold;
+            padding: 1px 6px; border-radius: 4px; background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.35);
+        }
+        .sensor-dist-val {
+            font-size: 15px; font-weight: bold; font-family: monospace; color: #4ade80;
+        }
+        .sensor-bar-wrap {
+            width: 100%; height: 5px; background: rgba(255, 255, 255, 0.1); border-radius: 3px; overflow: hidden; margin-top: 6px;
+        }
+        .sensor-bar-fill {
+            height: 100%; width: 0%; background: #22c55e; transition: width 0.08s ease, background 0.15s ease;
+        }
+
         /* Flight Data Recorder HUD Styles */
         .recorder-section {
             margin-top: 12px; padding: 10px 12px;
@@ -276,6 +300,29 @@
             <div id="damage-list" class="damage-item-list"></div>
         </div>
         <div id="collision-alert" class="collision-warn">⚠️ 警告：觸發環境障礙物剛體碰撞！</div>
+
+        <!-- Rangefinder / LiDAR Proximity Radar HUD Panel -->
+        <div class="sensor-section">
+            <div class="sensor-header">
+                <span>📡 機載測距雷達 (LiDAR/ToF)</span>
+                <span id="sensor-status-badge" class="sensor-indicator">● 在線探測</span>
+            </div>
+            <div class="hud-row" style="margin-bottom: 2px; align-items: baseline;">
+                <span style="color: #cbd5e1;">最近撞擊物:</span>
+                <span id="st-nearest-dist" class="sensor-dist-val">-- m</span>
+            </div>
+            <div class="hud-row" style="font-size: 11px; margin-bottom: 2px;">
+                <span style="color: #94a3b8;">目標: <span id="st-nearest-name" style="color:#f8fafc; font-weight:600;">--</span></span>
+                <span style="color: #94a3b8;">方位: <span id="st-nearest-dir" style="color:#38bdf8; font-weight:600;">--</span></span>
+            </div>
+            <div class="sensor-bar-wrap">
+                <div id="st-proximity-bar" class="sensor-bar-fill"></div>
+            </div>
+            <div id="st-proximity-alert" style="display:none; margin-top: 6px; font-size: 11px; text-align: center; color: #ff1744; font-weight: bold; animation: blink 0.4s infinite alternate; background: rgba(255, 23, 68, 0.15); padding: 4px; border-radius: 4px; border: 1px solid rgba(255, 23, 68, 0.4);">
+                ⚠️ 近距碰撞預警！請拉開安全間距！
+            </div>
+        </div>
+
         <div class="hud-btn-row">
             <button id="btn-repair" class="btn-action btn-repair" onclick="promptResetExperience()">🛠️ 維修與重置 (R)</button>
             <button id="btn-crash-test" class="btn-action btn-test-crash" onclick="simulateTestCrash()">💥 撞擊測試</button>
@@ -337,7 +384,7 @@
         </div>
         <div class="bom-body">
             <div class="bom-meta-bar">
-                <span class="bom-badge">7 大關鍵核心零件</span>
+                <span class="bom-badge">8 大關鍵核心零件 (含 LiDAR)</span>
                 <span id="bom-meta-health" class="bom-health">● 全部就緒 (Nominal)</span>
             </div>
             <div class="bom-list">
@@ -397,22 +444,34 @@
                     </div>
                     <div class="bom-item-tag">1000mW 穩定</div>
                 </div>
+                <div class="bom-item">
+                    <div class="bom-item-icon">📡</div>
+                    <div class="bom-item-info">
+                        <div class="bom-item-name">測距感測器 (360° LiDAR / ToF)</div>
+                        <div class="bom-item-spec">TFmini Plus / 8m 激光近距避障與即時測距雷達</div>
+                    </div>
+                    <div class="bom-item-tag">100Hz Active</div>
+                </div>
             </div>
             <div class="bom-footer">
-                <div>全備起飛重量: <span class="bom-stat">1280g</span></div>
-                <div>推重比 (TWR): <span id="bom-val-twr" class="bom-stat">2.4 : 1</span></div>
+                <div>全備起飛重量: <span class="bom-stat">1295g</span></div>
+                <div>推重比 (TWR): <span id="bom-val-twr" class="bom-stat">2.38 : 1</span></div>
             </div>
         </div>
     </div>
 
     <div id="control-panel">
-        <div><span class="key">W</span> <span class="key">S</span> 俯仰</div>
-        <div><span class="key">A</span> <span class="key">D</span> 翻滾</div>
-        <div><span class="key">↑</span> <span class="key">↓</span> 油門</div>
-        <div><span class="key">Q</span> <span class="key">E</span> / <span class="key">←</span> <span class="key">→</span> 偏航</div>
-        <div><span class="key">Space</span> 自動懸停</div>
+        <div><span class="key">W</span> <span class="key">S</span> 俯仰 (長按衝刺/短點微調)</div>
+        <div><span class="key">A</span> <span class="key">D</span> 翻滾 (長按衝刺/短點微調)</div>
+        <div><span class="key">↑</span> <span class="key">↓</span> 油門 (爬升/降落)</div>
+        <div><span class="key">Q</span> <span class="key">E</span> / <span class="key">←</span> <span class="key">→</span> 偏航轉向</div>
+        <div><span class="key">Space</span> 自動懸停定高</div>
         <div><span class="key">G</span> 錄製/停止</div>
         <div><span class="key">R</span> 維修重置</div>
+        <div style="margin-top: 6px; padding-top: 6px; border-top: 1px solid rgba(255,255,255,0.15); font-size: 10.5px; color: #94a3b8; line-height: 1.4;">
+            <span style="color:#ef4444; font-weight:bold;">🔴 左舷紅燈</span> ｜ <span style="color:#22c55e; font-weight:bold;">🟢 右舷綠燈</span><br>
+            <span style="color:#f8fafc; font-weight:bold;">⚪ 機頭雙大燈</span> ｜ <span style="color:#f59e0b; font-weight:bold;">🟡 機尾頻閃</span>
+        </div>
     </div>
 
     <!-- Reset Questionnaire Modal Dialog -->
@@ -517,6 +576,27 @@
             propMesh.position.set(x, 0.04, z);
             drone.add(propMesh);
 
+            // Aviation Navigation Lights (ICAO / FAA Standard: Left/Port = RED, Right/Starboard = GREEN)
+            const isLeftSide = (x < -0.01);
+            const isRightSide = (x > 0.01);
+            const navLightColor = isLeftSide ? 0xef4444 : (isRightSide ? 0x22c55e : (z < 0 ? 0xffffff : 0xf59e0b));
+            const navLightEmissive = isLeftSide ? 0xff0022 : (isRightSide ? 0x00ff44 : (z < 0 ? 0xffffff : 0xf59e0b));
+
+            const navLightGeo = new THREE.SphereGeometry(0.024, 16, 16);
+            const navLightMat = new THREE.MeshStandardMaterial({
+                color: navLightColor,
+                emissive: navLightEmissive,
+                emissiveIntensity: 3.5,
+                roughness: 0.1
+            });
+            const navLightMesh = new THREE.Mesh(navLightGeo, navLightMat);
+            navLightMesh.position.set(x * 1.08, 0.03, z * 1.08);
+            drone.add(navLightMesh);
+
+            const navPointLight = new THREE.PointLight(navLightEmissive, 0.75, 1.6);
+            navPointLight.position.set(x * 1.08, 0.05, z * 1.08);
+            drone.add(navPointLight);
+
             droneArmComponents.push({
                 index: i,
                 angle: angle,
@@ -525,6 +605,8 @@
                 armMesh: armMesh,
                 motorMesh: motorMesh,
                 propMesh: propMesh,
+                navLightMesh: navLightMesh,
+                navPointLight: navPointLight,
                 origArmRot: { x: armMesh.rotation.x, y: armMesh.rotation.y, z: armMesh.rotation.z },
                 origArmPos: { x: armMesh.position.x, y: armMesh.position.y, z: armMesh.position.z },
                 origMotorRot: { x: motorMesh.rotation.x, y: motorMesh.rotation.y, z: motorMesh.rotation.z },
@@ -542,12 +624,59 @@
             });
         }
 
-        // LiDAR Sensor
+        // Forward Nose Orientation Headlights (Twin High-Power White LEDs)
+        const noseHeadlightGeo = new THREE.SphereGeometry(0.018, 16, 16);
+        const noseHeadlightMat = new THREE.MeshStandardMaterial({
+            color: 0xffffff,
+            emissive: 0xffffff,
+            emissiveIntensity: 4.5,
+            roughness: 0.1
+        });
+        const noseLightL = new THREE.Mesh(noseHeadlightGeo, noseHeadlightMat);
+        noseLightL.position.set(-0.05, 0.02, -0.15);
+        drone.add(noseLightL);
+
+        const noseLightR = new THREE.Mesh(noseHeadlightGeo, noseHeadlightMat);
+        noseLightR.position.set(0.05, 0.02, -0.15);
+        drone.add(noseLightR);
+
+        const noseBeam = new THREE.PointLight(0xffffff, 1.8, 4.0);
+        noseBeam.position.set(0, 0.02, -0.18);
+        drone.add(noseBeam);
+
+        // Aft Tail Beacon (Amber Flashing Beacon)
+        const tailBeaconGeo = new THREE.SphereGeometry(0.02, 16, 16);
+        const tailBeaconMat = new THREE.MeshStandardMaterial({
+            color: 0xf59e0b,
+            emissive: 0xf59e0b,
+            emissiveIntensity: 3.5,
+            roughness: 0.2
+        });
+        const tailBeaconMesh = new THREE.Mesh(tailBeaconGeo, tailBeaconMat);
+        tailBeaconMesh.position.set(0, 0.06, 0.13);
+        drone.add(tailBeaconMesh);
+
+        const tailBeaconLight = new THREE.PointLight(0xf59e0b, 1.0, 2.0);
+        tailBeaconLight.position.set(0, 0.08, 0.13);
+        drone.add(tailBeaconLight);
+
+        // LiDAR Sensor Turret & Spinning Scan Ring
         const lidarGeo = new THREE.CylinderGeometry(0.04, 0.04, 0.05);
-        const lidarMat = new THREE.MeshStandardMaterial({ color: 0x22c55e });
+        const lidarMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.9, roughness: 0.2 });
         const lidarMesh = new THREE.Mesh(lidarGeo, lidarMat);
-        lidarMesh.position.set(0, 0.16, 0);
+        lidarMesh.position.set(0, 0.15, 0);
         drone.add(lidarMesh);
+
+        const lidarRingGeo = new THREE.TorusGeometry(0.046, 0.007, 8, 24);
+        const lidarRingMat = new THREE.MeshStandardMaterial({
+            color: 0x00e5ff,
+            emissive: 0x00e5ff,
+            emissiveIntensity: 3.0
+        });
+        const lidarScanRing = new THREE.Mesh(lidarRingGeo, lidarRingMat);
+        lidarScanRing.rotation.x = Math.PI / 2;
+        lidarScanRing.position.set(0, 0.175, 0);
+        drone.add(lidarScanRing);
 
         // Drone Searchlight (for Night Thermal / Inspection)
         const droneSpotlight = new THREE.SpotLight(0x67e8f9, 0.0, 35, Math.PI / 4.5, 0.4, 1.2);
@@ -560,6 +689,21 @@
 
         drone.position.set(0, 0.05, 0);
         scene.add(drone);
+
+        // 3D Laser Raycast Indicator & Obstacle Contact Reticle
+        const laserRayGeo = new THREE.BufferGeometry();
+        const laserPositions = new Float32Array(6);
+        laserRayGeo.setAttribute('position', new THREE.BufferAttribute(laserPositions, 3));
+        const laserRayMat = new THREE.LineBasicMaterial({ color: 0x22c55e, transparent: true, opacity: 0.9, linewidth: 2 });
+        const laserRayLine = new THREE.Line(laserRayGeo, laserRayMat);
+        laserRayLine.visible = false;
+        scene.add(laserRayLine);
+
+        const laserDotGeo = new THREE.SphereGeometry(0.055, 16, 16);
+        const laserDotMat = new THREE.MeshBasicMaterial({ color: 0x22c55e });
+        const laserDotMesh = new THREE.Mesh(laserDotGeo, laserDotMat);
+        laserDotMesh.visible = false;
+        scene.add(laserDotMesh);
 
         // 3. Base Gazebo .world Obstacles & Bounding Boxes
         const baseObstaclesData = [{"type": "cylinder", "pos": [2.5, 0.5, 1.5], "size": [0.4, 0.4, 3.0]}, {"type": "box", "pos": [4.0, -1.5, 1.0], "size": [1.0, 1.0, 2.0]}];
@@ -583,7 +727,8 @@
             obsMesh.geometry.computeBoundingBox();
             baseObstacleMeshes.push({
                 mesh: obsMesh,
-                box: new THREE.Box3().setFromObject(obsMesh)
+                box: new THREE.Box3().setFromObject(obsMesh),
+                name: obs.name || '環境障礙柱'
             });
         });
 
@@ -830,16 +975,16 @@
                 postL.geometry.computeBoundingBox();
                 postR.geometry.computeBoundingBox();
                 topMesh.geometry.computeBoundingBox();
-                envObstacles.collision_arena.push({ mesh: postL, box: new THREE.Box3().setFromObject(postL) });
-                envObstacles.collision_arena.push({ mesh: postR, box: new THREE.Box3().setFromObject(postR) });
-                envObstacles.collision_arena.push({ mesh: topMesh, box: new THREE.Box3().setFromObject(topMesh) });
+                envObstacles.collision_arena.push({ mesh: postL, box: new THREE.Box3().setFromObject(postL), name: '穿越門 (左立柱)' });
+                envObstacles.collision_arena.push({ mesh: postR, box: new THREE.Box3().setFromObject(postR), name: '穿越門 (右立柱)' });
+                envObstacles.collision_arena.push({ mesh: topMesh, box: new THREE.Box3().setFromObject(topMesh), name: '穿越門 (橫樑)' });
             });
 
             // 6 Cylindrical Collision Pillars with Hazard Stripes
             const pillars = [
                 [3, 3], [-3, 3], [3, -3], [-3, -3], [7, 7], [-7, -7]
             ];
-            pillars.forEach(p => {
+            pillars.forEach((p, pIdx) => {
                 const pGeo = new THREE.CylinderGeometry(0.55, 0.55, 6, 24);
                 const pMat = new THREE.MeshStandardMaterial({ color: 0xeab308, roughness: 0.3, metalness: 0.4 });
                 const pMesh = new THREE.Mesh(pGeo, pMat);
@@ -847,7 +992,7 @@
                 pMesh.castShadow = true;
                 group.add(pMesh);
                 pMesh.geometry.computeBoundingBox();
-                envObstacles.collision_arena.push({ mesh: pMesh, box: new THREE.Box3().setFromObject(pMesh) });
+                envObstacles.collision_arena.push({ mesh: pMesh, box: new THREE.Box3().setFromObject(pMesh), name: '立體立柱 #' + (pIdx + 1) });
             });
 
             // Inclined Aerobatic Launch Ramp
@@ -858,7 +1003,7 @@
             rampMesh.rotation.x = 0.28;
             group.add(rampMesh);
             rampMesh.geometry.computeBoundingBox();
-            envObstacles.collision_arena.push({ mesh: rampMesh, box: new THREE.Box3().setFromObject(rampMesh) });
+            envObstacles.collision_arena.push({ mesh: rampMesh, box: new THREE.Box3().setFromObject(rampMesh), name: '特技起飛斜坡' });
         })();
 
         // --- Scenario 4: 夜間紅外線巡檢 (Night Thermal/Inspection) ---
@@ -1217,6 +1362,14 @@
                 targetArm.motorMesh.rotation.z += 0.35;
                 targetArm.motorMesh.material.color.setHex(0x7f1d1d);
 
+                // 4. Navigation Light damage
+                if (targetArm.navLightMesh) {
+                    targetArm.navLightMesh.material.emissiveIntensity = 0.1;
+                }
+                if (targetArm.navPointLight) {
+                    targetArm.navPointLight.intensity = 0;
+                }
+
                 damagedDesc = '機臂 #' + (targetArm.index + 1) + ' 折損彎曲、旋翼 #' + (targetArm.index + 1) + ' 斷槳失衡';
                 if (!damagedPartsHistory.includes(damagedDesc)) {
                     damagedPartsHistory.push(damagedDesc);
@@ -1455,6 +1608,11 @@
                 environment: {
                     environment_id: activeEnvKey,
                     wind_velocity: [Number(currentWind[0].toFixed(2)), Number(currentWind[1].toFixed(2)), Number(currentWind[2].toFixed(2))],
+                    proximity_sensing: {
+                        nearest_distance_m: Number(latestLiDARReading.dist.toFixed(3)),
+                        nearest_object: latestLiDARReading.name,
+                        relative_direction: latestLiDARReading.direction
+                    },
                     collision_event: activeCollisionThisStep ? {
                         hit_object: activeCollisionThisStep.object,
                         impact_speed: Number(activeCollisionThisStep.speed.toFixed(2)),
@@ -1645,6 +1803,13 @@
                 if (propDisks[arm.index]) {
                     propDisks[arm.index].broken = false;
                 }
+
+                if (arm.navLightMesh) {
+                    arm.navLightMesh.material.emissiveIntensity = 3.5;
+                }
+                if (arm.navPointLight) {
+                    arm.navPointLight.intensity = 0.75;
+                }
             });
 
             // Reset main body
@@ -1760,17 +1925,40 @@
         let batteryVoltage = 11.80;
         const clock = new THREE.Clock();
 
+        // Progressive Input Shaping (RC Expo / Anti-Burst Smoothing)
+        let pitchRamp = 0;
+        let rollRamp = 0;
+        let latestLiDARReading = { dist: 99.0, name: '無障礙物', direction: '周圍', point: new THREE.Vector3() };
+
         function updatePhysics() {
-            // Keyboard Controls
+            // Keyboard Controls with Expo Input Shaping (Gentle micro-trim on tap, 40.1 deg sprint on hold)
             let throttleAcc = 0;
-            let targetPitch = 0, targetRoll = 0;
+            let rawPitchCmd = 0;
+            let rawRollCmd = 0;
+
+            if (keys['KeyW']) rawPitchCmd -= 1.0;
+            if (keys['KeyS']) rawPitchCmd += 1.0;
+            if (keys['KeyA']) rawRollCmd += 1.0;
+            if (keys['KeyD']) rawRollCmd -= 1.0;
+
+            if (rawPitchCmd !== 0) {
+                pitchRamp = Math.min(1.0, pitchRamp + 0.12);
+            } else {
+                pitchRamp = Math.max(0, pitchRamp - 0.25);
+            }
+            let targetPitch = rawPitchCmd * 0.70 * (0.35 + 0.65 * (pitchRamp * pitchRamp));
+            if (rawPitchCmd === 0) targetPitch = 0;
+
+            if (rawRollCmd !== 0) {
+                rollRamp = Math.min(1.0, rollRamp + 0.12);
+            } else {
+                rollRamp = Math.max(0, rollRamp - 0.25);
+            }
+            let targetRoll = rawRollCmd * 0.70 * (0.35 + 0.65 * (rollRamp * rollRamp));
+            if (rawRollCmd === 0) targetRoll = 0;
 
             if (keys['ArrowUp']) throttleAcc += 14.0;       // Lift / Up (High TWR)
             if (keys['ArrowDown']) throttleAcc -= 9.0;       // Descend
-            if (keys['KeyW']) targetPitch = -0.70;           // Pitch Forward (Agile ~40.1 deg)
-            if (keys['KeyS']) targetPitch = 0.70;            // Pitch Backward (Agile ~40.1 deg)
-            if (keys['KeyA']) targetRoll = 0.70;             // Roll Left (Agile ~40.1 deg)
-            if (keys['KeyD']) targetRoll = -0.70;            // Roll Right (Agile ~40.1 deg)
             if (keys['ArrowLeft'] || keys['KeyQ']) rotationSpeed = 0.08;     // Yaw Left (Agile Rate)
             else if (keys['ArrowRight'] || keys['KeyE']) rotationSpeed = -0.08; // Yaw Right (Agile Rate)
             else rotationSpeed = 0;
@@ -1839,13 +2027,20 @@
 
             // Horizontal thrust components from tilted rotor plane (Exact projection in world frame)
             const windX = currentWind[0];
-            const thrustMultiplier = 18.0 * (0.3 + 0.7 * intactRatio);
+            const thrustMultiplier = 15.5 * (0.3 + 0.7 * intactRatio);
             velocity.x += (thrustVector.x * thrustMultiplier + windX * 0.2) * 0.016;
             velocity.z += (thrustVector.z * thrustMultiplier) * 0.016;
 
-            // Air Drag Damping
-            velocity.x *= 0.98;
-            velocity.z *= 0.98;
+            // Air Drag & Active Leveling Braking Damping
+            const hasDirectionalInput = (rawPitchCmd !== 0 || rawRollCmd !== 0);
+            if (!hasDirectionalInput && !isCatastrophic) {
+                // Active Leveling Braking (Neutral stick damping to prevent ice-sliding overshoot)
+                velocity.x *= 0.935;
+                velocity.z *= 0.935;
+            } else {
+                velocity.x *= 0.978;
+                velocity.z *= 0.978;
+            }
             velocity.y *= 0.95;
 
             // Update Drone Position & Smooth Camera Tracking
@@ -1931,12 +2126,137 @@
                 batteryVoltage = Math.max(10.2, batteryVoltage - 0.0003);
                 document.getElementById('st-bat').innerText = batteryVoltage.toFixed(2) + ' V';
             }
+
+            // 8. Rangefinder / LiDAR Proximity Sensing & Directional Heading Computation
+            let nearestDist = 999.0;
+            let nearestPt = new THREE.Vector3();
+            let nearestObjName = '無障礙物';
+            const dronePos = drone.position.clone();
+            const tempPt = new THREE.Vector3();
+
+            // Ground distance check
+            const groundDist = Math.max(0, dronePos.y - 0.05);
+            if (groundDist < nearestDist) {
+                nearestDist = groundDist;
+                nearestPt.set(dronePos.x, 0.02, dronePos.z);
+                nearestObjName = '地面 (Ground)';
+            }
+
+            // Check all active scenario obstacles
+            activeObstacles.forEach(obs => {
+                obs.box.clampPoint(dronePos, tempPt);
+                const d = dronePos.distanceTo(tempPt);
+                if (d < nearestDist) {
+                    nearestDist = d;
+                    nearestPt.copy(tempPt);
+                    nearestObjName = obs.name || '剛體障礙物';
+                }
+            });
+
+            // Calculate relative body direction using inverse quaternion
+            const dirVec = nearestPt.clone().sub(dronePos);
+            const invQuat = drone.quaternion.clone().invert();
+            const localDir = dirVec.clone().applyQuaternion(invQuat);
+
+            let dirLabel = '周圍';
+            if (nearestObjName === '地面 (Ground)') {
+                dirLabel = '正下方 ⬇️';
+            } else {
+                const isFront = localDir.z < -0.25;
+                const isBack = localDir.z > 0.25;
+                const isLeft = localDir.x < -0.25;
+                const isRight = localDir.x > 0.25;
+                const isAbove = localDir.y > 0.35;
+                const isBelow = localDir.y < -0.35;
+
+                if (isAbove) dirLabel = '正上方 ⬆️';
+                else if (isBelow) dirLabel = '下方 ⬇️';
+                else if (isFront && isLeft) dirLabel = '前偏左 ↖️';
+                else if (isFront && isRight) dirLabel = '前偏右 ↗️';
+                else if (isBack && isLeft) dirLabel = '後偏左 ↙️';
+                else if (isBack && isRight) dirLabel = '後偏右 ↘️';
+                else if (isFront) dirLabel = '正前方 ⬆️';
+                else if (isBack) dirLabel = '正後方 ⬇️';
+                else if (isLeft) dirLabel = '正左舷 ⬅️';
+                else if (isRight) dirLabel = '正右舷 ➡️';
+                else dirLabel = '近距掠過 ⚡';
+            }
+
+            latestLiDARReading = {
+                dist: nearestDist,
+                name: nearestObjName,
+                direction: dirLabel,
+                point: nearestPt.clone()
+            };
+
+            // Update 3D Laser Ray & Obstacle Contact Reticle
+            if (nearestDist <= 12.0 && !isCatastrophic) {
+                laserRayLine.visible = true;
+                laserDotMesh.visible = true;
+
+                const sensorWorldPos = new THREE.Vector3(0, 0.16, 0).applyMatrix4(drone.matrixWorld);
+                const posArr = laserRayLine.geometry.attributes.position.array;
+                posArr[0] = sensorWorldPos.x; posArr[1] = sensorWorldPos.y; posArr[2] = sensorWorldPos.z;
+                posArr[3] = nearestPt.x; posArr[4] = nearestPt.y; posArr[5] = nearestPt.z;
+                laserRayLine.geometry.attributes.position.needsUpdate = true;
+
+                laserDotMesh.position.copy(nearestPt);
+
+                let rayHex = 0x22c55e;
+                if (nearestDist < 0.9) rayHex = 0xff1744;
+                else if (nearestDist < 2.0) rayHex = 0xfacc15;
+
+                laserRayMat.color.setHex(rayHex);
+                laserDotMat.color.setHex(rayHex);
+            } else {
+                laserRayLine.visible = false;
+                laserDotMesh.visible = false;
+            }
+
+            // Update HUD Proximity Telemetry
+            const distEl = document.getElementById('st-nearest-dist');
+            const nameEl = document.getElementById('st-nearest-name');
+            const dirEl = document.getElementById('st-nearest-dir');
+            const barEl = document.getElementById('st-proximity-bar');
+            const proxAlertEl = document.getElementById('st-proximity-alert');
+
+            if (distEl) {
+                distEl.innerText = nearestDist.toFixed(2) + ' m';
+                if (nameEl) nameEl.innerText = nearestObjName;
+                if (dirEl) dirEl.innerText = dirLabel;
+
+                const barFillPct = Math.max(0, Math.min(100, ((3.0 - Math.min(3.0, nearestDist)) / 3.0) * 100));
+                if (barEl) {
+                    barEl.style.width = barFillPct + '%';
+                    if (nearestDist < 0.8) {
+                        distEl.style.color = '#ff1744';
+                        barEl.style.background = '#ff1744';
+                        if (proxAlertEl) proxAlertEl.style.display = 'block';
+                    } else if (nearestDist < 1.8) {
+                        distEl.style.color = '#facc15';
+                        barEl.style.background = '#facc15';
+                        if (proxAlertEl) proxAlertEl.style.display = 'none';
+                    } else {
+                        distEl.style.color = '#4ade80';
+                        barEl.style.background = '#22c55e';
+                        if (proxAlertEl) proxAlertEl.style.display = 'none';
+                    }
+                }
+            }
         }
 
         // 7. Animation Loop with Real-time Environment FX & Dynamic Particle Lifecycle
         function animate() {
             requestAnimationFrame(animate);
             const elapsedTime = clock.getElapsedTime();
+
+            // Dynamic Sensor & Beacon Effects
+            if (lidarScanRing) {
+                lidarScanRing.rotation.z += 0.08;
+            }
+            if (tailBeaconLight) {
+                tailBeaconLight.intensity = (Math.sin(elapsedTime * 9.0) > 0.3 ? 1.4 : 0.1);
+            }
 
             // Scenario-specific dynamic animations
             if (activeEnvKey === 'offshore_wind') {
