@@ -185,6 +185,19 @@ class Interactive3DViewer:
             </div>
         </div>
 
+        <!-- M2.1 Organic Generative 3D Print CAD Section -->
+        <div style="margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(64, 196, 255, 0.25);">
+            <div style="display: flex; justify-content: space-between; font-size: 11.5px; margin-bottom: 5px;">
+                <span style="color: #38bdf8; font-weight: bold;">🖨️ 3D 列印有機造型 (M2.1 STL)</span>
+                <span id="cad-print-tag" class="badge" style="background: #10b981; color: #fff; font-size: 10px;">可列印 (STL Ready)</span>
+            </div>
+            <div style="font-size: 11px; color: #94a3b8; line-height: 1.5;">
+                <div><b>包絡尺寸</b>: {cad_profile['bounding_box_mm']['x']} × {cad_profile['bounding_box_mm']['y']} × {cad_profile['bounding_box_mm']['z']} mm</div>
+                <div><b>耗材預估</b>: {cad_profile['estimated_print_weight_g']}g ({cad_profile['material']}) | 體積: {cad_profile['airframe_volume_cm3']} cm³</div>
+                <div><b>幾何特性</b>: 仿生漸變機臂 + 力流鏤空肋條 ({cad_profile['total_triangles']} 三角面)</div>
+            </div>
+        </div>
+
         <!-- Scene Environments Selector -->
         <div class="env-section">
             <div class="env-label-row">

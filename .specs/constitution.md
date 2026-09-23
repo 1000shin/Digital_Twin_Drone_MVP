@@ -102,7 +102,7 @@ Digital_Twin_Drone_MVP/
 * [x] **[M1.11]** 全套自動化單元測試覆蓋 (27/27 項測試 100% 通過)
 
 ### Phase 2: 虛實閉環與智慧自駕 (當前進行中 - 納入 5 大對齊決策)
-* [ ] **[M2.1] 有機造型 3D 列印 CAD 生成模組 (Organic Generative CAD)**：從參數化演化長成升級至可製造性有機幾何與標準 3D 列印檔案輸出 (`.stl` / `.step`)。
+* [x] **[M2.1] 有機造型 3D 列印 CAD 生成模組 (Organic Generative CAD)**：從參數化演化長成升級至可製造性有機幾何與標準 3D 列印檔案輸出 (`.stl` / `.step`)。
 * [ ] **[M2.2] PX4 日誌自動解析與 Real-to-Sim 雙軌校準腳本 (System Identification)**：接收 PX4 ULog / MAVLink 日誌，自動比對動力（PWM-推力、電壓陡降）與氣動（$C_d$、升阻比）誤差，自動回寫 `components_db.json`。
 * [ ] **[M2.3] 演化後邊緣晶片模組化規格推薦器 (Compute Profiler)**：演化完成後根據任務自駕演算法複雜度，自動輸出建議算力 TOPS、記憶體、功耗與載重規格書。
 * [ ] **[M2.4] 抽象感測器軟韌體介面合約定義 (Abstract Sensor Contract)**：定義採樣頻率、延遲限制、頻寬與 FOV 規格，暫不硬性綁定特定中介層。
