@@ -1,5 +1,5 @@
 {
-  "timestamp": 1790188105.9071538,
+  "timestamp": 1790188724.544447,
   "mission_spec": {
     "mission_type": "unit_test_inspection",
     "max_size_m": 0.6,
@@ -1606,7 +1606,9 @@
     "urdf": "/Users/jasonzheng/Documents/Obsidian workspace/AI agent workspace/Digital_Twin_Drone_MVP/output/evolved_unit_test_inspection.urdf",
     "sdf": "/Users/jasonzheng/Documents/Obsidian workspace/AI agent workspace/Digital_Twin_Drone_MVP/output/evolved_unit_test_inspection.sdf",
     "evolution_lineage_report": "/Users/jasonzheng/Documents/Obsidian workspace/AI agent workspace/Digital_Twin_Drone_MVP/output/evolution_lineage_report.md",
-    "evolution_history": "/Users/jasonzheng/Documents/Obsidian workspace/AI agent workspace/Digital_Twin_Drone_MVP/output/evolution_history.json"
+    "evolution_history": "/Users/jasonzheng/Documents/Obsidian workspace/AI agent workspace/Digital_Twin_Drone_MVP/output/evolution_history.json",
+    "stl": "/Users/jasonzheng/Documents/Obsidian workspace/AI agent workspace/Digital_Twin_Drone_MVP/output/evolved_unit_test_inspection.stl",
+    "print_profile": "/Users/jasonzheng/Documents/Obsidian workspace/AI agent workspace/Digital_Twin_Drone_MVP/output/evolved_unit_test_inspection_print_profile.json"
   },
   "telemetry_log_frames": 65,
   "status": "SUCCESS"

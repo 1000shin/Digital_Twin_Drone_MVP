@@ -32,7 +32,11 @@ class TestChoice1Foxglove(unittest.TestCase):
         log_path = self.streamer.export_foxglove_log(sample_history, "unit_test_session")
         self.assertTrue(log_path.exists())
 
-        with open(log_path, "r", encoding="utf-8") as f:
+        # Both native MCAP and JSON telemetry stream files are exported
+        json_path = self.output / "foxglove_stream_unit_test_session.json"
+        self.assertTrue(json_path.exists())
+
+        with open(json_path, "r", encoding="utf-8") as f:
             data = json.load(f)
 
         self.assertEqual(len(data["frames"]), 1)

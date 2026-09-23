@@ -146,7 +146,7 @@
 | **自律勢能場策略預測** | ✅ PASSED | `test_ai_autonomous_pipeline.py::test_autonomous_flight_policy_predict` |
 | **WebGL AI HUD 與兩階段起飛** | ✅ PASSED | `test_ai_autonomous_pipeline.py::test_webgl_simulator_ai_autopilot_elements` |
 | **Gen-4 模型系譜與永久模型庫** | ✅ PASSED | `output/models_archive/gen_04_sentinel_prime_v4/` |
-| **32 項全專案自動化測試覆蓋** | ✅ PASSED | `python3 -m unittest discover -s . -p "test_*.py"` (32/32 OK, 8.8s) |
+| **35 項全專案自動化測試覆蓋** | ✅ PASSED | `python3 -m unittest discover -s . -p "test_*.py"` (35/35 OK, 8.9s) |
 
 ---
 *簽核狀態*: **APPROVED & COMMITTED**  

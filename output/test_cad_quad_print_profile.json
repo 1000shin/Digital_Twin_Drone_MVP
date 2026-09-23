@@ -1,0 +1,28 @@
+{
+  "model_id": "test_cad_quad",
+  "num_arms": 4,
+  "arm_length_m": 0.2,
+  "bounding_box_mm": {
+    "x": 434.0,
+    "y": 434.0,
+    "z": 81.0
+  },
+  "airframe_volume_cm3": 278.49,
+  "material": "PETG-CF",
+  "density_g_cm3": 1.25,
+  "estimated_print_weight_g": 121.8,
+  "total_triangles": 480,
+  "recommended_slicer_settings": {
+    "nozzle_size_mm": 0.4,
+    "layer_height_mm": 0.2,
+    "wall_loops": 4,
+    "top_bottom_layers": 5,
+    "infill_percentage": 30,
+    "infill_pattern": "gyroid",
+    "supports_required": true,
+    "support_type": "tree_organic",
+    "print_speed_mm_s": 120,
+    "bed_temperature_c": 80,
+    "nozzle_temperature_c": 245
+  }
+}

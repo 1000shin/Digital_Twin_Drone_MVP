@@ -18,6 +18,7 @@
 | **v7.0.0** | 2026-09-19 | **WebGL 3D 模擬器與檢視器多情境切換引擎**：在 3D 模擬器與檢視器新增「情境切換選單 (Scene Environments)」，提供 4 大情境 (離岸風場、城市高樓搜救、碰撞競技場、夜間紅外線巡檢)，即時無縫切換材質、動態水波、風機旋轉、探照燈、FLIR 熱成像與物理碰撞盒。 | `test_webgl_environments.py` |
 | **v8.0.0** | 2026-09-19 | **3D WebGL 撞擊動態破損模擬系統 (Crash & Structural Damage Simulation)**：實作局部機臂彎曲折損、碳纖維焦黑碎裂紋理、斷槳剪切縮放、高溫火花與飛散碎片粒子系統 (Sparks & Debris Particles)、機身健康度 HUD、BOM 實時受損同步、推力失衡劇烈震顫/失速翻滾墜毀與一鍵快速維修重置 (Repair & Reset)。 | `test_webgl_environments.py` (100% Pass) |
 | **v9.0.0** | 2026-09-19 | **[DIG-13] 形態演化決策與變遷原因追蹤系統 (Evolutionary Change & Lineage Explainability Engine)**：在 DEAP 演化引擎實作物理變革動機 (Morphological Change Rationale: 機臂縮短消除空間約束懲罰、電池升級滿足滯空門檻、馬達槳葉更換達成安全與最佳 TWR)、世代躍遷決策歷史 (Generation-by-Generation Decision Trail & Ancestry Lineage)、結構化數據輸出 (`evolution_reasoning_log`, `morph_decisions`)，並自動導出 `output/evolution_lineage_report.md` 與 `output/evolution_history.json`。 | `test_morph_evolution.py` (5/5 Pass)<br/>`test_run_mvp_pipeline.py` (Pass) |
+| **v10.0.0** | 2026-09-24 | **[M2.5] 虛擬環境無人干預強化學習 (RL) 訓練管線與 AI 自駕導航系統**：實作標準 Gymnasium 強化學習環境 (`drone_rl_env.py`, 23 維觀測狀態、4 維動作、8 向 LiDAR 測距、穿門 Gate 0~4 與邊界防護)、人工勢能場 APF 策略學習器 (`autonomous_flight_learner.py`，支援人類飛手 2Hz 遙測示範先驗暖機)、WebGL 3D 模擬器 AI Autopilot 儀表面板與兩階段起飛保護；修復 JS TDZ 致命錯誤與 Foxglove 測試相容性；導出 Gen-4 Sentinel Prime 3D 模型實體與歷史系譜。 | `test_ai_autonomous_pipeline.py` (8/8 Pass)<br/>`python3 -m unittest` (35/35 Pass, 100%) |
 
 ---
 
@@ -89,6 +90,9 @@ python3 test_choice_1.py           # ✅ PASSED (2/2 tests)
 python3 test_choice_2.py           # ✅ PASSED (2/2 tests)
 python3 test_choice_3.py           # ✅ PASSED (2/2 tests)
 python3 test_webgl_environments.py # ✅ PASSED (4/4 tests)
+python3 test_ai_autonomous_pipeline.py # ✅ PASSED (8/8 tests: RL環境/動態角速度/勢能場/暖機/TDZ全通)
+# 全專案全域迴歸測試
+python3 -m unittest discover -s . -p "test_*.py" # ✅ PASSED (35/35 tests 100%, 8.9s)
 ```
 
 ---

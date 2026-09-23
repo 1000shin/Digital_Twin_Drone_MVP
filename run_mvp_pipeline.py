@@ -50,6 +50,10 @@ class DigitalTwinPipeline:
         model_paths = self.builder.export_files(evolved_spec, self.output_dir)
         print(f"  ✓ URDF Exported: {model_paths['urdf'].name}")
         print(f"  ✓ SDF Exported:  {model_paths['sdf'].name}")
+        if "stl" in model_paths:
+            print(f"  ✓ Organic 3D Print STL: {model_paths['stl'].name}")
+        if "print_profile" in model_paths:
+            print(f"  ✓ 3D Print Profile:     {model_paths['print_profile'].name}")
 
         # Stage 3: MAVLink Autonomous SITL Flight Execution
         print("\n[Stage 3/4] Executing MAVLink Autonomous Offboard Flight...")
@@ -72,6 +76,17 @@ class DigitalTwinPipeline:
 
         # Stage 4: Digital Twin Telemetry & Report Export
         print("\n[Stage 4/4] Exporting Digital Twin Summary & Telemetry Log...")
+        generated_files = {
+            "urdf": str(model_paths["urdf"]),
+            "sdf": str(model_paths["sdf"]),
+            "evolution_lineage_report": str(self.output_dir / "evolution_lineage_report.md"),
+            "evolution_history": str(self.output_dir / "evolution_history.json")
+        }
+        if "stl" in model_paths:
+            generated_files["stl"] = str(model_paths["stl"])
+        if "print_profile" in model_paths:
+            generated_files["print_profile"] = str(model_paths["print_profile"])
+
         report = {
             "timestamp": time.time(),
             "mission_spec": mission_spec,
@@ -79,12 +94,7 @@ class DigitalTwinPipeline:
             "drone_stats": evolved_spec.get("stats", {}),
             "evolution_reasoning_log": evolved_spec.get("evolution_reasoning_log", []),
             "morph_decisions": evolved_spec.get("morph_decisions", []),
-            "generated_files": {
-                "urdf": str(model_paths["urdf"]),
-                "sdf": str(model_paths["sdf"]),
-                "evolution_lineage_report": str(self.output_dir / "evolution_lineage_report.md"),
-                "evolution_history": str(self.output_dir / "evolution_history.json")
-            },
+            "generated_files": generated_files,
             "telemetry_log_frames": len(telemetry),
             "status": "SUCCESS"
         }

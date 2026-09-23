@@ -1515,6 +1515,13 @@ class WebGLFlightSimulator:
 
             // Update HUD & BOM
             updateDamageHUD(damagedDesc, hitObjectName);
+
+            // Auto-disengage AI if damage is catastrophic
+            const brokenCountNow = droneArmComponents.filter(a => a.isArmBroken || a.isPropBroken).length;
+            const intactRatioNow = (numArms - brokenCountNow) / numArms;
+            if ((droneStructuralIntegrity <= 20 || intactRatioNow <= 0.5) && isAIAutopilotActive) {{
+                disengageAIAutopilot('crash');
+            }}
         }}
 
         function updateDamageHUD(lastDamagedDesc, hitObjectName) {{
@@ -2132,6 +2139,16 @@ class WebGLFlightSimulator:
         let latestLiDARReading = {{ dist: 99.0, name: '無障礙物', direction: '周圍', point: new THREE.Vector3() }};
 
         function updatePhysics() {{
+            // Damage evaluation on flight physics (Hoisted to eliminate TDZ ReferenceError)
+            const brokenCount = droneArmComponents.filter(a => a.isArmBroken || a.isPropBroken).length;
+            const intactRatio = (numArms - brokenCount) / numArms;
+            const isCatastrophic = droneStructuralIntegrity <= 20 || intactRatio <= 0.5;
+
+            // Auto-disengage AI autopilot on catastrophic damage
+            if (isCatastrophic && isAIAutopilotActive) {{
+                disengageAIAutopilot('crash');
+            }}
+
             // Control Authority: AI Autopilot Mode vs Manual Keyboard Controls
             let throttleAcc = 0;
             let rawPitchCmd = 0;
@@ -2287,11 +2304,7 @@ class WebGLFlightSimulator:
                 if (rawRollCmd === 0) targetRoll = 0;
             }}
 
-            // Damage impact on flight physics
-            const brokenCount = droneArmComponents.filter(a => a.isArmBroken || a.isPropBroken).length;
-            const intactRatio = (numArms - brokenCount) / numArms;
-            const isCatastrophic = droneStructuralIntegrity <= 20 || intactRatio <= 0.5;
-
+            // Apply damage impact on flight dynamics (using hoisted evaluations)
             if (isCatastrophic) {{
                 // Loss of control: spin and tumble
                 rotationSpeed += 0.15;

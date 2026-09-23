@@ -126,5 +126,43 @@ class TestAIAutonomousPipeline(unittest.TestCase):
         self.assertEqual(len(idx["generations"]), 4)
         self.assertEqual(idx["generations"][3]["design_id"], "evolved_sentinel_prime_v4")
 
+    def test_rl_env_angular_velocity_dynamics(self):
+        """Verifies angular velocity is actively updated and non-zero on attitude change."""
+        env = DroneRLEnvironment(seed=123)
+        env.reset()
+        self.assertEqual(env.ang_vel, [0.0, 0.0, 0.0])
+
+        # Step with active roll and yaw command
+        next_obs, _, _, _, _ = env.step([0.0, 0.5, 0.4, 0.0])
+        # Indices 9, 10, 11 are wx, wy, wz
+        self.assertNotEqual(env.ang_vel[1], 0.0)  # wy updated from cmd_yaw
+        self.assertNotEqual(env.ang_vel[2], 0.0)  # wz updated from roll delta
+        self.assertEqual(next_obs[10], env.ang_vel[1])
+
+    def test_autonomous_learner_human_warmup_and_trial(self):
+        """Verifies AC-3.1 behavioral cloning warmup and autonomous trial batch execution."""
+        learner = AutonomousFlightLearner(output_dir=self.output_dir)
+        warm_res = learner.warm_up_result
+        self.assertEqual(warm_res.get("status"), "warmed_up")
+        self.assertGreater(warm_res.get("samples_analyzed", 0), 0)
+
+        # Run short trial batch to verify learning speed and schema
+        batch = learner.run_trial_batch(num_episodes=5)
+        self.assertEqual(batch["session_id"], "ai_autonomous_session_001")
+        self.assertIn("summary", batch)
+        self.assertIn("metrics", batch)
+        self.assertIn("samples", batch)
+        self.assertGreater(len(batch["samples"]), 0)
+
+    def test_webgl_simulator_no_tdz_bug(self):
+        """Verifies isCatastrophic is declared BEFORE any conditional access in updatePhysics."""
+        html_path = self.output_dir / "flight_test_simulator.html"
+        content = html_path.read_text(encoding="utf-8")
+        idx_decl = content.find("const isCatastrophic =")
+        idx_use = content.find("isAIAutopilotActive && !isCatastrophic")
+        self.assertNotEqual(idx_decl, -1)
+        self.assertNotEqual(idx_use, -1)
+        self.assertLess(idx_decl, idx_use, "isCatastrophic must be declared before it is accessed to prevent TDZ error")
+
 if __name__ == "__main__":
     unittest.main()

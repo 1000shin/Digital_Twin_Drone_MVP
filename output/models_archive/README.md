@@ -19,14 +19,16 @@
 
 ```bash
 output/models_archive/
-├── index.json                        # 機器可讀世代全覽索引庫
+├── index.json                        # 機器可讀世代全覽索引庫 (含 STL 與列印規格路徑)
 ├── README.md                         # 世代技術演化綜合說明
-├── gen_01_baseline_confined_v1/      # 第 1 代模型封裝
-├── gen_02_agile_confined_v2/         # 第 2 代模型封裝
-├── gen_03_shield_sentinel_v3/        # 第 3 代模型封裝
+├── gen_01_baseline_confined_v1/      # 第 1 代模型封裝 (URDF / SDF / STL / Print Profile)
+├── gen_02_agile_confined_v2/         # 第 2 代模型封裝 (URDF / SDF / STL / Print Profile)
+├── gen_03_shield_sentinel_v3/        # 第 3 代模型封裝 (URDF / SDF / STL / Print Profile)
 └── gen_04_sentinel_prime_v4/         # 第 4 代 AI 自主試錯閉環模型封裝
-    ├── evolved_sentinel_prime_v4.urdf
-    ├── evolved_sentinel_prime_v4.sdf
+    ├── evolved_sentinel_prime_v4.urdf              # ROS 2 / 物理計算描述
+    ├── evolved_sentinel_prime_v4.sdf               # Gazebo 模擬描述
+    ├── evolved_sentinel_prime_v4.stl               # [M2.1] 工業標準二進位 3D 列印單體網格
+    ├── evolved_sentinel_prime_v4_print_profile.json # [M2.1] 3D 列印參數、耗材重量與包絡體積
     ├── model_spec.json
     └── METADATA.md
 ```

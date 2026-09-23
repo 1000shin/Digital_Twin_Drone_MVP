@@ -1,33 +1,54 @@
 {
-  "session_id": "ai_session_001",
-  "timestamp": "2026-09-24 02:28:03",
-  "total_episodes": 50,
-  "total_steps": 18495,
-  "elapsed_seconds": 0.35,
-  "sim_fps": 53214.3,
+  "session_id": "ai_autonomous_session_001",
+  "drone_model": "evolved_shield_sentinel_v3",
+  "flight_mode": "autonomous_rl_guided",
+  "timestamp": "2026-09-24 02:39:01",
+  "total_episodes": 5,
+  "total_steps": 1866,
+  "elapsed_seconds": 0.07,
+  "sim_fps": 28554.3,
+  "summary": {
+    "total_duration_sec": 0.07,
+    "gates_cleared": 9,
+    "laps_completed": 0,
+    "collisions": 3,
+    "cumulative_reward": 437.61,
+    "safe_pass_rate_pct": 40.0
+  },
   "metrics": {
-    "average_reward": 475.07,
-    "average_survival_steps": 369.9,
-    "total_gates_passed": 97,
-    "total_laps_completed": 1,
-    "safe_flight_rate_pct": 28.0,
-    "total_collisions": 36
+    "average_reward": 437.61,
+    "average_survival_steps": 373.2,
+    "total_gates_passed": 9,
+    "total_laps_completed": 0,
+    "safe_flight_rate_pct": 40.0,
+    "total_collisions": 3
   },
   "failure_distribution": {
-    "競技場外邊界 (Boundary)": 19,
-    "立體立柱 #5": 7,
-    "立體立柱 #1": 6,
-    "立體立柱 #3": 1,
-    "立體立柱 #2": 3
+    "競技場外邊界 (Boundary)": 2,
+    "立體立柱 #1": 1
   },
   "adapted_policy_params": {
-    "k_goal_attract": 1.45,
-    "k_lidar_repel": 2.45,
-    "repel_threshold_m": 3.0,
-    "climb_kp": 1.8,
+    "k_goal_attract": 1.6,
+    "k_lidar_repel": 2.4400000000000004,
+    "repel_threshold_m": 2.992,
+    "climb_kp": 1.75,
     "climb_kd": 0.65,
-    "max_turn_rate": 0.95,
+    "max_turn_rate": 0.946,
     "speed_brake_gain": 0.75
+  },
+  "warm_up_status": {
+    "status": "warmed_up",
+    "samples_analyzed": 50,
+    "fitted_params": {
+      "k_goal_attract": 1.6,
+      "k_lidar_repel": 2.2,
+      "repel_threshold_m": 2.8,
+      "climb_kp": 1.75,
+      "climb_kd": 0.65,
+      "max_turn_rate": 0.85,
+      "speed_brake_gain": 0.75
+    },
+    "source_dataset": "flight_training_data_sample.json"
   },
   "morphological_feedback": {
     "diagnosed_weakness": "高曲率轉彎時涵道邊緣與穿越門立柱側向擦碰",
@@ -37,556 +58,1063 @@
       "強化外圈聚碳酸酯涵道吸能環厚度 (由 2.0mm 增強至 2.5mm，確保高速擦碰反彈不斷槳)"
     ]
   },
+  "samples": [
+    {
+      "timestamp": 0.05,
+      "position": [
+        0.084,
+        1.2,
+        -0.285
+      ],
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attitude": {
+        "pitch": 0.0,
+        "roll": 0.0,
+        "yaw": -0.09
+      },
+      "lidar_min_dist": 3.57,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 0.1,
+      "position": [
+        0.083,
+        1.21,
+        -0.29
+      ],
+      "velocity": [
+        -0.018,
+        0.199,
+        -0.091
+      ],
+      "attitude": {
+        "pitch": -0.118,
+        "roll": 0.035,
+        "yaw": -0.097
+      },
+      "lidar_min_dist": 3.57,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 0.15,
+      "position": [
+        0.081,
+        1.234,
+        -0.301
+      ],
+      "velocity": [
+        -0.029,
+        0.474,
+        -0.228
+      ],
+      "attitude": {
+        "pitch": -0.182,
+        "roll": 0.03,
+        "yaw": -0.083
+      },
+      "lidar_min_dist": 3.55,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 0.2,
+      "position": [
+        0.08,
+        1.27,
+        -0.321
+      ],
+      "velocity": [
+        -0.025,
+        0.735,
+        -0.411
+      ],
+      "attitude": {
+        "pitch": -0.25,
+        "roll": 0.013,
+        "yaw": -0.072
+      },
+      "lidar_min_dist": 3.53,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 0.25,
+      "position": [
+        0.08,
+        1.317,
+        -0.353
+      ],
+      "velocity": [
+        -0.002,
+        0.939,
+        -0.625
+      ],
+      "attitude": {
+        "pitch": -0.3,
+        "roll": -0.003,
+        "yaw": -0.088
+      },
+      "lidar_min_dist": 3.51,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 0.3,
+      "position": [
+        0.081,
+        1.374,
+        -0.393
+      ],
+      "velocity": [
+        0.019,
+        1.138,
+        -0.798
+      ],
+      "attitude": {
+        "pitch": -0.251,
+        "roll": -0.006,
+        "yaw": -0.087
+      },
+      "lidar_min_dist": 3.49,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 0.35,
+      "position": [
+        0.081,
+        1.443,
+        -0.44
+      ],
+      "velocity": [
+        -0.007,
+        1.366,
+        -0.943
+      ],
+      "attitude": {
+        "pitch": -0.212,
+        "roll": 0.052,
+        "yaw": -0.085
+      },
+      "lidar_min_dist": 3.46,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 0.4,
+      "position": [
+        0.078,
+        1.519,
+        -0.492
+      ],
+      "velocity": [
+        -0.044,
+        1.533,
+        -1.052
+      ],
+      "attitude": {
+        "pitch": -0.166,
+        "roll": 0.066,
+        "yaw": -0.099
+      },
+      "lidar_min_dist": 3.42,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 0.45,
+      "position": [
+        0.076,
+        1.606,
+        -0.55
+      ],
+      "velocity": [
+        -0.04,
+        1.733,
+        -1.158
+      ],
+      "attitude": {
+        "pitch": -0.172,
+        "roll": 0.009,
+        "yaw": -0.081
+      },
+      "lidar_min_dist": 3.39,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 0.5,
+      "position": [
+        0.076,
+        1.699,
+        -0.615
+      ],
+      "velocity": [
+        -0.013,
+        1.87,
+        -1.291
+      ],
+      "attitude": {
+        "pitch": -0.213,
+        "roll": -0.015,
+        "yaw": -0.095
+      },
+      "lidar_min_dist": 3.35,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 0.55,
+      "position": [
+        0.077,
+        1.802,
+        -0.686
+      ],
+      "velocity": [
+        0.026,
+        2.062,
+        -1.428
+      ],
+      "attitude": {
+        "pitch": -0.223,
+        "roll": -0.033,
+        "yaw": -0.081
+      },
+      "lidar_min_dist": 3.34,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 0.6,
+      "position": [
+        0.079,
+        1.912,
+        -0.763
+      ],
+      "velocity": [
+        0.045,
+        2.195,
+        -1.534
+      ],
+      "attitude": {
+        "pitch": -0.184,
+        "roll": -0.011,
+        "yaw": -0.076
+      },
+      "lidar_min_dist": 3.34,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 0.65,
+      "position": [
+        0.081,
+        2.025,
+        -0.844
+      ],
+      "velocity": [
+        0.026,
+        2.254,
+        -1.615
+      ],
+      "attitude": {
+        "pitch": -0.15,
+        "roll": 0.035,
+        "yaw": -0.08
+      },
+      "lidar_min_dist": 3.32,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 0.7,
+      "position": [
+        0.08,
+        2.134,
+        -0.927
+      ],
+      "velocity": [
+        -0.009,
+        2.185,
+        -1.662
+      ],
+      "attitude": {
+        "pitch": -0.106,
+        "roll": 0.052,
+        "yaw": -0.059
+      },
+      "lidar_min_dist": 3.44,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 0.75,
+      "position": [
+        0.079,
+        2.238,
+        -1.012
+      ],
+      "velocity": [
+        -0.027,
+        2.076,
+        -1.694
+      ],
+      "attitude": {
+        "pitch": -0.088,
+        "roll": 0.029,
+        "yaw": -0.057
+      },
+      "lidar_min_dist": 4.64,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 0.8,
+      "position": [
+        0.075,
+        2.334,
+        -1.099
+      ],
+      "velocity": [
+        -0.081,
+        1.923,
+        -1.751
+      ],
+      "attitude": {
+        "pitch": -0.12,
+        "roll": 0.08,
+        "yaw": -0.065
+      },
+      "lidar_min_dist": 4.73,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 0.85,
+      "position": [
+        0.071,
+        2.423,
+        -1.188
+      ],
+      "velocity": [
+        -0.079,
+        1.77,
+        -1.788
+      ],
+      "attitude": {
+        "pitch": -0.099,
+        "roll": 0.007,
+        "yaw": -0.06
+      },
+      "lidar_min_dist": 4.91,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 0.9,
+      "position": [
+        0.067,
+        2.506,
+        -1.277
+      ],
+      "velocity": [
+        -0.081,
+        1.673,
+        -1.776
+      ],
+      "attitude": {
+        "pitch": -0.036,
+        "roll": 0.006,
+        "yaw": -0.058
+      },
+      "lidar_min_dist": 8.74,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 0.95,
+      "position": [
+        0.063,
+        2.585,
+        -1.362
+      ],
+      "velocity": [
+        -0.066,
+        1.587,
+        -1.705
+      ],
+      "attitude": {
+        "pitch": 0.041,
+        "roll": -0.02,
+        "yaw": -0.062
+      },
+      "lidar_min_dist": 8.71,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 1.0,
+      "position": [
+        0.06,
+        2.657,
+        -1.446
+      ],
+      "velocity": [
+        -0.079,
+        1.429,
+        -1.676
+      ],
+      "attitude": {
+        "pitch": -0.01,
+        "roll": 0.02,
+        "yaw": -0.069
+      },
+      "lidar_min_dist": 8.66,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 1.05,
+      "position": [
+        0.054,
+        2.723,
+        -1.528
+      ],
+      "velocity": [
+        -0.112,
+        1.324,
+        -1.642
+      ],
+      "attitude": {
+        "pitch": -0.0,
+        "roll": 0.046,
+        "yaw": -0.066
+      },
+      "lidar_min_dist": 8.76,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 1.1,
+      "position": [
+        0.048,
+        2.788,
+        -1.608
+      ],
+      "velocity": [
+        -0.119,
+        1.306,
+        -1.586
+      ],
+      "attitude": {
+        "pitch": 0.026,
+        "roll": 0.01,
+        "yaw": -0.054
+      },
+      "lidar_min_dist": 12.0,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 1.15,
+      "position": [
+        0.042,
+        2.844,
+        -1.685
+      ],
+      "velocity": [
+        -0.116,
+        1.111,
+        -1.546
+      ],
+      "attitude": {
+        "pitch": 0.007,
+        "roll": -0.001,
+        "yaw": -0.045
+      },
+      "lidar_min_dist": 12.0,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 1.2,
+      "position": [
+        0.038,
+        2.891,
+        -1.762
+      ],
+      "velocity": [
+        -0.078,
+        0.935,
+        -1.536
+      ],
+      "attitude": {
+        "pitch": -0.033,
+        "roll": -0.045,
+        "yaw": -0.047
+      },
+      "lidar_min_dist": 12.0,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 1.25,
+      "position": [
+        0.034,
+        2.928,
+        -1.841
+      ],
+      "velocity": [
+        -0.089,
+        0.747,
+        -1.578
+      ],
+      "attitude": {
+        "pitch": -0.098,
+        "roll": 0.024,
+        "yaw": -0.078
+      },
+      "lidar_min_dist": 12.0,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 1.3,
+      "position": [
+        0.029,
+        2.955,
+        -1.921
+      ],
+      "velocity": [
+        -0.089,
+        0.54,
+        -1.598
+      ],
+      "attitude": {
+        "pitch": -0.072,
+        "roll": 0.009,
+        "yaw": -0.077
+      },
+      "lidar_min_dist": 12.0,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 1.35,
+      "position": [
+        0.025,
+        2.976,
+        -2.002
+      ],
+      "velocity": [
+        -0.079,
+        0.418,
+        -1.62
+      ],
+      "attitude": {
+        "pitch": -0.075,
+        "roll": -0.005,
+        "yaw": -0.076
+      },
+      "lidar_min_dist": 12.0,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 1.4,
+      "position": [
+        0.022,
+        2.991,
+        -2.084
+      ],
+      "velocity": [
+        -0.077,
+        0.305,
+        -1.647
+      ],
+      "attitude": {
+        "pitch": -0.083,
+        "roll": 0.003,
+        "yaw": -0.047
+      },
+      "lidar_min_dist": 12.0,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 1.45,
+      "position": [
+        0.017,
+        3.008,
+        -2.167
+      ],
+      "velocity": [
+        -0.096,
+        0.328,
+        -1.657
+      ],
+      "attitude": {
+        "pitch": -0.061,
+        "roll": 0.03,
+        "yaw": -0.032
+      },
+      "lidar_min_dist": 12.0,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 1.5,
+      "position": [
+        0.012,
+        3.018,
+        -2.249
+      ],
+      "velocity": [
+        -0.092,
+        0.199,
+        -1.64
+      ],
+      "attitude": {
+        "pitch": -0.025,
+        "roll": -0.002,
+        "yaw": -0.041
+      },
+      "lidar_min_dist": 12.0,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 1.55,
+      "position": [
+        0.007,
+        3.024,
+        -2.329
+      ],
+      "velocity": [
+        -0.114,
+        0.124,
+        -1.596
+      ],
+      "attitude": {
+        "pitch": 0.012,
+        "roll": 0.031,
+        "yaw": -0.06
+      },
+      "lidar_min_dist": 2.78,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 1.6,
+      "position": [
+        0.0,
+        3.028,
+        -2.406
+      ],
+      "velocity": [
+        -0.123,
+        0.091,
+        -1.555
+      ],
+      "attitude": {
+        "pitch": 0.009,
+        "roll": 0.014,
+        "yaw": -0.058
+      },
+      "lidar_min_dist": 2.67,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 1.65,
+      "position": [
+        -0.005,
+        3.029,
+        -2.48
+      ],
+      "velocity": [
+        -0.105,
+        0.022,
+        -1.474
+      ],
+      "attitude": {
+        "pitch": 0.06,
+        "roll": -0.023,
+        "yaw": -0.049
+      },
+      "lidar_min_dist": 2.62,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 1.7,
+      "position": [
+        -0.01,
+        3.029,
+        -2.548
+      ],
+      "velocity": [
+        -0.102,
+        -0.005,
+        -1.37
+      ],
+      "attitude": {
+        "pitch": 0.095,
+        "roll": -0.004,
+        "yaw": -0.04
+      },
+      "lidar_min_dist": 2.59,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 1.75,
+      "position": [
+        -0.015,
+        3.024,
+        -2.614
+      ],
+      "velocity": [
+        -0.094,
+        -0.096,
+        -1.301
+      ],
+      "attitude": {
+        "pitch": 0.05,
+        "roll": -0.009,
+        "yaw": -0.036
+      },
+      "lidar_min_dist": 2.55,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 1.8,
+      "position": [
+        -0.02,
+        3.02,
+        -2.675
+      ],
+      "velocity": [
+        -0.101,
+        -0.096,
+        -1.239
+      ],
+      "attitude": {
+        "pitch": 0.045,
+        "roll": 0.009,
+        "yaw": -0.043
+      },
+      "lidar_min_dist": 2.52,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 1.85,
+      "position": [
+        -0.024,
+        3.018,
+        -2.735
+      ],
+      "velocity": [
+        -0.083,
+        -0.028,
+        -1.184
+      ],
+      "attitude": {
+        "pitch": 0.036,
+        "roll": -0.021,
+        "yaw": -0.036
+      },
+      "lidar_min_dist": 2.5,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 1.9,
+      "position": [
+        -0.026,
+        3.024,
+        -2.792
+      ],
+      "velocity": [
+        -0.05,
+        0.107,
+        -1.155
+      ],
+      "attitude": {
+        "pitch": 0.002,
+        "roll": -0.042,
+        "yaw": -0.049
+      },
+      "lidar_min_dist": 2.49,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 1.95,
+      "position": [
+        -0.026,
+        3.027,
+        -2.85
+      ],
+      "velocity": [
+        -0.001,
+        0.068,
+        -1.158
+      ],
+      "attitude": {
+        "pitch": -0.04,
+        "roll": -0.061,
+        "yaw": -0.052
+      },
+      "lidar_min_dist": 2.48,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 2.0,
+      "position": [
+        -0.025,
+        3.028,
+        -2.909
+      ],
+      "velocity": [
+        0.018,
+        0.021,
+        -1.17
+      ],
+      "attitude": {
+        "pitch": -0.05,
+        "roll": -0.022,
+        "yaw": -0.056
+      },
+      "lidar_min_dist": 2.48,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 2.05,
+      "position": [
+        -0.024,
+        3.027,
+        -2.968
+      ],
+      "velocity": [
+        0.025,
+        -0.022,
+        -1.188
+      ],
+      "attitude": {
+        "pitch": -0.059,
+        "roll": -0.007,
+        "yaw": -0.059
+      },
+      "lidar_min_dist": 2.46,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 2.1,
+      "position": [
+        -0.022,
+        3.026,
+        -3.027
+      ],
+      "velocity": [
+        0.053,
+        -0.016,
+        -1.175
+      ],
+      "attitude": {
+        "pitch": -0.019,
+        "roll": -0.037,
+        "yaw": -0.046
+      },
+      "lidar_min_dist": 2.44,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 2.15,
+      "position": [
+        -0.017,
+        3.029,
+        -3.086
+      ],
+      "velocity": [
+        0.085,
+        0.054,
+        -1.183
+      ],
+      "attitude": {
+        "pitch": -0.045,
+        "roll": -0.043,
+        "yaw": -0.023
+      },
+      "lidar_min_dist": 2.43,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 2.2,
+      "position": [
+        -0.012,
+        3.026,
+        -3.147
+      ],
+      "velocity": [
+        0.115,
+        -0.054,
+        -1.219
+      ],
+      "attitude": {
+        "pitch": -0.083,
+        "roll": -0.041,
+        "yaw": -0.016
+      },
+      "lidar_min_dist": 2.45,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 2.25,
+      "position": [
+        -0.005,
+        3.024,
+        -3.21
+      ],
+      "velocity": [
+        0.123,
+        -0.034,
+        -1.25
+      ],
+      "attitude": {
+        "pitch": -0.076,
+        "roll": -0.011,
+        "yaw": -0.027
+      },
+      "lidar_min_dist": 2.46,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 2.3,
+      "position": [
+        0.0,
+        3.017,
+        -3.275
+      ],
+      "velocity": [
+        0.117,
+        -0.155,
+        -1.311
+      ],
+      "attitude": {
+        "pitch": -0.118,
+        "roll": 0.009,
+        "yaw": -0.042
+      },
+      "lidar_min_dist": 2.48,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 2.35,
+      "position": [
+        0.005,
+        3.014,
+        -3.342
+      ],
+      "velocity": [
+        0.095,
+        -0.05,
+        -1.342
+      ],
+      "attitude": {
+        "pitch": -0.078,
+        "roll": 0.03,
+        "yaw": -0.053
+      },
+      "lidar_min_dist": 2.5,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 2.4,
+      "position": [
+        0.008,
+        3.013,
+        -3.411
+      ],
+      "velocity": [
+        0.062,
+        -0.03,
+        -1.367
+      ],
+      "attitude": {
+        "pitch": -0.069,
+        "roll": 0.045,
+        "yaw": -0.062
+      },
+      "lidar_min_dist": 2.52,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 2.45,
+      "position": [
+        0.009,
+        3.01,
+        -3.48
+      ],
+      "velocity": [
+        0.02,
+        -0.052,
+        -1.387
+      ],
+      "attitude": {
+        "pitch": -0.065,
+        "roll": 0.057,
+        "yaw": -0.046
+      },
+      "lidar_min_dist": 2.6,
+      "ai_confidence": 76.0
+    },
+    {
+      "timestamp": 2.5,
+      "position": [
+        0.01,
+        3.011,
+        -3.549
+      ],
+      "velocity": [
+        0.008,
+        0.009,
+        -1.384
+      ],
+      "attitude": {
+        "pitch": -0.036,
+        "roll": 0.015,
+        "yaw": 0.003
+      },
+      "lidar_min_dist": 2.89,
+      "ai_confidence": 76.0
+    }
+  ],
   "episodes": [
     {
       "episode": 1,
-      "reward": 967.94,
+      "reward": 992.93,
       "steps": 600,
       "gates_passed": 3,
       "laps": 0,
       "collided": false,
       "hit_object": "",
-      "min_clearance_m": 0.878,
-      "final_speed_mps": 1.3
+      "min_clearance_m": 0.329,
+      "final_speed_mps": 1.47
     },
     {
       "episode": 2,
-      "reward": 1019.11,
-      "steps": 600,
-      "gates_passed": 3,
+      "reward": 22.06,
+      "steps": 192,
+      "gates_passed": 1,
       "laps": 0,
-      "collided": false,
-      "hit_object": "",
-      "min_clearance_m": 0.452,
-      "final_speed_mps": 1.16
+      "collided": true,
+      "hit_object": "競技場外邊界 (Boundary)",
+      "min_clearance_m": 0.925,
+      "final_speed_mps": 7.57
     },
     {
       "episode": 3,
-      "reward": 442.23,
-      "steps": 206,
+      "reward": 415.3,
+      "steps": 244,
       "gates_passed": 2,
       "laps": 0,
       "collided": true,
-      "hit_object": "競技場外邊界 (Boundary)",
-      "min_clearance_m": 0.974,
-      "final_speed_mps": 18.05
+      "hit_object": "立體立柱 #1",
+      "min_clearance_m": 0.165,
+      "final_speed_mps": 10.11
     },
     {
       "episode": 4,
-      "reward": 1063.19,
+      "reward": 730.38,
       "steps": 600,
-      "gates_passed": 3,
+      "gates_passed": 2,
       "laps": 0,
       "collided": false,
       "hit_object": "",
-      "min_clearance_m": 0.412,
-      "final_speed_mps": 0.14
+      "min_clearance_m": 0.239,
+      "final_speed_mps": 1.21
     },
     {
       "episode": 5,
-      "reward": 410.88,
-      "steps": 207,
-      "gates_passed": 2,
-      "laps": 0,
-      "collided": true,
-      "hit_object": "競技場外邊界 (Boundary)",
-      "min_clearance_m": 0.402,
-      "final_speed_mps": 15.89
-    },
-    {
-      "episode": 6,
-      "reward": 1126.52,
-      "steps": 600,
-      "gates_passed": 3,
-      "laps": 0,
-      "collided": false,
-      "hit_object": "",
-      "min_clearance_m": 1.194,
-      "final_speed_mps": 2.99
-    },
-    {
-      "episode": 7,
-      "reward": 401.2,
-      "steps": 198,
-      "gates_passed": 2,
-      "laps": 0,
-      "collided": true,
-      "hit_object": "競技場外邊界 (Boundary)",
-      "min_clearance_m": 0.215,
-      "final_speed_mps": 17.32
-    },
-    {
-      "episode": 8,
-      "reward": 433.36,
-      "steps": 204,
-      "gates_passed": 2,
-      "laps": 0,
-      "collided": true,
-      "hit_object": "競技場外邊界 (Boundary)",
-      "min_clearance_m": 0.397,
-      "final_speed_mps": 17.28
-    },
-    {
-      "episode": 9,
-      "reward": 937.08,
-      "steps": 600,
-      "gates_passed": 3,
-      "laps": 0,
-      "collided": false,
-      "hit_object": "",
-      "min_clearance_m": 0.772,
-      "final_speed_mps": 1.28
-    },
-    {
-      "episode": 10,
-      "reward": 27.04,
-      "steps": 204,
+      "reward": 27.38,
+      "steps": 230,
       "gates_passed": 1,
       "laps": 0,
       "collided": true,
       "hit_object": "競技場外邊界 (Boundary)",
-      "min_clearance_m": 0.782,
-      "final_speed_mps": 5.41
-    },
-    {
-      "episode": 11,
-      "reward": 15.11,
-      "steps": 196,
-      "gates_passed": 1,
-      "laps": 0,
-      "collided": true,
-      "hit_object": "競技場外邊界 (Boundary)",
-      "min_clearance_m": 0.965,
-      "final_speed_mps": 6.95
-    },
-    {
-      "episode": 12,
-      "reward": 26.18,
-      "steps": 199,
-      "gates_passed": 1,
-      "laps": 0,
-      "collided": true,
-      "hit_object": "競技場外邊界 (Boundary)",
-      "min_clearance_m": 0.91,
-      "final_speed_mps": 7.74
-    },
-    {
-      "episode": 13,
-      "reward": 115.97,
-      "steps": 187,
-      "gates_passed": 1,
-      "laps": 0,
-      "collided": true,
-      "hit_object": "立體立柱 #5",
-      "min_clearance_m": 0.435,
-      "final_speed_mps": 14.08
-    },
-    {
-      "episode": 14,
-      "reward": 444.15,
-      "steps": 572,
-      "gates_passed": 2,
-      "laps": 0,
-      "collided": true,
-      "hit_object": "立體立柱 #1",
-      "min_clearance_m": 0.094,
-      "final_speed_mps": 3.93
-    },
-    {
-      "episode": 15,
-      "reward": 978.53,
-      "steps": 600,
-      "gates_passed": 3,
-      "laps": 0,
-      "collided": false,
-      "hit_object": "",
-      "min_clearance_m": 0.601,
-      "final_speed_mps": 1.31
-    },
-    {
-      "episode": 16,
-      "reward": 339.73,
-      "steps": 200,
-      "gates_passed": 2,
-      "laps": 0,
-      "collided": true,
-      "hit_object": "立體立柱 #3",
-      "min_clearance_m": 0.091,
-      "final_speed_mps": 10.82
-    },
-    {
-      "episode": 17,
-      "reward": 22.81,
-      "steps": 197,
-      "gates_passed": 1,
-      "laps": 0,
-      "collided": true,
-      "hit_object": "競技場外邊界 (Boundary)",
-      "min_clearance_m": 0.653,
-      "final_speed_mps": 7.94
-    },
-    {
-      "episode": 18,
-      "reward": 441.55,
-      "steps": 201,
-      "gates_passed": 2,
-      "laps": 0,
-      "collided": true,
-      "hit_object": "競技場外邊界 (Boundary)",
-      "min_clearance_m": 0.616,
-      "final_speed_mps": 18.1
-    },
-    {
-      "episode": 19,
-      "reward": 1092.44,
-      "steps": 600,
-      "gates_passed": 3,
-      "laps": 0,
-      "collided": false,
-      "hit_object": "",
-      "min_clearance_m": 0.31,
-      "final_speed_mps": 1.07
-    },
-    {
-      "episode": 20,
-      "reward": 804.11,
-      "steps": 415,
-      "gates_passed": 3,
-      "laps": 0,
-      "collided": true,
-      "hit_object": "競技場外邊界 (Boundary)",
-      "min_clearance_m": 0.967,
-      "final_speed_mps": 4.82
-    },
-    {
-      "episode": 21,
-      "reward": 24.41,
-      "steps": 212,
-      "gates_passed": 1,
-      "laps": 0,
-      "collided": true,
-      "hit_object": "競技場外邊界 (Boundary)",
-      "min_clearance_m": 0.601,
-      "final_speed_mps": 3.77
-    },
-    {
-      "episode": 22,
-      "reward": 13.61,
-      "steps": 203,
-      "gates_passed": 1,
-      "laps": 0,
-      "collided": true,
-      "hit_object": "競技場外邊界 (Boundary)",
-      "min_clearance_m": 0.78,
-      "final_speed_mps": 5.8
-    },
-    {
-      "episode": 23,
-      "reward": 602.74,
-      "steps": 600,
-      "gates_passed": 2,
-      "laps": 0,
-      "collided": false,
-      "hit_object": "",
-      "min_clearance_m": 0.584,
-      "final_speed_mps": 2.87
-    },
-    {
-      "episode": 24,
-      "reward": 1076.43,
-      "steps": 600,
-      "gates_passed": 3,
-      "laps": 0,
-      "collided": false,
-      "hit_object": "",
-      "min_clearance_m": 0.899,
-      "final_speed_mps": 1.37
-    },
-    {
-      "episode": 25,
-      "reward": 431.69,
-      "steps": 201,
-      "gates_passed": 2,
-      "laps": 0,
-      "collided": true,
-      "hit_object": "競技場外邊界 (Boundary)",
-      "min_clearance_m": 0.293,
-      "final_speed_mps": 18.32
-    },
-    {
-      "episode": 26,
-      "reward": 1027.71,
-      "steps": 600,
-      "gates_passed": 3,
-      "laps": 0,
-      "collided": false,
-      "hit_object": "",
-      "min_clearance_m": 1.19,
-      "final_speed_mps": 1.34
-    },
-    {
-      "episode": 27,
-      "reward": 479.41,
-      "steps": 461,
-      "gates_passed": 2,
-      "laps": 0,
-      "collided": true,
-      "hit_object": "立體立柱 #1",
-      "min_clearance_m": 0.15,
-      "final_speed_mps": 2.52
-    },
-    {
-      "episode": 28,
-      "reward": 617.42,
-      "steps": 600,
-      "gates_passed": 2,
-      "laps": 0,
-      "collided": false,
-      "hit_object": "",
-      "min_clearance_m": 0.764,
-      "final_speed_mps": 5.03
-    },
-    {
-      "episode": 29,
-      "reward": 620.0,
-      "steps": 600,
-      "gates_passed": 2,
-      "laps": 0,
-      "collided": false,
-      "hit_object": "",
-      "min_clearance_m": 0.321,
-      "final_speed_mps": 1.32
-    },
-    {
-      "episode": 30,
-      "reward": 521.01,
-      "steps": 466,
-      "gates_passed": 2,
-      "laps": 0,
-      "collided": true,
-      "hit_object": "競技場外邊界 (Boundary)",
-      "min_clearance_m": 0.42,
-      "final_speed_mps": 12.41
-    },
-    {
-      "episode": 31,
-      "reward": 417.19,
-      "steps": 195,
-      "gates_passed": 2,
-      "laps": 0,
-      "collided": true,
-      "hit_object": "立體立柱 #1",
-      "min_clearance_m": 0.598,
-      "final_speed_mps": 11.92
-    },
-    {
-      "episode": 32,
-      "reward": 487.47,
-      "steps": 369,
-      "gates_passed": 2,
-      "laps": 0,
-      "collided": true,
-      "hit_object": "立體立柱 #5",
-      "min_clearance_m": 0.196,
-      "final_speed_mps": 7.55
-    },
-    {
-      "episode": 33,
-      "reward": 491.74,
-      "steps": 384,
-      "gates_passed": 2,
-      "laps": 0,
-      "collided": true,
-      "hit_object": "立體立柱 #1",
-      "min_clearance_m": 0.117,
-      "final_speed_mps": 5.2
-    },
-    {
-      "episode": 34,
-      "reward": 476.52,
-      "steps": 346,
-      "gates_passed": 2,
-      "laps": 0,
-      "collided": true,
-      "hit_object": "立體立柱 #1",
-      "min_clearance_m": 0.168,
-      "final_speed_mps": 5.05
-    },
-    {
-      "episode": 35,
-      "reward": 31.62,
-      "steps": 204,
-      "gates_passed": 1,
-      "laps": 0,
-      "collided": true,
-      "hit_object": "競技場外邊界 (Boundary)",
-      "min_clearance_m": 0.923,
-      "final_speed_mps": 6.14
-    },
-    {
-      "episode": 36,
-      "reward": 480.76,
-      "steps": 377,
-      "gates_passed": 2,
-      "laps": 0,
-      "collided": true,
-      "hit_object": "立體立柱 #5",
-      "min_clearance_m": 0.087,
-      "final_speed_mps": 7.26
-    },
-    {
-      "episode": 37,
-      "reward": 467.24,
-      "steps": 351,
-      "gates_passed": 2,
-      "laps": 0,
-      "collided": true,
-      "hit_object": "立體立柱 #5",
-      "min_clearance_m": 0.353,
-      "final_speed_mps": 8.41
-    },
-    {
-      "episode": 38,
-      "reward": 499.97,
-      "steps": 560,
-      "gates_passed": 2,
-      "laps": 0,
-      "collided": true,
-      "hit_object": "立體立柱 #2",
-      "min_clearance_m": 0.084,
-      "final_speed_mps": 6.86
-    },
-    {
-      "episode": 39,
-      "reward": 20.48,
-      "steps": 204,
-      "gates_passed": 1,
-      "laps": 0,
-      "collided": true,
-      "hit_object": "競技場外邊界 (Boundary)",
-      "min_clearance_m": 0.848,
-      "final_speed_mps": 6.01
-    },
-    {
-      "episode": 40,
-      "reward": 43.91,
-      "steps": 251,
-      "gates_passed": 1,
-      "laps": 0,
-      "collided": true,
-      "hit_object": "競技場外邊界 (Boundary)",
-      "min_clearance_m": 0.993,
-      "final_speed_mps": 6.68
-    },
-    {
-      "episode": 41,
-      "reward": 130.94,
-      "steps": 222,
-      "gates_passed": 1,
-      "laps": 0,
-      "collided": true,
-      "hit_object": "立體立柱 #5",
-      "min_clearance_m": 0.188,
-      "final_speed_mps": 13.59
-    },
-    {
-      "episode": 42,
-      "reward": 1490.07,
-      "steps": 600,
-      "gates_passed": 4,
-      "laps": 1,
-      "collided": false,
-      "hit_object": "",
-      "min_clearance_m": 0.561,
-      "final_speed_mps": 5.46
-    },
-    {
-      "episode": 43,
-      "reward": 457.59,
-      "steps": 376,
-      "gates_passed": 2,
-      "laps": 0,
-      "collided": true,
-      "hit_object": "立體立柱 #1",
-      "min_clearance_m": 0.05,
-      "final_speed_mps": 4.27
-    },
-    {
-      "episode": 44,
-      "reward": 119.4,
-      "steps": 221,
-      "gates_passed": 1,
-      "laps": 0,
-      "collided": true,
-      "hit_object": "立體立柱 #5",
-      "min_clearance_m": 0.229,
-      "final_speed_mps": 13.96
-    },
-    {
-      "episode": 45,
-      "reward": 122.01,
-      "steps": 216,
-      "gates_passed": 1,
-      "laps": 0,
-      "collided": true,
-      "hit_object": "立體立柱 #5",
-      "min_clearance_m": 0.607,
-      "final_speed_mps": 13.76
-    },
-    {
-      "episode": 46,
-      "reward": 29.76,
-      "steps": 242,
-      "gates_passed": 1,
-      "laps": 0,
-      "collided": true,
-      "hit_object": "競技場外邊界 (Boundary)",
-      "min_clearance_m": 0.695,
-      "final_speed_mps": 8.2
-    },
-    {
-      "episode": 47,
-      "reward": 42.76,
-      "steps": 244,
-      "gates_passed": 1,
-      "laps": 0,
-      "collided": true,
-      "hit_object": "競技場外邊界 (Boundary)",
-      "min_clearance_m": 0.969,
-      "final_speed_mps": 6.66
-    },
-    {
-      "episode": 48,
-      "reward": 410.76,
-      "steps": 227,
-      "gates_passed": 2,
-      "laps": 0,
-      "collided": true,
-      "hit_object": "立體立柱 #2",
-      "min_clearance_m": 0.202,
-      "final_speed_mps": 10.01
-    },
-    {
-      "episode": 49,
-      "reward": 519.32,
-      "steps": 600,
-      "gates_passed": 2,
-      "laps": 0,
-      "collided": false,
-      "hit_object": "",
-      "min_clearance_m": 0.594,
-      "final_speed_mps": 1.15
-    },
-    {
-      "episode": 50,
-      "reward": 490.63,
-      "steps": 377,
-      "gates_passed": 2,
-      "laps": 0,
-      "collided": true,
-      "hit_object": "立體立柱 #2",
-      "min_clearance_m": 0.091,
-      "final_speed_mps": 6.17
+      "min_clearance_m": 0.804,
+      "final_speed_mps": 7.71
     }
   ]
 }

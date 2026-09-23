@@ -87,6 +87,10 @@ def main():
 
     print(f"  ✓ Exported URDF: {model_paths['urdf'].name}")
     print(f"  ✓ Exported SDF:  {model_paths['sdf'].name}")
+    if "stl" in model_paths:
+        print(f"  ✓ Exported Organic 3D Print STL: {model_paths['stl'].name}")
+    if "print_profile" in model_paths:
+        print(f"  ✓ Exported 3D Print Profile:     {model_paths['print_profile'].name}")
 
     # 4. Build Gazebo World with Wind & Obstacles
     print("\n🌍 [4/5] Generating Gazebo 3D World (Wind & Obstacles)...")

@@ -126,6 +126,10 @@ class DroneRLEnvironment:
         cmd_yaw = max(-1.0, min(1.0, action[2]))
         cmd_climb = max(-1.0, min(1.0, action[3]))
 
+        prev_pitch = self.pitch
+        prev_roll = self.roll
+        prev_yaw = self.yaw
+
         # 1. Attitude Dynamics (80ms convergence interpolation)
         target_pitch = cmd_p * self.max_tilt
         target_roll = cmd_r * self.max_tilt
@@ -134,6 +138,13 @@ class DroneRLEnvironment:
         self.yaw += cmd_yaw * 0.08
         # Wrap yaw to [-pi, pi]
         self.yaw = (self.yaw + math.pi) % (2 * math.pi) - math.pi
+
+        # Update body angular velocity vector [wx, wy, wz] in rad/s
+        self.ang_vel = [
+            round((self.pitch - prev_pitch) / self.dt, 4),
+            round((cmd_yaw * 0.08) / self.dt, 4),
+            round((self.roll - prev_roll) / self.dt, 4)
+        ]
 
         # 2. Lift & Thrust Vectoring (World Frame)
         tilt_magnitude = math.sqrt(self.pitch**2 + self.roll**2)

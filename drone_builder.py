@@ -186,7 +186,7 @@ class DroneBuilder:
         return "\n".join(sdf)
 
     def export_files(self, spec_dict: Dict[str, Any], output_dir: Path) -> Dict[str, Path]:
-        """Exports generated URDF and SDF files to disk."""
+        """Exports generated URDF, SDF, and Organic 3D-Printable STL files to disk."""
         output_dir = Path(output_dir)
         output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -203,7 +203,25 @@ class DroneBuilder:
         with open(sdf_path, "w", encoding="utf-8") as f:
             f.write(sdf_content)
 
-        return {"urdf": urdf_path, "sdf": sdf_path}
+        res = {"urdf": urdf_path, "sdf": sdf_path}
+
+        # M2.1: Export Organic 3D-Printable Binary STL & Print Profile
+        try:
+            from organic_cad_generator import OrganicCADGenerator
+            cad_gen = OrganicCADGenerator(self.db)
+            stl_path = output_dir / f"{design_id}.stl"
+            cad_gen.export_stl(spec_dict, stl_path, binary=True)
+            res["stl"] = stl_path
+
+            profile = cad_gen.get_print_profile(spec_dict)
+            profile_path = output_dir / f"{design_id}_print_profile.json"
+            with open(profile_path, "w", encoding="utf-8") as pf:
+                json.dump(profile, pf, indent=2)
+            res["print_profile"] = profile_path
+        except Exception:
+            pass
+
+        return res
 
 
 if __name__ == "__main__":
