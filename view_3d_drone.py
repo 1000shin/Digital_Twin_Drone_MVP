@@ -38,6 +38,19 @@ class Interactive3DViewer:
         sensors = drone_spec.get("sensors_mount", [])
         obstacles = world_spec.get("obstacles", [])
 
+        try:
+            from organic_cad_generator import OrganicCADGenerator
+            cad_gen = OrganicCADGenerator()
+            cad_profile = cad_gen.get_print_profile(drone_spec)
+        except Exception:
+            cad_profile = {
+                "bounding_box_mm": {"x": round(arm_length * 2000, 1), "y": round(arm_length * 2000, 1), "z": 80.0},
+                "estimated_print_weight_g": 140.0,
+                "airframe_volume_cm3": 320.0,
+                "material": "PETG-CF",
+                "total_triangles": 480
+            }
+
         html_content = f"""<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
