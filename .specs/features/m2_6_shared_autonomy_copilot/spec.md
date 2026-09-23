@@ -2,7 +2,7 @@
 
 > **版本**: 1.0  
 > **功能 ID**: `FEAT-M2.6-SHARED-AUTONOMY-COPILOT`  
-> **狀態**: `Draft (Pending Architecture Review)`  
+> **狀態**: `Approved (Feature Spec Established)`  
 > **對應專案憲章**: `Constitution v9.0 Phase 2 [M2.6]`  
 > **目標分支**: `feature/m2.6-shared-autonomy-copilot`  
 > **負責架構師**: Human Architect (Brain)  
