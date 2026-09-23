@@ -1,0 +1,22 @@
+{
+  "session_id": "session_confined_001",
+  "timestamp": "2026-09-24T00:17:35+08:00",
+  "environment": "collision_arena",
+  "pilot_evaluation": {
+    "geometry_size_perception": "我不覺得無人機幾何偏大 (Geometry footprint is acceptable, diagonal 45-50cm is manageable)",
+    "control_sensitivity": "操作的靈敏度很遲鈍, 可頃角過小 (Handling sensitivity is sluggish, max tilt angle is too small)",
+    "crash_simulation": "可以 (Crash damage, mesh deformation, and spark/debris simulation acceptable)",
+    "questionnaire_ux": "OK (Reset feedback mechanism acceptable)"
+  },
+  "diagnosed_hardware_and_control_requirements": {
+    "max_tilt_angle_target_deg": 40.0,
+    "max_tilt_angle_target_rad": 0.70,
+    "attitude_interpolation_rate": 0.25,
+    "yaw_rate_rad_s": 0.08,
+    "target_twr": 3.0,
+    "airframe_design_directive": "Centralized mass topology to minimize rotational inertia Ixx/Iyy/Izz, retaining ~40-45cm diagonal footprint without excessive shrinkage",
+    "motor_directive": "High torque, active braking (Damped Light) enabled",
+    "copilot_role": "Shared autonomy copilot with angle-clamping safety guardrail"
+  },
+  "status": "RECORDED_PERMANENT"
+}

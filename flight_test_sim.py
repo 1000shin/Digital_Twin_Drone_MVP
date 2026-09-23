@@ -450,7 +450,7 @@ class WebGLFlightSimulator:
         <div><span class="key">W</span> <span class="key">S</span> 俯仰</div>
         <div><span class="key">A</span> <span class="key">D</span> 翻滾</div>
         <div><span class="key">↑</span> <span class="key">↓</span> 油門</div>
-        <div><span class="key">←</span> <span class="key">→</span> 偏航</div>
+        <div><span class="key">Q</span> <span class="key">E</span> / <span class="key">←</span> <span class="key">→</span> 偏航</div>
         <div><span class="key">Space</span> 自動懸停</div>
         <div><span class="key">G</span> 錄製/停止</div>
         <div><span class="key">R</span> 維修重置</div>
@@ -1468,8 +1468,8 @@ class WebGLFlightSimulator:
             if (keys['KeyD']) roll_cmd += 1.0;
             if (keys['ArrowUp']) climb_cmd += 1.0;
             if (keys['ArrowDown']) climb_cmd -= 1.0;
-            if (keys['ArrowLeft']) yaw_cmd -= 1.0;
-            if (keys['ArrowRight']) yaw_cmd += 1.0;
+            if (keys['ArrowLeft'] || keys['KeyQ']) yaw_cmd -= 1.0;
+            if (keys['ArrowRight'] || keys['KeyE']) yaw_cmd += 1.0;
 
             const sample = {{
                 step: currentStepIndex++,
@@ -1560,6 +1560,23 @@ class WebGLFlightSimulator:
                 }}).catch(() => {{}});
             }} catch(e) {{}}
 
+            // 5. 程式化全自動落盤下載 (Zero-Click Programmatic Auto-Download)
+            try {{
+                const jsonStr = JSON.stringify(exportPayload, null, 2);
+                const blob = new Blob([jsonStr], {{ type: 'application/json' }});
+                const downloadUrl = URL.createObjectURL(blob);
+                const downloadAnchor = document.createElement('a');
+                downloadAnchor.href = downloadUrl;
+                downloadAnchor.download = fileNameBase + '.json';
+                document.body.appendChild(downloadAnchor);
+                downloadAnchor.click();
+                document.body.removeChild(downloadAnchor);
+                setTimeout(() => URL.revokeObjectURL(downloadUrl), 500);
+                console.log('[FlightDataRecorder] Zero-click auto-download triggered:', fileNameBase);
+            }} catch(downloadErr) {{
+                console.warn('[FlightDataRecorder] Auto-download warning:', downloadErr);
+            }}
+
             return exportPayload;
         }}
 
@@ -1591,7 +1608,20 @@ class WebGLFlightSimulator:
         function closeResetModal(doReset = true) {{
             const overlay = document.getElementById('reset-modal-overlay');
             if (overlay) overlay.style.display = 'none';
-            if (doReset) repairAndResetDrone();
+            if (doReset) {{
+                if (damagedPartsHistory.length > 0 || (typeof recordedFlightData !== 'undefined' && recordedFlightData.length > 0)) {{
+                    flightQuestionnaireHistory.push({{
+                        timestamp: new Date().toISOString(),
+                        feedback: '飛手快速重置 (跳過心得備註)',
+                        notes: '飛手快速重置 (跳過心得備註)',
+                        final_integrity: droneStructuralIntegrity,
+                        final_position: [Number(drone.position.x.toFixed(3)), Number(drone.position.y.toFixed(3)), Number(drone.position.z.toFixed(3))],
+                        damaged_components: [...damagedPartsHistory]
+                    }});
+                    try {{ saveFlightData(); }} catch(e) {{}}
+                }}
+                repairAndResetDrone();
+            }}
         }}
 
         function confirmResetWithFeedback() {{
@@ -1619,8 +1649,14 @@ class WebGLFlightSimulator:
             }}
 
             if (notesEl) notesEl.value = '';
-            closeResetModal(true);
-            showToast('💾 飛行經驗回饋已儲存，機身維修重置完畢！');
+            closeResetModal(false);
+            try {{
+                saveFlightData();
+                showToast('💾 飛行數據與問卷已全自動導出落盤，機身維修重置完畢！');
+            }} catch(e) {{
+                showToast('💾 飛行經驗回饋已儲存，機身維修重置完畢！');
+            }}
+            repairAndResetDrone();
         }}
 
         function repairAndResetDrone() {{
@@ -1770,14 +1806,14 @@ class WebGLFlightSimulator:
             let throttleAcc = 0;
             let targetPitch = 0, targetRoll = 0;
 
-            if (keys['ArrowUp']) throttleAcc += 12.0;       // Lift / Up
-            if (keys['ArrowDown']) throttleAcc -= 8.0;       // Descend
-            if (keys['KeyW']) targetPitch = -0.30;           // Pitch Forward
-            if (keys['KeyS']) targetPitch = 0.30;            // Pitch Backward
-            if (keys['KeyA']) targetRoll = 0.30;             // Roll Left
-            if (keys['KeyD']) targetRoll = -0.30;            // Roll Right
-            if (keys['ArrowLeft']) rotationSpeed = 0.04;     // Yaw Left
-            else if (keys['ArrowRight']) rotationSpeed = -0.04; // Yaw Right
+            if (keys['ArrowUp']) throttleAcc += 14.0;       // Lift / Up (High TWR)
+            if (keys['ArrowDown']) throttleAcc -= 9.0;       // Descend
+            if (keys['KeyW']) targetPitch = -0.70;           // Pitch Forward (Agile ~40.1 deg)
+            if (keys['KeyS']) targetPitch = 0.70;            // Pitch Backward (Agile ~40.1 deg)
+            if (keys['KeyA']) targetRoll = 0.70;             // Roll Left (Agile ~40.1 deg)
+            if (keys['KeyD']) targetRoll = -0.70;            // Roll Right (Agile ~40.1 deg)
+            if (keys['ArrowLeft'] || keys['KeyQ']) rotationSpeed = 0.08;     // Yaw Left (Agile Rate)
+            else if (keys['ArrowRight'] || keys['KeyE']) rotationSpeed = -0.08; // Yaw Right (Agile Rate)
             else rotationSpeed = 0;
 
             // Damage impact on flight physics
@@ -1817,13 +1853,13 @@ class WebGLFlightSimulator:
 
             if (keys['Space'] && !isCatastrophic) {{ // Hover mode
                 targetPitch = 0; targetRoll = 0;
-                velocity.x *= 0.92; velocity.z *= 0.92;
-                if (drone.position.y > 0.05) velocity.y *= 0.9;
+                velocity.x *= 0.88; velocity.z *= 0.88;
+                if (drone.position.y > 0.05) velocity.y *= 0.85;
             }}
 
-            // Smooth Attitude Interpolation
-            pitch += (targetPitch - pitch) * 0.1;
-            roll += (targetRoll - roll) * 0.1;
+            // High-Agility Attitude Interpolation (80ms convergence)
+            pitch += (targetPitch - pitch) * 0.25;
+            roll += (targetRoll - roll) * 0.25;
             yaw += rotationSpeed;
 
             // Standard Aerospace Attitude Interpolation & Heading Order (Yaw -> Pitch -> Roll)
@@ -1833,16 +1869,18 @@ class WebGLFlightSimulator:
             // True 3D Thrust Vector (Multi-rotor thrust along body local UP [0, 1, 0])
             const thrustVector = new THREE.Vector3(0, 1, 0).applyEuler(drone.rotation);
 
-            // Thrust Vectoring & Gravity (9.81 m/s^2) with damage degradation
+            // Thrust Vectoring & Tilt Compensation with damage degradation
             const gravity = 9.81;
-            const nominalLift = (drone.position.y > 0.05 ? 9.81 : 0) + throttleAcc;
+            const tiltMagnitude = Math.sqrt(pitch * pitch + roll * roll);
+            const tiltCompensation = 1.0 / Math.max(Math.cos(Math.min(tiltMagnitude, 0.70)), 0.50);
+            const nominalLift = ((drone.position.y > 0.05 ? 9.81 : 0) + throttleAcc) * tiltCompensation;
             const effectiveLift = nominalLift * (0.15 + 0.85 * intactRatio);
 
             velocity.y += (effectiveLift * thrustVector.y - gravity) * 0.016;
 
             // Horizontal thrust components from tilted rotor plane (Exact projection in world frame)
             const windX = currentWind[0];
-            const thrustMultiplier = 15.0 * (0.3 + 0.7 * intactRatio);
+            const thrustMultiplier = 18.0 * (0.3 + 0.7 * intactRatio);
             velocity.x += (thrustVector.x * thrustMultiplier + windX * 0.2) * 0.016;
             velocity.z += (thrustVector.z * thrustMultiplier) * 0.016;
 
@@ -2063,13 +2101,13 @@ if __name__ == "__main__":
     sim = WebGLFlightSimulator(output)
 
     sample_drone = {
-        "aircraft_type": "vtol_tilt_rotor",
-        "wingspan_m": 1.25,
-        "wing_chord_m": 0.22,
-        "num_arms": 6,
-        "arm_length_m": 0.26,
+        "design_id": "evolved_agile_confined_v2",
+        "aircraft_type": "multirotor",
+        "num_arms": 4,
+        "arm_length_m": 0.20,
         "motor_id": "m_2212_920kv",
-        "battery_id": "b_3s_2200mah",
+        "prop_id": "p_1045",
+        "battery_id": "b_3s_1500mah",
         "sensors_mount": [{"sensor_id": "s_lidar_2d"}, {"sensor_id": "s_depth_cam"}]
     }
 
