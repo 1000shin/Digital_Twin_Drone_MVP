@@ -88,10 +88,10 @@ class FoxgloveStreamer:
         try:
             from mcap_exporter import MCAPExporter
             mcap_exporter = MCAPExporter(self.output_dir)
-            mcap_path = mcap_exporter.export_mcap(telemetry_history, session_name)
-            return mcap_path
+            mcap_exporter.export_mcap(telemetry_history, session_name)
         except Exception:
-            return json_path
+            pass
+        return json_path
 
 
 if __name__ == "__main__":

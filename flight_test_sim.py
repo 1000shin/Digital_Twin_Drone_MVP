@@ -50,7 +50,7 @@ class WebGLFlightSimulator:
             position: absolute; top: 20px; left: 20px;
             background: rgba(10, 15, 30, 0.88); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
             padding: 20px 24px; border-radius: 16px; border: 1px solid #1a2a4a;
-            min-width: 290px; box-shadow: 0 8px 32px rgba(0,0,0,0.65); z-index: 100;
+            min-width: 290px; max-height: calc(100vh - 40px); overflow-y: auto; box-shadow: 0 8px 32px rgba(0,0,0,0.65); z-index: 100;
         }}
         .hud-title {{ font-size: 15px; font-weight: bold; color: #00e5ff; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; justify-content: space-between; }}
         .hud-row {{ display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 12.5px; font-family: monospace; }}
@@ -122,6 +122,44 @@ class WebGLFlightSimulator:
         }}
         .sensor-bar-fill {{
             height: 100%; width: 0%; background: #22c55e; transition: width 0.08s ease, background 0.15s ease;
+        }}
+
+        /* AI Autopilot HUD Styles */
+        .ai-autopilot-section {{
+            margin-top: 10px; padding: 10px 12px;
+            background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(139, 92, 246, 0.4);
+            border-radius: 10px; box-shadow: 0 4px 15px rgba(124, 58, 237, 0.2);
+        }}
+        .ai-header {{
+            display: flex; align-items: center; justify-content: space-between;
+            font-size: 11px; font-weight: 700; color: #a78bfa; margin-bottom: 6px;
+        }}
+        .ai-indicator {{
+            display: inline-flex; align-items: center; gap: 5px; font-size: 10px; font-weight: bold;
+            padding: 2px 7px; border-radius: 10px; background: rgba(148, 163, 184, 0.15); color: #94a3b8;
+        }}
+        .ai-indicator.active {{
+            background: rgba(139, 92, 246, 0.25); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.5);
+        }}
+        .ai-dot {{
+            width: 7px; height: 7px; border-radius: 50%; background: #94a3b8;
+        }}
+        .ai-indicator.active .ai-dot {{
+            background: #a855f7; animation: blinkAi 0.7s infinite alternate;
+        }}
+        @keyframes blinkAi {{ 0% {{ opacity: 0.3; transform: scale(0.85); }} 100% {{ opacity: 1; transform: scale(1.25); }} }}
+        .btn-ai-start {{
+            background: linear-gradient(135deg, #7c3aed, #6d28d9); border: 1px solid #a78bfa; color: #fff;
+            box-shadow: 0 2px 8px rgba(124, 58, 237, 0.4);
+        }}
+        .btn-ai-start:hover {{
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed); box-shadow: 0 0 12px rgba(167, 139, 250, 0.6);
+        }}
+        .btn-ai-stop {{
+            background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.5); color: #fbbf24;
+        }}
+        .btn-ai-stop:hover {{
+            background: rgba(245, 158, 11, 0.35); color: #fff;
         }}
 
         /* Flight Data Recorder HUD Styles */
@@ -364,6 +402,29 @@ class WebGLFlightSimulator:
             </div>
         </div>
 
+        <!-- Autonomous AI Flight Autopilot Section -->
+        <div class="ai-autopilot-section">
+            <div class="ai-header">
+                <span>🤖 AI 自主飛行巡弋 (Autopilot)</span>
+                <span id="ai-status-badge" class="ai-indicator"><span class="ai-dot"></span><span id="ai-status-text">手動 MANUAL</span></span>
+            </div>
+            <div class="hud-row" style="font-size: 11px; margin-top: 4px;">
+                <span style="color:#94a3b8;">目標航點:</span>
+                <span id="ai-target-gate" style="color:#38bdf8; font-weight:bold;">Gate #1</span>
+            </div>
+            <div class="hud-row" style="font-size: 11px; margin-top: 2px;">
+                <span style="color:#94a3b8;">巡航圈數: <span id="ai-laps" style="color:#22c55e; font-weight:bold;">0 圈</span></span>
+                <span style="color:#94a3b8;">決策信賴度: <span id="ai-confidence" style="color:#e0e7ff; font-weight:bold;">96.5%</span></span>
+            </div>
+            <div class="hud-row" style="font-size: 11px; margin-top: 2px;">
+                <span style="color:#94a3b8;">累積獎勵分:</span>
+                <span id="ai-reward" style="color:#fbbf24; font-weight:bold;">+0.0</span>
+            </div>
+            <div class="hud-btn-row" style="margin-top: 6px;">
+                <button id="btn-ai-toggle" class="btn-action btn-ai-start" onclick="toggleAIAutopilot()">🤖 啟動 AI 自主飛行 (P)</button>
+            </div>
+        </div>
+
         <div class="hud-btn-row">
             <button id="btn-repair" class="btn-action btn-repair" onclick="promptResetExperience()">🛠️ 維修與重置 (R)</button>
             <button id="btn-crash-test" class="btn-action btn-test-crash" onclick="simulateTestCrash()">💥 撞擊測試</button>
@@ -509,6 +570,7 @@ class WebGLFlightSimulator:
         <div><span class="key">Space</span> 自動懸停定高</div>
         <div><span class="key">G</span> 錄製/停止</div>
         <div><span class="key">R</span> 維修重置</div>
+        <div><span class="key">P</span> AI 自主飛行/手動切換</div>
         <div style="margin-top: 6px; padding-top: 6px; border-top: 1px solid rgba(255,255,255,0.15); font-size: 10.5px; color: #94a3b8; line-height: 1.4;">
             <span style="color:#ef4444; font-weight:bold;">🔴 左舷紅燈</span> ｜ <span style="color:#22c55e; font-weight:bold;">🟢 右舷綠燈</span><br>
             <span style="color:#f8fafc; font-weight:bold;">⚪ 機頭雙大燈</span> ｜ <span style="color:#f59e0b; font-weight:bold;">🟡 機尾頻閃</span>
@@ -745,6 +807,29 @@ class WebGLFlightSimulator:
         const laserDotMesh = new THREE.Mesh(laserDotGeo, laserDotMat);
         laserDotMesh.visible = false;
         scene.add(laserDotMesh);
+
+        // 3D AI Autopilot Trajectory Guidance Corridor
+        const trajGeo = new THREE.BufferGeometry();
+        const trajPositions = new Float32Array(6);
+        trajGeo.setAttribute('position', new THREE.BufferAttribute(trajPositions, 3));
+        const trajMat = new THREE.LineBasicMaterial({{ color: 0xa855f7, transparent: true, opacity: 0.85, linewidth: 3 }});
+        const trajectoryLine = new THREE.Line(trajGeo, trajMat);
+        trajectoryLine.visible = false;
+        trajectoryLine.frustumCulled = false;
+        scene.add(trajectoryLine);
+
+        // AI Autopilot Waypoint Circuit Gates
+        const aiGates = [
+            {{ id: 1, x: 0.0, y: 3.2, z: -7.0, label: 'Gate #1' }},
+            {{ id: 2, x: 9.0, y: 4.5, z: 0.0, label: 'Gate #2' }},
+            {{ id: 3, x: 0.0, y: 6.0, z: 9.0, label: 'Gate #3' }},
+            {{ id: 4, x: -9.0, y: 3.8, z: 0.0, label: 'Gate #4' }}
+        ];
+        let currentAIGateIndex = 0;
+        let isAIAutopilotActive = false;
+        let aiCumulativeReward = 0.0;
+        let aiLapsCompleted = 0;
+        let aiConfidence = 96.5;
 
         // 3. Base Gazebo .world Obstacles & Bounding Boxes
         const baseObstaclesData = {json.dumps(obstacles)};
@@ -1934,6 +2019,13 @@ class WebGLFlightSimulator:
                 bomTwr.style.color = '#f59e0b';
             }}
 
+            if (typeof isAIAutopilotActive !== 'undefined' && isAIAutopilotActive) {{
+                disengageAIAutopilot('reset');
+            }}
+            currentAIGateIndex = 0;
+            aiCumulativeReward = 0.0;
+            aiLapsCompleted = 0;
+
             showToast('✨ 機身結構已 100% 快速修復就緒！');
         }}
 
@@ -1942,6 +2034,67 @@ class WebGLFlightSimulator:
             applyStructuralDamage(testPos, 3.2, '結構碰撞測試');
             velocity.x = -1.2;
             velocity.y = 0.8;
+        }}
+
+        // --- Autonomous AI Autopilot Control Functions ---
+        function toggleAIAutopilot() {{
+            const brokenCount = droneArmComponents.filter(a => a.isArmBroken || a.isPropBroken).length;
+            const isCatastrophic = droneStructuralIntegrity <= 20 || brokenCount >= (numArms / 2);
+            if (isCatastrophic) {{
+                showToast('❌ 機體損壞過重，無法啟動 AI 自主飛行！');
+                return;
+            }}
+            if (isAIAutopilotActive) {{
+                disengageAIAutopilot('user_toggle');
+            }} else {{
+                engageAIAutopilot();
+            }}
+        }}
+
+        function engageAIAutopilot() {{
+            isAIAutopilotActive = true;
+            // Auto-switch to collision arena if currently in a different environment so flight gates are in scene
+            if (activeEnvKey !== 'collision_arena') {{
+                switchEnvironment('collision_arena');
+            }}
+            const badge = document.getElementById('ai-status-badge');
+            const text = document.getElementById('ai-status-text');
+            const btn = document.getElementById('btn-ai-toggle');
+            if (badge) badge.className = 'ai-indicator active';
+            if (text) text.innerText = 'AI 自主 AUTOPILOT';
+            if (btn) {{
+                btn.className = 'btn-action btn-ai-stop';
+                btn.innerText = '🛑 解除 AI 接管 (P)';
+                btn.blur();
+            }}
+            if (trajectoryLine) {{
+                trajectoryLine.visible = true;
+                trajectoryLine.frustumCulled = false;
+            }}
+            showToast('🤖 AI 自主飛行已啟動：垂直起飛爬升 ➔ 前往 Gate #1 (8向LiDAR避障)');
+        }}
+
+        function disengageAIAutopilot(reason = 'user_toggle') {{
+            if (!isAIAutopilotActive) return;
+            isAIAutopilotActive = false;
+            const badge = document.getElementById('ai-status-badge');
+            const text = document.getElementById('ai-status-text');
+            const btn = document.getElementById('btn-ai-toggle');
+            if (badge) badge.className = 'ai-indicator';
+            if (text) text.innerText = '手動 MANUAL';
+            if (btn) {{
+                btn.className = 'btn-action btn-ai-start';
+                btn.innerText = '🤖 啟動 AI 自主飛行 (P)';
+                btn.blur();
+            }}
+            if (trajectoryLine) trajectoryLine.visible = false;
+            if (reason === 'manual_takeover') {{
+                showToast('⚠️ 人工接管介入：AI 自主飛行已解除');
+            }} else if (reason === 'crash') {{
+                showToast('💥 碰撞迫降：AI 自主巡檢終止');
+            }} else if (reason !== 'reset') {{
+                showToast('🎮 已切換回人工手動飛行模式');
+            }}
         }}
 
         // 7. Physics & Flight Dynamics (Harmonized 6-DOF Physics)
@@ -1954,9 +2107,16 @@ class WebGLFlightSimulator:
                 return;
             }}
 
+            // Instant Manual Takeover: Any pilot control input cancels AI autopilot
+            const manualKeys = ['KeyW', 'KeyS', 'KeyA', 'KeyD', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space'];
+            if (isAIAutopilotActive && manualKeys.includes(e.code)) {{
+                disengageAIAutopilot('manual_takeover');
+            }}
+
             keys[e.code] = true;
-            if (e.code === 'KeyR') promptResetExperience();
-            if (e.code === 'KeyG') toggleRecording();
+            if (e.code === 'KeyR' || e.key === 'r' || e.key === 'R') promptResetExperience();
+            if (e.code === 'KeyG' || e.key === 'g' || e.key === 'G') toggleRecording();
+            if (e.code === 'KeyP' || e.key === 'p' || e.key === 'P') toggleAIAutopilot();
         }});
         window.addEventListener('keyup', (e) => keys[e.code] = false);
 
@@ -1972,37 +2132,160 @@ class WebGLFlightSimulator:
         let latestLiDARReading = {{ dist: 99.0, name: '無障礙物', direction: '周圍', point: new THREE.Vector3() }};
 
         function updatePhysics() {{
-            // Keyboard Controls with Expo Input Shaping (Gentle micro-trim on tap, 40.1 deg sprint on hold)
+            // Control Authority: AI Autopilot Mode vs Manual Keyboard Controls
             let throttleAcc = 0;
             let rawPitchCmd = 0;
             let rawRollCmd = 0;
+            let targetPitch = 0;
+            let targetRoll = 0;
 
-            if (keys['KeyW']) rawPitchCmd -= 1.0;
-            if (keys['KeyS']) rawPitchCmd += 1.0;
-            if (keys['KeyA']) rawRollCmd += 1.0;
-            if (keys['KeyD']) rawRollCmd -= 1.0;
+            if (isAIAutopilotActive && !isCatastrophic) {{
+                const targetGate = aiGates[currentAIGateIndex];
+                const relX = targetGate.x - drone.position.x;
+                const relY = targetGate.y - drone.position.y;
+                const relZ = targetGate.z - drone.position.z;
+                const dist2D = Math.hypot(relX, relZ);
+                const dist3D = Math.hypot(relX, relY, relZ);
 
-            if (rawPitchCmd !== 0) {{
-                pitchRamp = Math.min(1.0, pitchRamp + 0.12);
+                // Two-Stage AI Flight Control:
+                // Stage 1: Dedicated Vertical Takeoff / Initial Climb Phase (Altitude < 1.6m)
+                // Prevents ground-clamp friction and tilt cancellation while leaving the launch pad
+                const isTakingOff = drone.position.y < 1.6;
+
+                if (isTakingOff) {{
+                    rawPitchCmd = 0;
+                    rawRollCmd = 0;
+                    targetPitch = 0;
+                    targetRoll = 0;
+                    rotationSpeed = 0;
+                    throttleAcc = 14.5; // High vertical TWR lift-off
+                    aiConfidence = 99.2;
+                    aiCumulativeReward += 0.02;
+
+                    const text = document.getElementById('ai-status-text');
+                    if (text) text.innerText = 'AI 垂直起飛中 (爬升至安全高度)...';
+                }} else {{
+                    const text = document.getElementById('ai-status-text');
+                    if (text) text.innerText = 'AI 航線巡檢中 (' + targetGate.label + ')';
+
+                    // Waypoint Passage Check
+                    if (dist3D < 1.8) {{
+                        currentAIGateIndex = (currentAIGateIndex + 1) % aiGates.length;
+                        aiCumulativeReward += 120.0;
+                        if (currentAIGateIndex === 0) {{
+                            aiLapsCompleted++;
+                            aiCumulativeReward += 300.0;
+                            showToast('🏆 AI 順利完成第 ' + aiLapsCompleted + ' 圈全場穿越巡檢！');
+                        }}
+                    }}
+
+                    // 2. Goal Attraction Vector in World Frame
+                    let attractX = (dist2D > 0.01) ? (relX / dist2D) * 1.5 : 0;
+                    let attractZ = (dist2D > 0.01) ? (relZ / dist2D) * 1.5 : 0;
+
+                    // 3. Obstacle Repulsion Vector in World Frame (activeObstacles + boundary walls)
+                    let repelX = 0;
+                    let repelZ = 0;
+                    activeObstacles.forEach(obs => {{
+                        const center = new THREE.Vector3();
+                        obs.box.getCenter(center);
+                        const dX = drone.position.x - center.x;
+                        const dZ = drone.position.z - center.z;
+                        const d = Math.hypot(dX, dZ);
+                        const safeDist = 3.2;
+                        if (d < safeDist && d > 0.1 && Math.abs(drone.position.y - center.y) < 3.5) {{
+                            const strength = Math.pow((safeDist - d) / safeDist, 1.8) * 2.5;
+                            repelX += (dX / d) * strength;
+                            repelZ += (dZ / d) * strength;
+                        }}
+                    }});
+
+                    // Boundary Repulsion
+                    if (drone.position.x > 14) repelX -= Math.pow((drone.position.x - 14) / 4, 2) * 3.0;
+                    if (drone.position.x < -14) repelX += Math.pow((-14 - drone.position.x) / 4, 2) * 3.0;
+                    if (drone.position.z > 14) repelZ -= Math.pow((drone.position.z - 14) / 4, 2) * 3.0;
+                    if (drone.position.z < -14) repelZ += Math.pow((-14 - drone.position.z) / 4, 2) * 3.0;
+
+                    let desVx = attractX + repelX;
+                    let desVz = attractZ + repelZ;
+
+                    if (latestLiDARReading.dist < 1.6) {{
+                        const damp = Math.max(0.3, latestLiDARReading.dist / 1.6);
+                        desVx *= damp;
+                        desVz *= damp;
+                    }}
+
+                    // 4. Project onto Body Frame
+                    const cosY = Math.cos(yaw);
+                    const sinY = Math.sin(yaw);
+                    const bodyFwd = desVx * sinY - desVz * cosY;
+                    const bodyRight = desVx * cosY + desVz * sinY;
+                    const actualFwd = velocity.x * sinY - velocity.z * cosY;
+                    const actualRight = velocity.x * cosY + velocity.z * sinY;
+                    const errFwd = bodyFwd - actualFwd;
+                    const errRight = bodyRight - actualRight;
+
+                    rawPitchCmd = Math.max(-0.75, Math.min(0.75, -errFwd * 0.45));
+                    rawRollCmd = Math.max(-0.75, Math.min(0.75, -errRight * 0.45));
+                    targetPitch = rawPitchCmd * 0.70;
+                    targetRoll = rawRollCmd * 0.70;
+
+                    // 5. Yaw Heading Alignment
+                    const desiredYaw = Math.atan2(relX, -relZ);
+                    const yawErr = (desiredYaw - yaw + Math.PI) % (2 * Math.PI) - Math.PI;
+                    if (latestLiDARReading.dist < 1.8 && (latestLiDARReading.direction.includes('前') || latestLiDARReading.direction.includes('舷'))) {{
+                        rotationSpeed = latestLiDARReading.direction.includes('左') ? -0.07 : 0.07;
+                    }} else {{
+                        rotationSpeed = Math.max(-0.08, Math.min(0.08, yawErr * 0.08));
+                    }}
+
+                    // 6. Vertical Climb Control
+                    const altErr = targetGate.y - drone.position.y;
+                    throttleAcc = Math.max(-6.0, Math.min(12.0, altErr * 3.5 - velocity.y * 1.5));
+
+                    // AI Telemetry
+                    aiConfidence = Math.max(50.0, Math.min(99.6, 98.5 - (3.0 - Math.min(3.0, latestLiDARReading.dist)) * 14.0));
+                    aiCumulativeReward += 0.05;
+                }}
+
+                // Update Trajectory Line
+                if (trajectoryLine && trajectoryLine.geometry) {{
+                    const posArr = trajectoryLine.geometry.attributes.position.array;
+                    posArr[0] = drone.position.x; posArr[1] = drone.position.y; posArr[2] = drone.position.z;
+                    posArr[3] = targetGate.x; posArr[4] = targetGate.y; posArr[5] = targetGate.z;
+                    trajectoryLine.geometry.attributes.position.needsUpdate = true;
+                    trajectoryLine.geometry.computeBoundingSphere();
+                    trajectoryLine.frustumCulled = false;
+                }}
             }} else {{
-                pitchRamp = Math.max(0, pitchRamp - 0.25);
-            }}
-            let targetPitch = rawPitchCmd * 0.70 * (0.35 + 0.65 * (pitchRamp * pitchRamp));
-            if (rawPitchCmd === 0) targetPitch = 0;
+                // Manual Keyboard Controls with Expo Input Shaping (Gentle micro-trim on tap, 40.1 deg sprint on hold)
+                if (keys['KeyW']) rawPitchCmd -= 1.0;
+                if (keys['KeyS']) rawPitchCmd += 1.0;
+                if (keys['KeyA']) rawRollCmd += 1.0;
+                if (keys['KeyD']) rawRollCmd -= 1.0;
 
-            if (rawRollCmd !== 0) {{
-                rollRamp = Math.min(1.0, rollRamp + 0.12);
-            }} else {{
-                rollRamp = Math.max(0, rollRamp - 0.25);
-            }}
-            let targetRoll = rawRollCmd * 0.70 * (0.35 + 0.65 * (rollRamp * rollRamp));
-            if (rawRollCmd === 0) targetRoll = 0;
+                if (keys['ArrowUp']) throttleAcc += 14.0;       // Lift / Up (High TWR)
+                if (keys['ArrowDown']) throttleAcc -= 9.0;       // Descend
+                if (keys['ArrowLeft'] || keys['KeyQ']) rotationSpeed = 0.08;     // Yaw Left (Agile Rate)
+                else if (keys['ArrowRight'] || keys['KeyE']) rotationSpeed = -0.08; // Yaw Right (Agile Rate)
+                else rotationSpeed = 0;
 
-            if (keys['ArrowUp']) throttleAcc += 14.0;       // Lift / Up (High TWR)
-            if (keys['ArrowDown']) throttleAcc -= 9.0;       // Descend
-            if (keys['ArrowLeft'] || keys['KeyQ']) rotationSpeed = 0.08;     // Yaw Left (Agile Rate)
-            else if (keys['ArrowRight'] || keys['KeyE']) rotationSpeed = -0.08; // Yaw Right (Agile Rate)
-            else rotationSpeed = 0;
+                if (rawPitchCmd !== 0) {{
+                    pitchRamp = Math.min(1.0, pitchRamp + 0.12);
+                }} else {{
+                    pitchRamp = Math.max(0, pitchRamp - 0.25);
+                }}
+                targetPitch = rawPitchCmd * 0.70 * (0.35 + 0.65 * (pitchRamp * pitchRamp));
+                if (rawPitchCmd === 0) targetPitch = 0;
+
+                if (rawRollCmd !== 0) {{
+                    rollRamp = Math.min(1.0, rollRamp + 0.12);
+                }} else {{
+                    rollRamp = Math.max(0, rollRamp - 0.25);
+                }}
+                targetRoll = rawRollCmd * 0.70 * (0.35 + 0.65 * (rollRamp * rollRamp));
+                if (rawRollCmd === 0) targetRoll = 0;
+            }}
 
             // Damage impact on flight physics
             const brokenCount = droneArmComponents.filter(a => a.isArmBroken || a.isPropBroken).length;
@@ -2061,7 +2344,8 @@ class WebGLFlightSimulator:
             const gravity = 9.81;
             const tiltMagnitude = Math.sqrt(pitch * pitch + roll * roll);
             const tiltCompensation = 1.0 / Math.max(Math.cos(Math.min(tiltMagnitude, 0.70)), 0.50);
-            const nominalLift = ((drone.position.y > 0.05 ? 9.81 : 0) + throttleAcc) * tiltCompensation;
+            const hoverBase = (drone.position.y > 0.055 || throttleAcc > 0) ? 9.81 : 0;
+            const nominalLift = (hoverBase + throttleAcc) * tiltCompensation;
             const effectiveLift = nominalLift * (0.15 + 0.85 * intactRatio);
 
             velocity.y += (effectiveLift * thrustVector.y - gravity) * 0.016;
@@ -2284,6 +2568,16 @@ class WebGLFlightSimulator:
                     }}
                 }}
             }}
+
+            // Update AI Autopilot HUD Telemetry
+            const gateEl = document.getElementById('ai-target-gate');
+            const lapsEl = document.getElementById('ai-laps');
+            const confEl = document.getElementById('ai-confidence');
+            const rewEl = document.getElementById('ai-reward');
+            if (gateEl) gateEl.innerText = aiGates[currentAIGateIndex].label;
+            if (lapsEl) lapsEl.innerText = aiLapsCompleted + ' 圈';
+            if (confEl) confEl.innerText = aiConfidence.toFixed(1) + '%';
+            if (rewEl) rewEl.innerText = (aiCumulativeReward >= 0 ? '+' : '') + aiCumulativeReward.toFixed(1);
         }}
 
         // 7. Animation Loop with Real-time Environment FX & Dynamic Particle Lifecycle

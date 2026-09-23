@@ -1,0 +1,25 @@
+{
+  "generation": 1,
+  "design_id": "evolved_confined_space",
+  "name": "第 1 代小空間基準檢測機 (Baseline Confined Space Inspector)",
+  "aircraft_type": "multirotor_hexacopter",
+  "num_arms": 6,
+  "arm_length_m": 0.22,
+  "frame_diameter_m": 0.44,
+  "motor_id": "m_2212_920kv",
+  "prop_id": "p_1045",
+  "battery_id": "b_4s_5200mah",
+  "sensors_mount": [
+    {
+      "sensor_id": "s_depth_cam"
+    }
+  ],
+  "flight_characteristics": {
+    "max_tilt_deg": 17.2,
+    "attitude_response_ms": 250,
+    "twr": 2.4,
+    "handling": "遲鈍、可傾角過小、慣性滑行顯著",
+    "visual_lighting": "無航空燈",
+    "distance_sensor": "無即時測距雷達"
+  }
+}

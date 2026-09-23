@@ -106,7 +106,7 @@ Digital_Twin_Drone_MVP/
 * [ ] **[M2.2] PX4 日誌自動解析與 Real-to-Sim 雙軌校準腳本 (System Identification)**：接收 PX4 ULog / MAVLink 日誌，自動比對動力（PWM-推力、電壓陡降）與氣動（$C_d$、升阻比）誤差，自動回寫 `components_db.json`。
 * [ ] **[M2.3] 演化後邊緣晶片模組化規格推薦器 (Compute Profiler)**：演化完成後根據任務自駕演算法複雜度，自動輸出建議算力 TOPS、記憶體、功耗與載重規格書。
 * [ ] **[M2.4] 抽象感測器軟韌體介面合約定義 (Abstract Sensor Contract)**：定義採樣頻率、延遲限制、頻寬與 FOV 規格，暫不硬性綁定特定中介層。
-* [ ] **[M2.5] 虛擬環境無人干預強化學習 (RL) 訓練管線 (Autonomous RL Training Pipeline)**：在虛擬 3D 模擬環境（WebGL / Gazebo）中建立標準強化學習環境與獎懲機制（Reward Function：成功抵達目標給分、碰撞障礙物大幅扣分、平穩飛行給分），讓無人機在虛擬世界自主進行百萬次試錯訓練，習得極限避障策略神經網絡。
+* [x] **[M2.5] 虛擬環境無人干預強化學習 (RL) 訓練管線 (Autonomous RL Training Pipeline)**：在虛擬 3D 模擬環境（WebGL / Gazebo）中建立標準強化學習環境與獎懲機制（Reward Function：成功抵達目標給分、碰撞障礙物大幅扣分、平穩飛行給分），讓無人機在虛擬世界自主進行百萬次試錯訓練，習得極限避障策略神經網絡。（規格詳見 [`.specs/features/m2_5_rl_pipeline/spec.md`](./features/m2_5_rl_pipeline/spec.md)）
 * [ ] **[M2.6] 「人類主飛，AI 輔助介入」協同飛控副駕駛 (Shared Autonomy Copilot)**：將虛擬環境透過 RL 訓練出的策略模型部署為實機飛行的安全副駕駛；飛手掌握最高操縱權，當飛手操作即將導致碰撞或失控時，AI 即時介入推力與排斥力場避障。
 
 ### Phase 3: 實機落地與蜂群協同 (未來藍圖)

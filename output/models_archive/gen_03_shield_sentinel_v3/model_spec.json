@@ -1,0 +1,34 @@
+{
+  "generation": 3,
+  "design_id": "evolved_shield_sentinel_v3",
+  "name": "第 3 代涵道防撞哨兵飛行器 (Shield Sentinel Ducted Drone)",
+  "aircraft_type": "multirotor_quadcopter_ducted",
+  "num_arms": 4,
+  "arm_length_m": 0.18,
+  "frame_diameter_m": 0.42,
+  "duct_outer_diameter_m": 0.16,
+  "duct_height_m": 0.045,
+  "duct_material": "Polycarbonate/TPU Energy-Absorbing Composite",
+  "motor_id": "m_1806_2300kv",
+  "prop_id": "p_0504",
+  "battery_id": "b_3s_1500mah",
+  "sensors_mount": [
+    {
+      "sensor_id": "s_lidar_2d"
+    },
+    {
+      "sensor_id": "s_depth_cam"
+    }
+  ],
+  "hardware_enhancements": [
+    "360° 一體成型涵道保護圈 (Propeller Guard Ducts) - 碰柱彈開不斷槳",
+    "機腹光流鏡頭與地面超音波定高感測器 (Optical Flow + ToF)",
+    "機頂高亮旋轉 LiDAR 雷達座",
+    "國際標準航空燈 (左舷紅、右舷綠、機頭白、機尾琥珀)"
+  ],
+  "copilot_features": [
+    "AI Copilot 虛擬防撞力場 (Virtual Force Field Repulsion, <0.5m 自動反向推力)",
+    "主動煞車定點懸停鎖定",
+    "低空地面效應高度抑制補償"
+  ]
+}

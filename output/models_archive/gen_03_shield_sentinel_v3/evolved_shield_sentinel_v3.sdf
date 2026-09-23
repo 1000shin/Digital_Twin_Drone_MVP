@@ -1,0 +1,156 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="evolved_shield_sentinel_v3">
+    <pose>0 0 0.08 0 0 0</pose>
+    <static>false</static>
+    <link name="base_link">
+      <inertial>
+        <mass>0.880</mass>
+        <inertia>
+          <ixx>0.006805</ixx>
+          <iyy>0.006805</iyy>
+          <izz>0.011499</izz>
+        </inertia>
+      </inertial>
+      <visual name="body_visual">
+        <geometry>
+          <box><size>0.14 0.14 0.06</size></box>
+        </geometry>
+      </visual>
+      <collision name="body_collision">
+        <geometry>
+          <box><size>0.14 0.14 0.06</size></box>
+        </geometry>
+      </collision>
+      <sensor name="lidar_360" type="ray">
+        <pose>0 0 0.05 0 0 0</pose>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>360</samples>
+              <resolution>1</resolution>
+              <min_angle>-3.14159</min_angle>
+              <max_angle>3.14159</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.10</min>
+            <max>12.0</max>
+          </range>
+        </ray>
+      </sensor>
+      <sensor name="optical_flow_ground" type="camera">
+        <pose>0 0 -0.04 0 1.5707 0</pose>
+        <camera>
+          <horizontal_fov>1.047</horizontal_fov>
+          <image>
+            <width>320</width>
+            <height>240</height>
+          </image>
+        </camera>
+      </sensor>
+    </link>
+
+    <link name="arm_1">
+      <pose>0.1800 0.0000 0 0 0 0</pose>
+      <collision name="duct_bumper_1_collision">
+        <geometry>
+          <cylinder>
+            <radius>0.082</radius>
+            <length>0.040</length>
+          </cylinder>
+        </geometry>
+      </collision>
+      <visual name="duct_bumper_1_visual">
+        <geometry>
+          <cylinder>
+            <radius>0.082</radius>
+            <length>0.040</length>
+          </cylinder>
+        </geometry>
+      </visual>
+    </link>
+    <joint name="joint_arm_1" type="fixed">
+      <parent>base_link</parent>
+      <child>arm_1</child>
+    </joint>
+
+    <link name="arm_2">
+      <pose>0.0000 0.1800 0 0 0 0</pose>
+      <collision name="duct_bumper_2_collision">
+        <geometry>
+          <cylinder>
+            <radius>0.082</radius>
+            <length>0.040</length>
+          </cylinder>
+        </geometry>
+      </collision>
+      <visual name="duct_bumper_2_visual">
+        <geometry>
+          <cylinder>
+            <radius>0.082</radius>
+            <length>0.040</length>
+          </cylinder>
+        </geometry>
+      </visual>
+    </link>
+    <joint name="joint_arm_2" type="fixed">
+      <parent>base_link</parent>
+      <child>arm_2</child>
+    </joint>
+
+    <link name="arm_3">
+      <pose>-0.1800 0.0000 0 0 0 0</pose>
+      <collision name="duct_bumper_3_collision">
+        <geometry>
+          <cylinder>
+            <radius>0.082</radius>
+            <length>0.040</length>
+          </cylinder>
+        </geometry>
+      </collision>
+      <visual name="duct_bumper_3_visual">
+        <geometry>
+          <cylinder>
+            <radius>0.082</radius>
+            <length>0.040</length>
+          </cylinder>
+        </geometry>
+      </visual>
+    </link>
+    <joint name="joint_arm_3" type="fixed">
+      <parent>base_link</parent>
+      <child>arm_3</child>
+    </joint>
+
+    <link name="arm_4">
+      <pose>-0.0000 -0.1800 0 0 0 0</pose>
+      <collision name="duct_bumper_4_collision">
+        <geometry>
+          <cylinder>
+            <radius>0.082</radius>
+            <length>0.040</length>
+          </cylinder>
+        </geometry>
+      </collision>
+      <visual name="duct_bumper_4_visual">
+        <geometry>
+          <cylinder>
+            <radius>0.082</radius>
+            <length>0.040</length>
+          </cylinder>
+        </geometry>
+      </visual>
+    </link>
+    <joint name="joint_arm_4" type="fixed">
+      <parent>base_link</parent>
+      <child>arm_4</child>
+    </joint>
+
+    <plugin name="px4_multirotor_dynamics" filename="libgazebo_multirotor_dynamics_plugin.so">
+      <robotNamespace>evolved_shield_sentinel_v3</robotNamespace>
+      <copilotVirtualBumperEnabled>true</copilotVirtualBumperEnabled>
+      <virtualRepulsionDistance>0.50</virtualRepulsionDistance>
+    </plugin>
+  </model>
+</sdf>

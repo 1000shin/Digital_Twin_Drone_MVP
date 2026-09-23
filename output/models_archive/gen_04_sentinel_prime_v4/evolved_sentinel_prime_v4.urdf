@@ -1,0 +1,169 @@
+<?xml version="1.0" ?>
+<!-- =================================================================================== -->
+<!-- Generation 4: Sentinel Prime AI Autonomous Racer (evolved_sentinel_prime_v4)       -->
+<!-- Autonomous Flight Trial Closed-Loop Evolution: Reduced arm 0.165m, 2.5mm Bumper    -->
+<!-- =================================================================================== -->
+<robot name="evolved_sentinel_prime_v4">
+  <!-- Base Central Avionics & Battery Hub -->
+  <link name="base_link">
+    <inertial>
+      <mass value="0.4264"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="0.004591" ixy="0.0" ixz="0.0" iyy="0.004591" iyz="0.0" izz="0.006660"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.12 0.12 0.055"/>
+      </geometry>
+      <material name="carbon_dark">
+        <color rgba="0.10 0.12 0.16 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.12 0.12 0.055"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- 360 LiDAR Turret Sensor -->
+  <link name="lidar_turret">
+    <inertial>
+      <mass value="0.045"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00002"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0.04" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.038" length="0.045"/>
+      </geometry>
+      <material name="cyan_glow">
+        <color rgba="0.0 0.9 1.0 1.0"/>
+      </material>
+    </visual>
+  </link>
+  <joint name="joint_lidar_turret" type="fixed">
+    <parent link="base_link"/>
+    <child link="lidar_turret"/>
+    <origin xyz="0 0 0.03" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Arm & Duct Bumper Unit 1 -->
+  <link name="arm_1">
+    <inertial>
+      <mass value="0.0984"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="0.00012" ixy="0.0" ixz="0.0" iyy="0.00012" iyz="0.0" izz="0.00024"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.0780" length="0.0420"/>
+      </geometry>
+      <material name="polycarbonate_purple">
+        <color rgba="0.55 0.25 0.85 0.80"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.0780" length="0.0420"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="joint_arm_1" type="fixed">
+    <parent link="base_link"/>
+    <child link="arm_1"/>
+    <origin xyz="0.1650 0.0000 0.0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Arm & Duct Bumper Unit 2 -->
+  <link name="arm_2">
+    <inertial>
+      <mass value="0.0984"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="0.00012" ixy="0.0" ixz="0.0" iyy="0.00012" iyz="0.0" izz="0.00024"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.0780" length="0.0420"/>
+      </geometry>
+      <material name="polycarbonate_purple">
+        <color rgba="0.55 0.25 0.85 0.80"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.0780" length="0.0420"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="joint_arm_2" type="fixed">
+    <parent link="base_link"/>
+    <child link="arm_2"/>
+    <origin xyz="0.0000 0.1650 0.0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Arm & Duct Bumper Unit 3 -->
+  <link name="arm_3">
+    <inertial>
+      <mass value="0.0984"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="0.00012" ixy="0.0" ixz="0.0" iyy="0.00012" iyz="0.0" izz="0.00024"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.0780" length="0.0420"/>
+      </geometry>
+      <material name="polycarbonate_purple">
+        <color rgba="0.55 0.25 0.85 0.80"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.0780" length="0.0420"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="joint_arm_3" type="fixed">
+    <parent link="base_link"/>
+    <child link="arm_3"/>
+    <origin xyz="-0.1650 0.0000 0.0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Arm & Duct Bumper Unit 4 -->
+  <link name="arm_4">
+    <inertial>
+      <mass value="0.0984"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="0.00012" ixy="0.0" ixz="0.0" iyy="0.00012" iyz="0.0" izz="0.00024"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.0780" length="0.0420"/>
+      </geometry>
+      <material name="polycarbonate_purple">
+        <color rgba="0.55 0.25 0.85 0.80"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.0780" length="0.0420"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="joint_arm_4" type="fixed">
+    <parent link="base_link"/>
+    <child link="arm_4"/>
+    <origin xyz="-0.0000 -0.1650 0.0" rpy="0 0 0"/>
+  </joint>
+</robot>

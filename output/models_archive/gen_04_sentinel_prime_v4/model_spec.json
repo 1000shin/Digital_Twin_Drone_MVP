@@ -1,0 +1,51 @@
+{
+  "generation": 4,
+  "design_id": "evolved_sentinel_prime_v4",
+  "name": "第 4 代超敏捷哨兵領航機 (Sentinel Prime AI Autonomous Racer)",
+  "aircraft_type": "multirotor_quadcopter_ducted_compact",
+  "morphological_lineage_parent": "evolved_shield_sentinel_v3",
+  "ai_trial_basis": "Session AI 001 (50 Autonomous Episodes / 97 Gates Passed)",
+  "physical_specifications": {
+    "num_arms": 4,
+    "arm_length_m": 0.165,
+    "frame_diagonal_span_m": 0.38,
+    "total_takeoff_mass_kg": 0.82,
+    "duct_bumper_thickness_mm": 2.5,
+    "duct_material": "Carbon-Weave & High-Impact Polycarbonate Bumper",
+    "motor_id": "m_2205_2600kv",
+    "motor_specs": "High-Torque Brushless (1050g max static thrust/motor)",
+    "prop_id": "p_0504_tri_blade",
+    "battery_id": "b_4s_1800mah_120c",
+    "thrust_to_weight_ratio": 5.12,
+    "vertical_climb_acc_mps2": 8.5,
+    "yaw_inertia_izz_kg_m2": 0.014801
+  },
+  "autonomous_ai_features": [
+    "Parametric Artificial Potential Field (APF) & 360° LiDAR Repulsion",
+    "Real-Time Gate Alignment & Forward Waypoint Projection Beam",
+    "Instant Manual Takeover (<1ms Key Interrupt)",
+    "Reinforced 2.5mm Ducted Bumper Ring (100% Elastic Bounce off Arena Pillars)"
+  ],
+  "sensors_mount": [
+    {
+      "sensor_id": "s_lidar_360",
+      "type": "ray",
+      "range_m": 12.0
+    },
+    {
+      "sensor_id": "s_optical_flow_ground",
+      "type": "camera",
+      "fov_deg": 60
+    },
+    {
+      "sensor_id": "s_forward_stereo_depth",
+      "type": "depth_cam"
+    }
+  ],
+  "lighting_indicators": {
+    "port_wing": "🔴 620nm Red LED",
+    "starboard_wing": "🟢 525nm Green LED",
+    "nose_headlights": "⚪ Dual 6500K High-Intensity Spotlights",
+    "tail_beacon": "🟡 590nm Amber Pulse Strobe"
+  }
+}

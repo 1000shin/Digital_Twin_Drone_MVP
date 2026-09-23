@@ -1,0 +1,30 @@
+{
+  "generation": 2,
+  "design_id": "evolved_agile_confined_v2",
+  "name": "第 2 代高敏捷環境感知飛行器 (Agile Confined Racer & LiDAR Pilot)",
+  "aircraft_type": "multirotor_quadcopter",
+  "num_arms": 4,
+  "arm_length_m": 0.2,
+  "frame_diameter_m": 0.4,
+  "motor_id": "m_1806_2300kv",
+  "prop_id": "p_0504",
+  "battery_id": "b_3s_1500mah",
+  "sensors_mount": [
+    {
+      "sensor_id": "s_lidar_2d"
+    },
+    {
+      "sensor_id": "s_depth_cam"
+    }
+  ],
+  "flight_characteristics": {
+    "max_tilt_deg": 40.1,
+    "attitude_response_ms": 80,
+    "twr": 5.75,
+    "lift_compensation": "1/cos(theta)",
+    "input_shaping": "RC Expo Ramp (0.35 + 0.65 * ramp^2)",
+    "neutral_stick_damping": 0.935,
+    "visual_lighting": "ICAO 標準左紅右綠 + 機頭雙白大燈 + 機尾琥珀信標",
+    "distance_sensor": "360° LiDAR 雷達 + 3D 雷射引導光束 + HUD 八向方位顯示"
+  }
+}

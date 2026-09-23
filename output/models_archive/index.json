@@ -1,0 +1,35 @@
+{
+  "project": "Digital_Twin_Drone_MVP",
+  "last_updated": "2026-09-24",
+  "generations_count": 4,
+  "generations": [
+    {
+      "generation": 1,
+      "design_id": "evolved_confined_space",
+      "name": "第 1 代小空間基準檢測機 (Baseline Confined Space Inspector)",
+      "path": "gen_01_baseline_confined_v1",
+      "key_traits": "6-Arm, 17.2° Tilt, 250ms Response, Bare Frame"
+    },
+    {
+      "generation": 2,
+      "design_id": "evolved_agile_confined_v2",
+      "name": "第 2 代高敏捷環境感知飛行器 (Agile Confined Racer & LiDAR Pilot)",
+      "path": "gen_02_agile_confined_v2",
+      "key_traits": "4-Arm, 40.1° Tilt, 80ms Response, Aviation Nav Lights, 360° LiDAR Raycast HUD, Expo Anti-Burst"
+    },
+    {
+      "generation": 3,
+      "design_id": "evolved_shield_sentinel_v3",
+      "name": "第 3 代涵道防撞哨兵飛行器 (Shield Sentinel Ducted Drone)",
+      "path": "gen_03_shield_sentinel_v3",
+      "key_traits": "4-Arm Ducted Prop Guards, Optical Flow + Ground ToF, AI Copilot Virtual Bumper Force Field"
+    },
+    {
+      "generation": 4,
+      "design_id": "evolved_sentinel_prime_v4",
+      "name": "第 4 代超敏捷哨兵領航機 (Sentinel Prime AI Autonomous Racer)",
+      "path": "gen_04_sentinel_prime_v4",
+      "key_traits": "4-Arm Compact 0.38m Span, 2.5mm Reinforced Bumper, 5.12:1 TWR, Autonomous Waypoint & LiDAR Avoidance"
+    }
+  ]
+}
