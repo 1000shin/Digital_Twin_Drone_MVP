@@ -684,9 +684,7 @@ class WebGLFlightSimulator:
         sunLight.shadow.mapSize.height = 1024;
         scene.add(sunLight);
 
-        let currentGrid = new THREE.GridHelper(50, 50, 0x0284c7, 0x082f49);
-        currentGrid.position.y = -0.8;
-        scene.add(currentGrid);
+        let currentGrid = null;
 
         // 2. Build Drone 3D Mesh Group
         const drone = new THREE.Group();
@@ -883,18 +881,41 @@ class WebGLFlightSimulator:
         const trajGeo = new THREE.BufferGeometry();
         const trajPositions = new Float32Array(6);
         trajGeo.setAttribute('position', new THREE.BufferAttribute(trajPositions, 3));
-        const trajMat = new THREE.LineBasicMaterial({{ color: 0xa855f7, transparent: true, opacity: 0.85, linewidth: 3 }});
+        const trajMat = new THREE.LineBasicMaterial({{ color: 0x00e5ff, transparent: true, opacity: 0.95, linewidth: 4 }});
         const trajectoryLine = new THREE.Line(trajGeo, trajMat);
         trajectoryLine.visible = false;
         trajectoryLine.frustumCulled = false;
         scene.add(trajectoryLine);
 
-        // AI Autopilot Waypoint Circuit Gates
+        // Global Multi-Gate Closed Circuit Navigation Corridor (Gate 1 -> 2 -> 3 -> 4 -> 1)
+        const circuitPts = [
+            new THREE.Vector3(0.0, 3.2, -7.0),
+            new THREE.Vector3(9.0, 4.5, 0.0),
+            new THREE.Vector3(0.0, 6.0, 9.0),
+            new THREE.Vector3(-9.0, 3.8, 0.0),
+            new THREE.Vector3(0.0, 3.2, -7.0)
+        ];
+        const circuitGeo = new THREE.BufferGeometry().setFromPoints(circuitPts);
+        const circuitMat = new THREE.LineDashedMaterial({{
+            color: 0xa855f7,
+            dashSize: 1.0,
+            gapSize: 0.5,
+            transparent: true,
+            opacity: 0.65,
+            linewidth: 2
+        }});
+        const circuitLine = new THREE.Line(circuitGeo, circuitMat);
+        circuitLine.computeLineDistances();
+        circuitLine.visible = false;
+        circuitLine.frustumCulled = false;
+        scene.add(circuitLine);
+
+        // AI Autopilot Waypoint Circuit Gates with 3D Orientation & Normal Vectors
         const aiGates = [
-            {{ id: 1, x: 0.0, y: 3.2, z: -7.0, label: 'Gate #1' }},
-            {{ id: 2, x: 9.0, y: 4.5, z: 0.0, label: 'Gate #2' }},
-            {{ id: 3, x: 0.0, y: 6.0, z: 9.0, label: 'Gate #3' }},
-            {{ id: 4, x: -9.0, y: 3.8, z: 0.0, label: 'Gate #4' }}
+            {{ id: 1, x: 0.0, y: 3.2, z: -7.0, yaw: 0, nx: 0, nz: -1, label: 'Gate #1' }},
+            {{ id: 2, x: 9.0, y: 4.5, z: 0.0, yaw: Math.PI / 2, nx: 1, nz: 0, label: 'Gate #2' }},
+            {{ id: 3, x: 0.0, y: 6.0, z: 9.0, yaw: Math.PI, nx: 0, nz: 1, label: 'Gate #3' }},
+            {{ id: 4, x: -9.0, y: 3.8, z: 0.0, yaw: -Math.PI / 2, nx: -1, nz: 0, label: 'Gate #4' }}
         ];
         let currentAIGateIndex = 0;
         let isAIAutopilotActive = false;
@@ -1167,37 +1188,45 @@ class WebGLFlightSimulator:
             cageLine.position.set(0, 6, 0);
             group.add(cageLine);
 
-            // Glowing FPV / Obstacle Course Flight Gates
+            // Glowing FPV / Obstacle Course Flight Gates with 3D Rotation Alignment
             const gates = [
-                {{ pos: [0, 3.2, -7], color: 0x00e5ff, size: [4.5, 3.5] }},
-                {{ pos: [9, 4.5, 0], color: 0xf43f5e, size: [4.0, 4.0] }},
-                {{ pos: [0, 6.0, 9], color: 0xf59e0b, size: [4.5, 3.5] }},
-                {{ pos: [-9, 3.8, 0], color: 0x22c55e, size: [4.0, 4.0] }}
+                {{ id: 1, pos: [0, 3.2, -7], color: 0x00e5ff, size: [4.5, 3.5], yaw: 0, nx: 0, nz: -1 }},
+                {{ id: 2, pos: [9, 4.5, 0], color: 0xf43f5e, size: [4.0, 4.0], yaw: Math.PI / 2, nx: 1, nz: 0 }},
+                {{ id: 3, pos: [0, 6.0, 9], color: 0xf59e0b, size: [4.5, 3.5], yaw: Math.PI, nx: 0, nz: 1 }},
+                {{ id: 4, pos: [-9, 3.8, 0], color: 0x22c55e, size: [4.0, 4.0], yaw: -Math.PI / 2, nx: -1, nz: 0 }}
             ];
 
-            gates.forEach(g => {{
+            gates.forEach((g, gIdx) => {{
+                const gateGroup = new THREE.Group();
+                gateGroup.position.set(g.pos[0], g.pos[1], g.pos[2]);
+                gateGroup.rotation.y = g.yaw;
+
                 const postGeo = new THREE.BoxGeometry(0.25, g.size[1], 0.25);
                 const postMat = new THREE.MeshStandardMaterial({{ color: g.color, emissive: g.color, emissiveIntensity: 0.6 }});
 
                 const postL = new THREE.Mesh(postGeo, postMat);
-                postL.position.set(g.pos[0] - g.size[0]/2, g.pos[1], g.pos[2]);
-                group.add(postL);
+                postL.position.set(-g.size[0] / 2, 0, 0);
+                gateGroup.add(postL);
 
                 const postR = new THREE.Mesh(postGeo, postMat);
-                postR.position.set(g.pos[0] + g.size[0]/2, g.pos[1], g.pos[2]);
-                group.add(postR);
+                postR.position.set(g.size[0] / 2, 0, 0);
+                gateGroup.add(postR);
 
                 const topGeo = new THREE.BoxGeometry(g.size[0] + 0.25, 0.25, 0.25);
                 const topMesh = new THREE.Mesh(topGeo, postMat);
-                topMesh.position.set(g.pos[0], g.pos[1] + g.size[1]/2, g.pos[2]);
-                group.add(topMesh);
+                topMesh.position.set(0, g.size[1] / 2, 0);
+                gateGroup.add(topMesh);
+
+                group.add(gateGroup);
+                gateGroup.updateMatrixWorld(true);
 
                 postL.geometry.computeBoundingBox();
                 postR.geometry.computeBoundingBox();
                 topMesh.geometry.computeBoundingBox();
-                envObstacles.collision_arena.push({{ mesh: postL, box: new THREE.Box3().setFromObject(postL), name: '穿越門 (左立柱)' }});
-                envObstacles.collision_arena.push({{ mesh: postR, box: new THREE.Box3().setFromObject(postR), name: '穿越門 (右立柱)' }});
-                envObstacles.collision_arena.push({{ mesh: topMesh, box: new THREE.Box3().setFromObject(topMesh), name: '穿越門 (橫樑)' }});
+
+                envObstacles.collision_arena.push({{ mesh: postL, box: new THREE.Box3().setFromObject(postL), name: '穿越門 #' + (gIdx + 1) + ' (左立柱)', gateId: g.id, isGatePost: true }});
+                envObstacles.collision_arena.push({{ mesh: postR, box: new THREE.Box3().setFromObject(postR), name: '穿越門 #' + (gIdx + 1) + ' (右立柱)', gateId: g.id, isGatePost: true }});
+                envObstacles.collision_arena.push({{ mesh: topMesh, box: new THREE.Box3().setFromObject(topMesh), name: '穿越門 #' + (gIdx + 1) + ' (橫樑)', gateId: g.id, isGateTop: true }});
             }});
 
             // 6 Cylindrical Collision Pillars with Hazard Stripes
@@ -1411,6 +1440,10 @@ class WebGLFlightSimulator:
             // 2. Update Active Collisions (Base Obstacles + Active Environment Obstacles)
             activeObstacles = baseObstacleMeshes.concat(envObstacles[envKey]);
 
+            if (typeof circuitLine !== 'undefined' && circuitLine) {{
+                circuitLine.visible = (envKey === 'collision_arena' && isAIAutopilotActive);
+            }}
+
             // 3. Update Sky, Fog, and Grid
             scene.background = new THREE.Color(cfg.bg);
             scene.fog.color = new THREE.Color(cfg.fogColor);
@@ -1419,10 +1452,11 @@ class WebGLFlightSimulator:
             if (currentGrid) {{
                 scene.remove(currentGrid);
                 currentGrid.geometry.dispose();
-                currentGrid = new THREE.GridHelper(50, 50, cfg.gridColor1, cfg.gridColor2);
-                currentGrid.position.y = (envKey === 'offshore_wind') ? -0.8 : 0.0;
-                scene.add(currentGrid);
+                if (currentGrid.material) currentGrid.material.dispose();
             }}
+            currentGrid = new THREE.GridHelper(50, 50, cfg.gridColor1, cfg.gridColor2);
+            currentGrid.position.y = (envKey === 'offshore_wind') ? -0.8 : 0.0;
+            scene.add(currentGrid);
 
             // 4. Update Lighting System
             ambientLight.color.setHex(cfg.ambientColor);
@@ -2176,6 +2210,9 @@ class WebGLFlightSimulator:
                 btn.innerText = '🛑 解除 AI 接管 (P)';
                 btn.blur();
             }}
+            if (typeof circuitLine !== 'undefined' && circuitLine) {{
+                circuitLine.visible = true;
+            }}
             if (trajectoryLine) {{
                 trajectoryLine.visible = true;
                 trajectoryLine.frustumCulled = false;
@@ -2196,6 +2233,7 @@ class WebGLFlightSimulator:
                 btn.innerText = '🤖 啟動 AI 自主飛行 (P)';
                 btn.blur();
             }}
+            if (typeof circuitLine !== 'undefined' && circuitLine) circuitLine.visible = false;
             if (trajectoryLine) trajectoryLine.visible = false;
             if (reason === 'manual_takeover') {{
                 showToast('⚠️ 人工接管介入：AI 自主飛行已解除');

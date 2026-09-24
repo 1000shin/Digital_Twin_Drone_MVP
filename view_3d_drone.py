@@ -351,9 +351,7 @@ class Interactive3DViewer:
         dirLight.shadow.mapSize.height = 1024;
         scene.add(dirLight);
 
-        let currentGrid = new THREE.GridHelper(40, 40, 0x0284c7, 0x082f49);
-        currentGrid.position.y = -0.8;
-        scene.add(currentGrid);
+        let currentGrid = null;
 
         // 2. Build Drone 3D Group
         const droneGroup = new THREE.Group();
@@ -914,10 +912,11 @@ class Interactive3DViewer:
             if (currentGrid) {{
                 scene.remove(currentGrid);
                 currentGrid.geometry.dispose();
-                currentGrid = new THREE.GridHelper(40, 40, cfg.gridColor1, cfg.gridColor2);
-                currentGrid.position.y = (envKey === 'offshore_wind') ? -0.8 : 0.0;
-                scene.add(currentGrid);
+                if (currentGrid.material) currentGrid.material.dispose();
             }}
+            currentGrid = new THREE.GridHelper(40, 40, cfg.gridColor1, cfg.gridColor2);
+            currentGrid.position.y = (envKey === 'offshore_wind') ? -0.8 : 0.0;
+            scene.add(currentGrid);
 
             // 3. Update Lighting System
             ambientLight.color.setHex(cfg.ambientColor);
