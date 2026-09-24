@@ -164,5 +164,43 @@ class TestAIAutonomousPipeline(unittest.TestCase):
         self.assertNotEqual(idx_use, -1)
         self.assertLess(idx_decl, idx_use, "isCatastrophic must be declared before it is accessed to prevent TDZ error")
 
+    def test_webgl_ai_multigate_corridor_and_crossing_state_machine(self):
+        """Validates multi-gate 3D rotation, circuit corridor, APF tunnel filter, and plane crossing state machine."""
+        html_path = self.output_dir / "flight_test_simulator.html"
+        self.assertTrue(html_path.exists())
+        content = html_path.read_text(encoding="utf-8")
+
+        # 1. Global Multi-Gate Closed Circuit Navigation Corridor
+        self.assertIn("circuitLine", content)
+        self.assertIn("circuitPts", content)
+        self.assertIn("THREE.LineDashedMaterial", content)
+
+        # 2. Gate Normal Vectors and Orientation
+        self.assertIn("yaw: Math.PI / 2", content)
+        self.assertIn("nx: 0, nz: -1", content)
+        self.assertIn("nx: 1, nz: 0", content)
+        self.assertIn("nx: 0, nz: 1", content)
+        self.assertIn("nx: -1, nz: 0", content)
+
+        # 3. 3D Rotated Gate Group in Collision Arena
+        self.assertIn("gateGroup = new THREE.Group()", content)
+        self.assertIn("gateGroup.rotation.y = g.yaw", content)
+        self.assertIn("gateId: g.id", content)
+        self.assertIn("isGatePost: true", content)
+        self.assertIn("isGateTop: true", content)
+
+        # 4. Smart Tunnel APF Repulsion Filter
+        self.assertIn("obs.gateId === targetGate.id", content)
+        self.assertIn("if (obs.isGateTop) return;", content)
+
+        # 5. Gate Plane Normal Crossing State Machine & Lead Targeting
+        self.assertIn("signedDot = dxFromGate * targetGate.nx + dzFromGate * targetGate.nz", content)
+        self.assertIn("lateralDist = Math.hypot", content)
+        self.assertIn("hasCrossedGate", content)
+        self.assertIn("leadDist = 1.6", content)
+
+        # 6. LiDAR Gate Passage Deadzone Filter
+        self.assertIn("isApproachingGate", content)
+
 if __name__ == "__main__":
     unittest.main()
