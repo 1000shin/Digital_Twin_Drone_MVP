@@ -231,6 +231,34 @@ class TestAIAutonomousPipeline(unittest.TestCase):
                         f"Script block {i} in flight_test_simulator.html has JS syntax error: {res.stderr}"
                     )
 
+    def test_webgl_ai_circuit_completion_and_depenetration(self):
+        """Verifies outer clearance corners, 3-phase state machine, SAT depenetration, and body frame projection."""
+        html_path = self.output_dir / "flight_test_simulator.html"
+        self.assertTrue(html_path.exists())
+        content = html_path.read_text(encoding="utf-8")
+
+        # 1. Outer Circuit Clearance Corners
+        self.assertIn("const outerCorners =", content)
+        self.assertIn("aiNavStage = 'THROUGH'", content)
+        self.assertIn("aiNavStage = 'LEADOUT'", content)
+        self.assertIn("aiNavStage = 'CORNER'", content)
+
+        # 2. SAT Positional Depenetration
+        self.assertIn("minOverlapX", content)
+        self.assertIn("minOverlapY", content)
+        self.assertIn("minOverlapZ", content)
+        self.assertIn("drone.position.x +=", content)
+
+        # 3. Body Frame Projection & Yaw Inversion Fix
+        self.assertIn("bodyFwd = -desVx * sinY - desVz * cosY", content)
+        self.assertIn("bodyRight = desVx * cosY - desVz * sinY", content)
+        self.assertIn("actualFwd = -velocity.x * sinY - velocity.z * cosY", content)
+        self.assertIn("actualRight = velocity.x * cosY - velocity.z * sinY", content)
+
+        # 4. Cleared Gate Cooldown Mask
+        self.assertIn("clearedGateId", content)
+        self.assertIn("clearedGateCooldownTimer", content)
+
 if __name__ == "__main__":
     unittest.main()
 

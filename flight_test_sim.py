@@ -894,16 +894,42 @@ class WebGLFlightSimulator:
             {{ id: 3, x: 0.0, y: 6.0, z: 9.0, yaw: Math.PI, nx: 0, nz: 1, label: 'Gate #3' }},
             {{ id: 4, x: -9.0, y: 3.8, z: 0.0, yaw: -Math.PI / 2, nx: -1, nz: 0, label: 'Gate #4' }}
         ];
+        // Outer circuit clearance corners to safely bypass central collision pillars (+-3, +-3)
+        const outerCorners = [
+            {{ x: 7.0, y: 3.8, z: -9.5, label: 'Corner #1' }},
+            {{ x: 11.5, y: 5.2, z: 7.0, label: 'Corner #2' }},
+            {{ x: -7.0, y: 4.8, z: 11.5, label: 'Corner #3' }},
+            {{ x: -11.5, y: 3.5, z: -7.0, label: 'Corner #4' }}
+        ];
         let currentAIGateIndex = 0;
+        let aiNavStage = 'THROUGH'; // 'THROUGH' | 'LEADOUT' | 'CORNER'
+        let clearedGateId = null;
+        let clearedGateCooldownTimer = 0.0;
         let isAIAutopilotActive = false;
         let aiCumulativeReward = 0.0;
         let aiLapsCompleted = 0;
         let aiConfidence = 96.5;
 
-        // Global Multi-Gate Closed Circuit Navigation Corridor (Gate 1 -> 2 -> 3 -> 4 -> 1)
-        const circuitPts = aiGates.map(g => new THREE.Vector3(g.x, g.y, g.z)).concat([
+        // Global Multi-Gate Closed Circuit Navigation Corridor (Gate 1 -> Corner 1 -> Gate 2 -> Corner 2 -> Gate 3 -> Corner 3 -> Gate 4 -> Corner 4 -> Gate 1)
+        const circuitPts = [
+            new THREE.Vector3(aiGates[0].x, aiGates[0].y, aiGates[0].z),
+            new THREE.Vector3(aiGates[0].x + aiGates[0].nx * 2.2, aiGates[0].y, aiGates[0].z + aiGates[0].nz * 2.2),
+            new THREE.Vector3(outerCorners[0].x, outerCorners[0].y, outerCorners[0].z),
+            new THREE.Vector3(aiGates[1].x - aiGates[1].nx * 2.2, aiGates[1].y, aiGates[1].z - aiGates[1].nz * 2.2),
+            new THREE.Vector3(aiGates[1].x, aiGates[1].y, aiGates[1].z),
+            new THREE.Vector3(aiGates[1].x + aiGates[1].nx * 2.2, aiGates[1].y, aiGates[1].z + aiGates[1].nz * 2.2),
+            new THREE.Vector3(outerCorners[1].x, outerCorners[1].y, outerCorners[1].z),
+            new THREE.Vector3(aiGates[2].x - aiGates[2].nx * 2.2, aiGates[2].y, aiGates[2].z - aiGates[2].nz * 2.2),
+            new THREE.Vector3(aiGates[2].x, aiGates[2].y, aiGates[2].z),
+            new THREE.Vector3(aiGates[2].x + aiGates[2].nx * 2.2, aiGates[2].y, aiGates[2].z + aiGates[2].nz * 2.2),
+            new THREE.Vector3(outerCorners[2].x, outerCorners[2].y, outerCorners[2].z),
+            new THREE.Vector3(aiGates[3].x - aiGates[3].nx * 2.2, aiGates[3].y, aiGates[3].z - aiGates[3].nz * 2.2),
+            new THREE.Vector3(aiGates[3].x, aiGates[3].y, aiGates[3].z),
+            new THREE.Vector3(aiGates[3].x + aiGates[3].nx * 2.2, aiGates[3].y, aiGates[3].z + aiGates[3].nz * 2.2),
+            new THREE.Vector3(outerCorners[3].x, outerCorners[3].y, outerCorners[3].z),
+            new THREE.Vector3(aiGates[0].x - aiGates[0].nx * 2.2, aiGates[0].y, aiGates[0].z - aiGates[0].nz * 2.2),
             new THREE.Vector3(aiGates[0].x, aiGates[0].y, aiGates[0].z)
-        ]);
+        ];
         const circuitGeo = new THREE.BufferGeometry().setFromPoints(circuitPts);
         const circuitMat = new THREE.LineDashedMaterial({{
             color: 0xa855f7,
@@ -2104,6 +2130,10 @@ class WebGLFlightSimulator:
             pitch = 0; roll = 0; yaw = 0;
             rotationSpeed = 0;
             batteryVoltage = 11.80;
+            currentAIGateIndex = 0;
+            aiNavStage = 'THROUGH';
+            clearedGateId = null;
+            clearedGateCooldownTimer = 0.0;
 
             // 4. Reset HUD & Alerts
             const alertEl = document.getElementById('collision-alert');
@@ -2327,8 +2357,12 @@ class WebGLFlightSimulator:
             let targetPitch = 0;
             let targetRoll = 0;
 
+            if (clearedGateCooldownTimer > 0) clearedGateCooldownTimer -= 0.016;
+            else clearedGateId = null;
+
             if (isAIAutopilotActive && !isCatastrophic) {{
                 const targetGate = aiGates[currentAIGateIndex];
+                const targetCorner = outerCorners[currentAIGateIndex];
                 const relX = targetGate.x - drone.position.x;
                 const relY = targetGate.y - drone.position.y;
                 const relZ = targetGate.z - drone.position.z;
@@ -2339,6 +2373,8 @@ class WebGLFlightSimulator:
                 // Stage 1: Dedicated Vertical Takeoff / Initial Climb Phase (Altitude < 1.6m)
                 // Prevents ground-clamp friction and tilt cancellation while leaving the launch pad
                 const isTakingOff = drone.position.y < 1.6;
+
+                let leadX, leadZ, targetAlt;
 
                 if (isTakingOff) {{
                     rawPitchCmd = 0;
@@ -2353,9 +2389,6 @@ class WebGLFlightSimulator:
                     const text = document.getElementById('ai-status-text');
                     if (text) text.innerText = 'AI 垂直起飛中 (爬升至安全高度)...';
                 }} else {{
-                    const text = document.getElementById('ai-status-text');
-                    if (text) text.innerText = 'AI 航線巡檢中 (' + targetGate.label + ')';
-
                     // 1. Gate Normal Crossing & State Machine Check
                     // Relative vector from gate center to drone in horizontal plane
                     const dxFromGate = drone.position.x - targetGate.x;
@@ -2374,21 +2407,56 @@ class WebGLFlightSimulator:
                     const hasCrossedGate = (signedDot >= 0.35 && lateralDist < 2.5 && vertDist < 2.5) ||
                                            (dist3D < 1.0 && signedDot >= 0.1);
 
-                    if (hasCrossedGate) {{
-                        currentAIGateIndex = (currentAIGateIndex + 1) % aiGates.length;
-                        aiCumulativeReward += 150.0;
-                        if (currentAIGateIndex === 0) {{
-                            aiLapsCompleted++;
-                            aiCumulativeReward += 400.0;
-                            showToast('🏆 AI 順利完成第 ' + aiLapsCompleted + ' 圈全場穿越巡檢！');
+                    // Multi-Stage Sub-corridor Navigation State Machine
+                    if (aiNavStage === 'THROUGH') {{
+                        if (hasCrossedGate) {{
+                            aiNavStage = 'LEADOUT';
+                            clearedGateId = targetGate.id;
+                            clearedGateCooldownTimer = 3.0;
+                            aiCumulativeReward += 150.0;
+                        }}
+                    }} else if (aiNavStage === 'LEADOUT') {{
+                        const leadOutPtX = targetGate.x + targetGate.nx * 2.5;
+                        const leadOutPtZ = targetGate.z + targetGate.nz * 2.5;
+                        const distToLeadOut = Math.hypot(drone.position.x - leadOutPtX, drone.position.z - leadOutPtZ);
+                        if (signedDot >= 2.0 || distToLeadOut < 1.0) {{
+                            aiNavStage = 'CORNER';
+                        }}
+                    }} else if (aiNavStage === 'CORNER') {{
+                        const distToCorner = Math.hypot(drone.position.x - targetCorner.x, drone.position.z - targetCorner.z);
+                        if (distToCorner < 2.5) {{
+                            currentAIGateIndex = (currentAIGateIndex + 1) % aiGates.length;
+                            aiNavStage = 'THROUGH';
+                            if (currentAIGateIndex === 0) {{
+                                aiLapsCompleted++;
+                                aiCumulativeReward += 400.0;
+                                showToast('🏆 AI 順利完成第 ' + aiLapsCompleted + ' 圈全場穿越巡檢！');
+                            }}
                         }}
                     }}
 
                     // 2. Goal Attraction Vector: Lead-through Target point
                     // Aim at a point slightly ahead through the gate so the drone flies through rather than stopping at the threshold
                     const leadDist = 1.6;
-                    const leadX = targetGate.x + targetGate.nx * leadDist;
-                    const leadZ = targetGate.z + targetGate.nz * leadDist;
+                    leadX = targetGate.x + targetGate.nx * leadDist;
+                    leadZ = targetGate.z + targetGate.nz * leadDist;
+                    targetAlt = targetGate.y;
+
+                    const text = document.getElementById('ai-status-text');
+                    if (aiNavStage === 'THROUGH') {{
+                        if (text) text.innerText = 'AI 航線巡檢中 (' + targetGate.label + ')';
+                    }} else if (aiNavStage === 'LEADOUT') {{
+                        leadX = targetGate.x + targetGate.nx * 2.8;
+                        leadZ = targetGate.z + targetGate.nz * 2.8;
+                        targetAlt = targetGate.y;
+                        if (text) text.innerText = 'AI 出門走廊導引 (' + targetGate.label + ' 出口)';
+                    }} else if (aiNavStage === 'CORNER') {{
+                        leadX = targetCorner.x;
+                        leadZ = targetCorner.z;
+                        targetAlt = targetCorner.y;
+                        if (text) text.innerText = 'AI 外環轉角巡航 (' + targetCorner.label + ')';
+                    }}
+
                     const toLeadX = leadX - drone.position.x;
                     const toLeadZ = leadZ - drone.position.z;
                     const leadDist2D = Math.hypot(toLeadX, toLeadZ);
@@ -2396,14 +2464,15 @@ class WebGLFlightSimulator:
                     let attractX = (leadDist2D > 0.01) ? (toLeadX / leadDist2D) * 1.6 : 0;
                     let attractZ = (leadDist2D > 0.01) ? (toLeadZ / leadDist2D) * 1.6 : 0;
 
-                    // 3. Smart Obstacle Repulsion Vector (Excluding current target gate's top beam & back repulsion)
+                    // 3. Smart Obstacle Repulsion Vector (Excluding current target gate & recently cleared gate)
                     let repelX = 0;
                     let repelZ = 0;
                     activeObstacles.forEach(obs => {{
-                        // Check if obstacle belongs to current target gate
-                        if (obs.gateId === targetGate.id) {{
-                            // Smart tunnel filtering:
-                            // Completely ignore top beam repulsion to allow clean under-flight
+                        const isTargetGateObs = (obs.gateId === targetGate.id);
+                        const isClearedGateObs = (clearedGateId && obs.gateId === clearedGateId);
+
+                        // Smart tunnel filtering:
+                        if (isTargetGateObs || isClearedGateObs) {{
                             if (obs.isGateTop) return;
 
                             // For side posts, only apply lateral push toward center if dangerously close (< 0.85m)
@@ -2412,8 +2481,9 @@ class WebGLFlightSimulator:
                             const dZ = drone.position.z - _tempObsCenter.z;
                             const d = Math.hypot(dX, dZ);
                             if (d < 0.85 && d > 0.05 && vertDist < 2.2) {{
-                                const latX = -targetGate.nz;
-                                const latZ = targetGate.nx;
+                                const gRef = isTargetGateObs ? targetGate : (aiGates.find(g => g.id === clearedGateId) || targetGate);
+                                const latX = -gRef.nz;
+                                const latZ = gRef.nx;
                                 const postDotLat = (dX * latX + dZ * latZ);
                                 const pushLat = (postDotLat > 0 ? 1 : -1) * Math.pow((0.85 - d) / 0.85, 1.5) * 1.8;
                                 repelX += latX * pushLat;
@@ -2445,20 +2515,20 @@ class WebGLFlightSimulator:
                     let desVz = attractZ + repelZ;
 
                     // 4. LiDAR Gate Passage Deadzone Filter
-                    const isApproachingGate = dist2D < 2.8 && vertDist < 2.5;
+                    const isApproachingGate = (aiNavStage === 'THROUGH' || aiNavStage === 'LEADOUT') && dist2D < 2.8 && vertDist < 2.5;
                     if (!isApproachingGate && latestLiDARReading.dist < 1.6) {{
                         const damp = Math.max(0.3, latestLiDARReading.dist / 1.6);
                         desVx *= damp;
                         desVz *= damp;
                     }}
 
-                    // 5. Project onto Body Frame
+                    // 5. Project onto Body Frame (World Forward [-sinY, -cosY], World Right [cosY, -sinY])
                     const cosY = Math.cos(yaw);
                     const sinY = Math.sin(yaw);
-                    const bodyFwd = desVx * sinY - desVz * cosY;
-                    const bodyRight = desVx * cosY + desVz * sinY;
-                    const actualFwd = velocity.x * sinY - velocity.z * cosY;
-                    const actualRight = velocity.x * cosY + velocity.z * sinY;
+                    const bodyFwd = -desVx * sinY - desVz * cosY;
+                    const bodyRight = desVx * cosY - desVz * sinY;
+                    const actualFwd = -velocity.x * sinY - velocity.z * cosY;
+                    const actualRight = velocity.x * cosY - velocity.z * sinY;
                     const errFwd = bodyFwd - actualFwd;
                     const errRight = bodyRight - actualRight;
 
@@ -2468,7 +2538,7 @@ class WebGLFlightSimulator:
                     targetRoll = rawRollCmd * 0.70;
 
                     // 6. Yaw Heading Alignment & Deadzone
-                    const desiredYaw = Math.atan2(toLeadX, -toLeadZ);
+                    const desiredYaw = Math.atan2(-toLeadX, -toLeadZ);
                     const yawErr = (desiredYaw - yaw + Math.PI) % (2 * Math.PI) - Math.PI;
 
                     if (!isApproachingGate && latestLiDARReading.dist < 1.8 && (latestLiDARReading.direction.includes('前') || latestLiDARReading.direction.includes('舷'))) {{
@@ -2478,7 +2548,7 @@ class WebGLFlightSimulator:
                     }}
 
                     // 7. Damped Altitude Hold & Vertical Climb Control
-                    const altErr = targetGate.y - drone.position.y;
+                    const altErr = targetAlt - drone.position.y;
                     throttleAcc = Math.max(-6.0, Math.min(14.0, altErr * 3.8 - velocity.y * 1.8));
 
                     // AI Telemetry
@@ -2486,11 +2556,13 @@ class WebGLFlightSimulator:
                     aiCumulativeReward += 0.05;
                 }}
 
-                // Update Dynamic Trajectory Line (Drone position -> Target Gate)
+                // Update Dynamic Trajectory Line (Drone position -> Target Lead/Waypoint)
                 if (trajectoryLine && trajectoryLine.geometry) {{
                     const posArr = trajectoryLine.geometry.attributes.position.array;
                     posArr[0] = drone.position.x; posArr[1] = drone.position.y; posArr[2] = drone.position.z;
-                    posArr[3] = targetGate.x; posArr[4] = targetGate.y; posArr[5] = targetGate.z;
+                    posArr[3] = (typeof leadX !== 'undefined') ? leadX : targetGate.x;
+                    posArr[4] = (typeof targetAlt !== 'undefined') ? targetAlt : targetGate.y;
+                    posArr[5] = (typeof leadZ !== 'undefined') ? leadZ : targetGate.z;
                     trajectoryLine.geometry.attributes.position.needsUpdate = true;
                     trajectoryLine.geometry.computeBoundingSphere();
                     trajectoryLine.frustumCulled = false;
@@ -2739,7 +2811,26 @@ class WebGLFlightSimulator:
                         }});
                         applyStructuralDamage(contactPt, currentSpeed, '剛體障礙物');
                     }}
-                    velocity.negate().multiplyScalar(0.45); // Bouncing physics
+                    // Bouncing physics with Positional Depenetration (Anti-Stuck Resolution)
+                    const minOverlapX = Math.min(droneBox.max.x - obs.box.min.x, obs.box.max.x - droneBox.min.x);
+                    const minOverlapY = Math.min(droneBox.max.y - obs.box.min.y, obs.box.max.y - droneBox.min.y);
+                    const minOverlapZ = Math.min(droneBox.max.z - obs.box.min.z, obs.box.max.z - droneBox.min.z);
+                    const minOverlap = Math.min(minOverlapX, minOverlapY, minOverlapZ);
+                    const pushMargin = 0.05;
+
+                    if (minOverlap === minOverlapX) {{
+                        const pushDir = (drone.position.x > (obs.box.min.x + obs.box.max.x) / 2) ? 1 : -1;
+                        drone.position.x += pushDir * (minOverlapX + pushMargin);
+                        velocity.x = -velocity.x * 0.45 + pushDir * 0.6;
+                    }} else if (minOverlap === minOverlapZ) {{
+                        const pushDir = (drone.position.z > (obs.box.min.z + obs.box.max.z) / 2) ? 1 : -1;
+                        drone.position.z += pushDir * (minOverlapZ + pushMargin);
+                        velocity.z = -velocity.z * 0.45 + pushDir * 0.6;
+                    }} else {{
+                        const pushDir = (drone.position.y > (obs.box.min.y + obs.box.max.y) / 2) ? 1 : -1;
+                        drone.position.y += pushDir * (minOverlapY + pushMargin);
+                        velocity.y = -velocity.y * 0.45 + pushDir * 0.4;
+                    }}
                 }}
             }});
 

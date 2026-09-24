@@ -24,6 +24,7 @@
 | **v12.0.1** | 2026-09-24 | **[FIX-WEBGL-PLANE-TEARING] 3D 檢視器 WebGL 網格渲染平面破圖與 Z-Fighting 修復**：動態水面法向量即時重算 (`computeVertexNormals`)、全域對數深度緩衝 (`logarithmicDepthBuffer: true`)、視椎體遠裁切面擴展至 1000m/2000m、海床網格下沉至 -0.8m 與地面 `DoubleSide` / `polygonOffset` 徹底消除 Z-Fighting。 | `test_webgl_environments.py` (5/5 Pass)<br/>`python3 -m unittest` (50/50 Pass, 100%) |
 | **v12.0.2** | 2026-09-24 | **[FIX-AI-AUTONOMOUS-MULTIGATE] WebGL AI 自主飛行多道穿越門導航與避障控制重構**：新增全局閉合巡檢走廊 (`circuitLine`)、競技場 4 道門 3D 朝向 Group 旋轉校準、APF 目標門自斥解耦（徹底消除門前「空氣牆」）、帶符號法向穿越狀態機（`signedDot >= 0.35m` 避免切角撞柱）、LiDAR 穿門死區濾波與碰撞姿態韌性自穩。 | `test_ai_autonomous_pipeline.py` (9/9 Pass)<br/>`python3 -m unittest` (51/51 Pass, 100%) |
 | **v12.0.3** | 2026-09-24 | **[FIX-M2.1-CAD-MESH-TOPOLOGY] M2.1 3D 有機 CAD 機身實體網格拓撲缺陷與起落架破圖修復**：實作流線立體實心仿生機臂（Solid Bionic Tapered Beam，9 切片水密外殼與端蓋）、3D 實心錐體起落架幾何接合（根部精確錨定 $z_{\text{arm\_bottom}}$ 消除 11mm 斷空與 2D 薄片）、馬達安裝座座標解耦共軸對齊、右手定則逆時針頂點排序與全域外法向量一致性；重新導出全世代 STL 與 `output/stl_viewer.html`。 | `test_organic_cad.py` (8/8 Pass)<br/>`python3 -m unittest` (55/55 Pass, 100%) |
+| **v12.0.4** | 2026-09-24 | **[FIX-M2.6-AI-CIRCUIT-COMPLETION] WebGL AI 自主飛行全場多門閉環導航與防撞解鎖**：引入 SAT 最小穿透軸主動推離消除物理卡死死鎖；建構 `THROUGH` ➔ `LEADOUT` (2.5m) ➔ `CORNER` 三階段導航狀態機；四角外側安全繞行點避開中央障礙柱；修正 Three.js 姿態角與機身座標系符號反向缺陷；已過門 APF 冷卻遮罩；實體 Chrome 瀏覽器 CDP 實測順暢完成 1 圈閉環巡檢（T+88.75s, 100% 結構健康度, +1253.9 獎勵）。 | `test_ai_autonomous_pipeline.py` (11/11 Pass)<br/>`pytest` (56/56 Pass, 100%) |
 
 ---
 

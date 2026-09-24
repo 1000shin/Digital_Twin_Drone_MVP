@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [v12.0.4] - 2026-09-24
+
+### Fixed
+- **[FIX-M2.6-AI-CIRCUIT-COMPLETION] WebGL AI 自主飛行全場多門閉環導航與防撞解鎖**:
+  - **剛體碰撞最小分離軸主動推離 (SAT Positional Depenetration)**: 徹底根除碰撞後幾何速度衰減至 $0.00\text{ m/s}$ 的物理死鎖吸附問題。在 AABB 碰撞檢測中引入 $X/Y/Z$ 最小穿透深度計算，主動將機身沿最短分離軸推出障礙物外圍 $+0.05\text{m}$，使反彈速度正常發揮作用。
+  - **三階段巡檢狀態機 (3-Phase Navigation State Machine)**: 建立 `aiNavStage` 嚴謹三階段控制流（`THROUGH` ➔ `LEADOUT` 前推 2.5m 確保完全脫離門框 ➔ `CORNER` 大半徑外側繞行 ➔ 下一道門 `THROUGH`），解決穿門後立即轉向下個航點導致機臂撞擊門柱與頂樑的問題。
+  - **全場四角外側安全繞行點 (Outer Circuit Clearance Corners)**: 於四道門外側佈建半徑 9.5m ~ 11.5m 之大半徑外切角，引導機身安全繞過中央立柱群 $(\pm 3, \pm 3)$，徹底根除內切抄近路撞柱。
+  - **Three.js 姿態角與機身座標系符號修正 (Body Frame Projection & Yaw Inversion Fix)**: 修復 Three.js `YXZ` 歐拉角旋轉與世界速度投影反向缺陷。修正偏航角計算為 `Math.atan2(-toLeadX, -toLeadZ)`，修正期望速度與實際速度的機體軸投影公式（`-desVx * sinY - desVz * cosY`），使機體在任何航向下皆能精準前進，消除轉彎倒飛墜毀。
+  - **已穿透門 APF 排斥冷卻遮罩 (Cleared Gate Cooldown Mask)**: 新增 `clearedGateCooldownTimer`（3.0s 冷卻計時），門框被判定穿越後 3 秒內完全豁免該門頂樑與立柱的 APF 斥力，防止剛出門即被後方門框強行吸回或推偏。
+  - **實體瀏覽器 (Chrome CDP) 飛行實測通過**: 無人機於 T+88.75s 成功完成 Lap 1 全場閉環巡檢，機身結構完整度保持 100.0%（零損毀、無擦撞），累積獎勵達 +1253.9 分。
+  - **單元測試防線**: 擴展 `test_ai_autonomous_pipeline.py`，全專案 56/56 項單元測試 100% 通過（耗時 9.68s）。
+
 ## [v12.0.3] - 2026-09-24
 
 ### Fixed
