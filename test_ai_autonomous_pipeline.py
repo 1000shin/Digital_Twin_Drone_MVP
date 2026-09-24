@@ -202,5 +202,35 @@ class TestAIAutonomousPipeline(unittest.TestCase):
         # 6. LiDAR Gate Passage Deadzone Filter
         self.assertIn("isApproachingGate", content)
 
+    def test_flight_simulator_javascript_syntax_cleanliness(self):
+        """Verifies flight_test_simulator.html has no duplicate circuitPts and passes Node.js syntax parsing."""
+        import shutil, subprocess, tempfile
+        from bs4 import BeautifulSoup
+
+        html_path = self.output_dir / "flight_test_simulator.html"
+        self.assertTrue(html_path.exists())
+        content = html_path.read_text(encoding="utf-8")
+
+        # 1. Ensure circuitPts is only declared once with const
+        const_circuit_count = content.count("const circuitPts =")
+        self.assertEqual(const_circuit_count, 1, f"circuitPts should be declared exactly once, found {const_circuit_count}")
+
+        # 2. Node.js check if node runtime is available
+        if shutil.which("node"):
+            soup = BeautifulSoup(content, "html.parser")
+            scripts = soup.find_all("script")
+            for i, s in enumerate(scripts):
+                if s.string:
+                    with tempfile.NamedTemporaryFile("w", suffix=".js", delete=False) as tf:
+                        tf.write(s.string)
+                        tf_name = tf.name
+                    res = subprocess.run(["node", "--check", tf_name], capture_output=True, text=True)
+                    self.assertEqual(
+                        res.returncode,
+                        0,
+                        f"Script block {i} in flight_test_simulator.html has JS syntax error: {res.stderr}"
+                    )
+
 if __name__ == "__main__":
     unittest.main()
+

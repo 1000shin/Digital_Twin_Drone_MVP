@@ -887,29 +887,6 @@ class WebGLFlightSimulator:
         trajectoryLine.frustumCulled = false;
         scene.add(trajectoryLine);
 
-        // Global Multi-Gate Closed Circuit Navigation Corridor (Gate 1 -> 2 -> 3 -> 4 -> 1)
-        const circuitPts = [
-            new THREE.Vector3(0.0, 3.2, -7.0),
-            new THREE.Vector3(9.0, 4.5, 0.0),
-            new THREE.Vector3(0.0, 6.0, 9.0),
-            new THREE.Vector3(-9.0, 3.8, 0.0),
-            new THREE.Vector3(0.0, 3.2, -7.0)
-        ];
-        const circuitGeo = new THREE.BufferGeometry().setFromPoints(circuitPts);
-        const circuitMat = new THREE.LineDashedMaterial({{
-            color: 0xa855f7,
-            dashSize: 1.0,
-            gapSize: 0.5,
-            transparent: true,
-            opacity: 0.65,
-            linewidth: 2
-        }});
-        const circuitLine = new THREE.Line(circuitGeo, circuitMat);
-        circuitLine.computeLineDistances();
-        circuitLine.visible = false;
-        circuitLine.frustumCulled = false;
-        scene.add(circuitLine);
-
         // AI Autopilot Waypoint Circuit Gates with 3D Orientation & Normal Vectors
         const aiGates = [
             {{ id: 1, x: 0.0, y: 3.2, z: -7.0, yaw: 0, nx: 0, nz: -1, label: 'Gate #1' }},
