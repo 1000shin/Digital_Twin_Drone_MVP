@@ -4,14 +4,14 @@
   "arm_length_m": 0.22,
   "bounding_box_mm": {
     "x": 474.0,
-    "y": 415.1,
+    "y": 414.8,
     "z": 81.0
   },
-  "airframe_volume_cm3": 299.29,
+  "airframe_volume_cm3": 785.69,
   "material": "PETG-CF",
   "density_g_cm3": 1.25,
-  "estimated_print_weight_g": 130.9,
-  "total_triangles": 720,
+  "estimated_print_weight_g": 343.7,
+  "total_triangles": 1008,
   "recommended_slicer_settings": {
     "nozzle_size_mm": 0.4,
     "layer_height_mm": 0.2,

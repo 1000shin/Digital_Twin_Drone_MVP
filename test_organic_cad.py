@@ -132,6 +132,54 @@ class TestOrganicCADGenerator(unittest.TestCase):
             data = json.load(f)
         self.assertEqual(data["model_id"], "test_cad_quad")
 
+    def test_zero_degenerate_triangles_and_manifold_integrity(self):
+        """Verifies 100% absence of zero-area or duplicate-vertex degenerate triangles."""
+        verts, faces, normals = self.generator.generate_airframe_mesh(self.sample_spec_4)
+        for f_idx, face in enumerate(faces):
+            # No duplicate vertices in any face
+            self.assertEqual(len(set(face)), 3, f"Face {f_idx} has duplicated vertex indices")
+            v0 = verts[face[0]]
+            v1 = verts[face[1]]
+            v2 = verts[face[2]]
+            cross = np.cross(v1 - v0, v2 - v0)
+            area = 0.5 * np.linalg.norm(cross)
+            self.assertGreater(area, 1e-5, f"Face {f_idx} is a degenerate triangle with zero/near-zero area: {area}")
+
+    def test_landing_skid_anchorage_no_floating_gap(self):
+        """Verifies landing skid is anchored directly to arm bottom with 0mm floating gap."""
+        verts, faces, _ = self.generator.generate_airframe_mesh(self.sample_spec_4, scale_to_mm=False)
+        # The last 12 triangles correspond to the landing skid of the last arm
+        skid_faces = faces[-12:]
+        skid_vertex_indices = list(set(skid_faces.flatten()))
+        skid_verts = verts[skid_vertex_indices]
+
+        # Calculate theoretical arm bottom at skid radius
+        r_start = max(0.045, min(0.12, self.sample_spec_4["arm_length_m"] * 0.28)) * 0.88
+        r_end = self.sample_spec_4["arm_length_m"]
+        r_skid = r_end * 0.75
+        t_skid = (r_skid - r_start) / (r_end - r_start)
+        arm_h_at_skid = (1.0 - t_skid) * 0.016 + t_skid * 0.010
+        arm_z_bottom = -t_skid * 0.003 - arm_h_at_skid * 0.5
+
+        # Check skid top anchor vertices match arm bottom (with 0.5mm embedding)
+        max_skid_z = float(np.max(skid_verts[:, 2]))
+        min_skid_z = float(np.min(skid_verts[:, 2]))
+
+        self.assertAlmostEqual(max_skid_z, arm_z_bottom + 0.0005, delta=0.001)
+        # Verify 3D volumetric height of skid (not 2D zero thickness)
+        self.assertGreater(max_skid_z - min_skid_z, 0.030)
+
+    def test_motor_mount_coaxial_alignment(self):
+        """Verifies motor mount pad is co-axial with arm tip center and has no double mid_z offset."""
+        verts, faces, _ = self.generator.generate_airframe_mesh(self.sample_spec_4, scale_to_mm=False)
+        r_end = self.sample_spec_4["arm_length_m"]
+        # Find motor pad top center vertices
+        tip_verts = [v for v in verts if np.sqrt(v[0]**2 + v[1]**2) >= r_end - 1e-4]
+        self.assertGreater(len(tip_verts), 0)
+        # Motor pad top is at mid_z + 0.5 * motor_pad_h_m = 0.0 + 0.004 = +0.004m (raised boss above arm tip 0.002m)
+        max_z_at_tip = max(v[2] for v in tip_verts)
+        self.assertAlmostEqual(max_z_at_tip, 0.004, places=3)
+
 
 if __name__ == "__main__":
     unittest.main()

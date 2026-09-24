@@ -2,7 +2,10 @@
 
 > **版本**: 1.0  
 > **功能 ID**: `FIX-M2.1-CAD-MESH-TOPOLOGY`  
-> **狀態**: `Draft (Awaiting Architect Sign-off at Human Gate)`  
+> **狀態**: `Approved (Signed off by Human Architect at Human Gate)`  
+> **架構決策**:  
+>   - 機臂拓撲風格：`流線立體實心仿生機臂 (Solid Bionic Tapered Beam)`  
+>   - 起落架形式：`3D 實心錐體腳柱直接接合機臂底面`  
 > **對應專案憲章**: `Constitution Phase 2 [M2.1] 有機造型 3D 列印 CAD 生成模組`  
 > **目標分支**: `fix/m2.1-cad-mesh-manifold-topology`  
 > **負責架構師**: Human Architect (Brain)  
