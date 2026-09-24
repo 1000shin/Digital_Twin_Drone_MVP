@@ -190,6 +190,36 @@ class TestPrivilegedDRLDistillation(unittest.TestCase):
         self.assertIn("function predictStudentNeural", content)
         self.assertIn("currentStudentStageKey", content)
 
+    def test_simulator_html_stage_1_no_scope_error(self):
+        """FIX-M2.5.2-BUG-2: Verify altErr is hoisted before stage_1_half_trained to prevent ReferenceError."""
+        html_file = Path(__file__).parent / "output" / "flight_test_simulator.html"
+        self.assertTrue(html_file.exists(), "Simulator HTML file must exist")
+        content = html_file.read_text(encoding="utf-8")
+
+        # Verify altErr declaration exists before stage_1_half_trained
+        alt_err_decl_idx = content.find("const altErr = targetAlt - drone.position.y;")
+        stage_1_idx = content.find("currentStudentStageKey === 'stage_1_half_trained'")
+
+        self.assertNotEqual(alt_err_decl_idx, -1, "altErr declaration must exist")
+        self.assertNotEqual(stage_1_idx, -1, "stage_1_half_trained branch must exist")
+        self.assertLess(alt_err_decl_idx, stage_1_idx, "altErr must be declared before stage_1_half_trained usage")
+
+        # Verify defensive try-catch in neural inference
+        self.assertIn("console.warn('Neural inference error:', e)", content)
+
+    def test_simulator_html_approach_navigation_stage(self):
+        """FIX-M2.5.2-BUG-1: Verify APPROACH stage exists and aligns with purple circuit entry points."""
+        html_file = Path(__file__).parent / "output" / "flight_test_simulator.html"
+        self.assertTrue(html_file.exists(), "Simulator HTML file must exist")
+        content = html_file.read_text(encoding="utf-8")
+
+        # Verify APPROACH stage in state machine
+        self.assertIn("aiNavStage === 'APPROACH'", content)
+        self.assertIn("targetGate.x - targetGate.nx * 2.2", content)
+        self.assertIn("targetGate.z - targetGate.nz * 2.2", content)
+        self.assertIn("AI 門前進門對齊", content)
+
 
 if __name__ == "__main__":
     unittest.main()
+

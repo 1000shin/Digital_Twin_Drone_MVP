@@ -923,7 +923,7 @@ class WebGLFlightSimulator:
             {{ x: -11.5, y: 3.5, z: -7.0, label: 'Corner #4' }}
         ];
         let currentAIGateIndex = 0;
-        let aiNavStage = 'THROUGH'; // 'THROUGH' | 'LEADOUT' | 'CORNER'
+        let aiNavStage = 'APPROACH'; // 'APPROACH' | 'THROUGH' | 'LEADOUT' | 'CORNER'
         let clearedGateId = null;
         let clearedGateCooldownTimer = 0.0;
         let isAIAutopilotActive = false;
@@ -2156,7 +2156,7 @@ class WebGLFlightSimulator:
             rotationSpeed = 0;
             batteryVoltage = 11.80;
             currentAIGateIndex = 0;
-            aiNavStage = 'THROUGH';
+            aiNavStage = 'APPROACH';
             clearedGateId = null;
             clearedGateCooldownTimer = 0.0;
 
@@ -2490,7 +2490,7 @@ class WebGLFlightSimulator:
                     // Relative vector from gate center to drone in horizontal plane
                     const dxFromGate = drone.position.x - targetGate.x;
                     const dzFromGate = drone.position.z - targetGate.z;
-                    // Signed distance along gate normal (positive = crossed through the gate)
+                    // Signed distance along gate normal (negative = in front of gate, positive = passed through gate)
                     const signedDot = dxFromGate * targetGate.nx + dzFromGate * targetGate.nz;
                     // Lateral distance from the center line of the gate
                     const lateralDist = Math.hypot(
@@ -2500,12 +2500,21 @@ class WebGLFlightSimulator:
                     const vertDist = Math.abs(drone.position.y - targetGate.y);
 
                     // A gate is cleared when the drone has passed beyond the gate plane (signedDot >= 0.35m)
-                    // within the gate lateral aperture and vertical clearance, OR reached close proximity.
-                    const hasCrossedGate = (signedDot >= 0.35 && lateralDist < 2.5 && vertDist < 2.5) ||
-                                           (dist3D < 1.0 && signedDot >= 0.1);
+                    // within the gate lateral aperture and vertical clearance
+                    const hasCrossedGate = (signedDot >= 0.35 && lateralDist < 2.2 && vertDist < 2.2) ||
+                                           (dist3D < 1.0 && signedDot >= 0.1 && lateralDist < 1.8);
 
-                    // Multi-Stage Sub-corridor Navigation State Machine
-                    if (aiNavStage === 'THROUGH') {{
+                    // Multi-Stage Sub-corridor Navigation State Machine: APPROACH -> THROUGH -> LEADOUT -> CORNER
+                    const approachPtX = targetGate.x - targetGate.nx * 2.2;
+                    const approachPtZ = targetGate.z - targetGate.nz * 2.2;
+                    const distToApproach = Math.hypot(drone.position.x - approachPtX, drone.position.z - approachPtZ);
+
+                    if (aiNavStage === 'APPROACH') {{
+                        // Switch to THROUGH when aligned in pre-gate corridor or close to entry point
+                        if (distToApproach < 1.5 || (signedDot >= -2.0 && signedDot <= -0.15 && lateralDist < 2.0 && vertDist < 2.0)) {{
+                            aiNavStage = 'THROUGH';
+                        }}
+                    }} else if (aiNavStage === 'THROUGH') {{
                         if (hasCrossedGate) {{
                             aiNavStage = 'LEADOUT';
                             clearedGateId = targetGate.id;
@@ -2516,14 +2525,14 @@ class WebGLFlightSimulator:
                         const leadOutPtX = targetGate.x + targetGate.nx * 2.5;
                         const leadOutPtZ = targetGate.z + targetGate.nz * 2.5;
                         const distToLeadOut = Math.hypot(drone.position.x - leadOutPtX, drone.position.z - leadOutPtZ);
-                        if (signedDot >= 2.0 || distToLeadOut < 1.0) {{
+                        if (signedDot >= 2.0 || distToLeadOut < 1.2) {{
                             aiNavStage = 'CORNER';
                         }}
                     }} else if (aiNavStage === 'CORNER') {{
                         const distToCorner = Math.hypot(drone.position.x - targetCorner.x, drone.position.z - targetCorner.z);
-                        if (distToCorner < 2.5) {{
+                        if (distToCorner < 2.2) {{
                             currentAIGateIndex = (currentAIGateIndex + 1) % aiGates.length;
-                            aiNavStage = 'THROUGH';
+                            aiNavStage = 'APPROACH';
                             if (currentAIGateIndex === 0) {{
                                 aiLapsCompleted++;
                                 aiCumulativeReward += 400.0;
@@ -2532,25 +2541,34 @@ class WebGLFlightSimulator:
                         }}
                     }}
 
-                    // 2. Goal Attraction Vector: Lead-through Target point
-                    // Aim at a point slightly ahead through the gate so the drone flies through rather than stopping at the threshold
-                    const leadDist = 1.6;
-                    leadX = targetGate.x + targetGate.nx * leadDist;
-                    leadZ = targetGate.z + targetGate.nz * leadDist;
-                    targetAlt = targetGate.y;
-
-                    const text = document.getElementById('ai-status-text');
-                    if (aiNavStage === 'THROUGH') {{
-                        if (text) text.innerText = 'AI 航線巡檢中 (' + targetGate.label + ')';
+                    // 2. Goal Attraction Vector: Multi-stage Waypoint Targets
+                    if (aiNavStage === 'APPROACH') {{
+                        leadX = approachPtX;
+                        leadZ = approachPtZ;
+                        targetAlt = targetGate.y;
+                    }} else if (aiNavStage === 'THROUGH') {{
+                        const leadDist = 1.6;
+                        leadX = targetGate.x + targetGate.nx * leadDist;
+                        leadZ = targetGate.z + targetGate.nz * leadDist;
+                        targetAlt = targetGate.y;
                     }} else if (aiNavStage === 'LEADOUT') {{
                         leadX = targetGate.x + targetGate.nx * 2.8;
                         leadZ = targetGate.z + targetGate.nz * 2.8;
                         targetAlt = targetGate.y;
-                        if (text) text.innerText = 'AI 出門走廊導引 (' + targetGate.label + ' 出口)';
                     }} else if (aiNavStage === 'CORNER') {{
                         leadX = targetCorner.x;
                         leadZ = targetCorner.z;
                         targetAlt = targetCorner.y;
+                    }}
+
+                    const text = document.getElementById('ai-status-text');
+                    if (aiNavStage === 'APPROACH') {{
+                        if (text) text.innerText = 'AI 門前進門對齊 (' + targetGate.label + ' 正面)';
+                    }} else if (aiNavStage === 'THROUGH') {{
+                        if (text) text.innerText = 'AI 航線穿門巡檢 (' + targetGate.label + ')';
+                    }} else if (aiNavStage === 'LEADOUT') {{
+                        if (text) text.innerText = 'AI 出門走廊導引 (' + targetGate.label + ' 出口)';
+                    }} else if (aiNavStage === 'CORNER') {{
                         if (text) text.innerText = 'AI 外環轉角巡航 (' + targetCorner.label + ')';
                     }}
 
@@ -2572,17 +2590,17 @@ class WebGLFlightSimulator:
                         if (isTargetGateObs || isClearedGateObs) {{
                             if (obs.isGateTop) return;
 
-                            // For side posts, only apply lateral push toward center if dangerously close (< 0.85m)
+                            // For side posts, apply smooth lateral push toward center if within 1.15m
                             obs.box.getCenter(_tempObsCenter);
                             const dX = drone.position.x - _tempObsCenter.x;
                             const dZ = drone.position.z - _tempObsCenter.z;
                             const d = Math.hypot(dX, dZ);
-                            if (d < 0.85 && d > 0.05 && vertDist < 2.2) {{
+                            if (d < 1.15 && d > 0.05 && vertDist < 2.2) {{
                                 const gRef = isTargetGateObs ? targetGate : (aiGates.find(g => g.id === clearedGateId) || targetGate);
                                 const latX = -gRef.nz;
                                 const latZ = gRef.nx;
                                 const postDotLat = (dX * latX + dZ * latZ);
-                                const pushLat = (postDotLat > 0 ? 1 : -1) * Math.pow((0.85 - d) / 0.85, 1.5) * 1.8;
+                                const pushLat = (postDotLat > 0 ? 1 : -1) * Math.pow((1.15 - d) / 1.15, 1.5) * 2.2;
                                 repelX += latX * pushLat;
                                 repelZ += latZ * pushLat;
                             }}
@@ -2612,7 +2630,7 @@ class WebGLFlightSimulator:
                     let desVz = attractZ + repelZ;
 
                     // 4. LiDAR Gate Passage Deadzone Filter
-                    const isApproachingGate = (aiNavStage === 'THROUGH' || aiNavStage === 'LEADOUT') && dist2D < 2.8 && vertDist < 2.5;
+                    const isApproachingGate = (aiNavStage === 'APPROACH' || aiNavStage === 'THROUGH' || aiNavStage === 'LEADOUT') && dist2D < 3.2 && vertDist < 2.5;
                     if (!isApproachingGate && latestLiDARReading.dist < 1.6) {{
                         const damp = Math.max(0.3, latestLiDARReading.dist / 1.6);
                         desVx *= damp;
@@ -2632,21 +2650,31 @@ class WebGLFlightSimulator:
                     // Check if Student Neural Policy is available (FEAT-M2.5.2)
                     let neuralAct = null;
                     if (typeof studentStages !== 'undefined' && studentStages && studentStages[currentStudentStageKey]) {{
-                        const obs23 = [
-                            drone.position.x / 20.0, drone.position.y / 10.0, drone.position.z / 20.0,
-                            velocity.x / 10.0, velocity.y / 10.0, velocity.z / 10.0,
-                            pitch, roll, yaw / Math.PI,
-                            rotationSpeed * 10.0, 0.0, 0.0
-                        ];
-                        // 8 LiDAR readings normalized to 12.0m
-                        if (typeof droneLiDARReadings !== 'undefined' && droneLiDARReadings && droneLiDARReadings.length === 8) {{
-                            for (let r = 0; r < 8; r++) obs23.push(Math.min(1.0, droneLiDARReadings[r].dist / 12.0));
-                        }} else {{
-                            for (let r = 0; r < 8; r++) obs23.push(Math.min(1.0, latestLiDARReading.dist / 12.0));
+                        try {{
+                            const obs23 = [
+                                drone.position.x / 20.0, drone.position.y / 10.0, drone.position.z / 20.0,
+                                velocity.x / 10.0, velocity.y / 10.0, velocity.z / 10.0,
+                                pitch, roll, yaw / Math.PI,
+                                rotationSpeed * 10.0, 0.0, 0.0
+                            ];
+                            // 8 LiDAR readings normalized to 12.0m
+                            if (typeof droneLiDARReadings !== 'undefined' && droneLiDARReadings && droneLiDARReadings.length === 8) {{
+                                for (let r = 0; r < 8; r++) obs23.push(Math.min(1.0, droneLiDARReadings[r].dist / 12.0));
+                            }} else {{
+                                for (let r = 0; r < 8; r++) obs23.push(Math.min(1.0, latestLiDARReading.dist / 12.0));
+                            }}
+                            obs23.push(relX / 20.0, relY / 10.0, relZ / 20.0);
+                            neuralAct = predictStudentNeural(obs23, studentStages[currentStudentStageKey]);
+                        }} catch (e) {{
+                            console.warn('Neural inference error:', e);
+                            neuralAct = null;
                         }}
-                        obs23.push(relX / 20.0, relY / 10.0, relZ / 20.0);
-                        neuralAct = predictStudentNeural(obs23, studentStages[currentStudentStageKey]);
                     }}
+
+                    // Common Yaw and Altitude Error (Hoisted for all policy stages)
+                    const desiredYaw = Math.atan2(-toLeadX, -toLeadZ);
+                    const yawErr = (desiredYaw - yaw + Math.PI) % (2 * Math.PI) - Math.PI;
+                    const altErr = targetAlt - drone.position.y;
 
                     if (currentStudentStageKey === 'stage_0_untrained' && neuralAct) {{
                         // Stage 0: Untrained random network - chaotic drift, low obstacle awareness
@@ -2655,7 +2683,7 @@ class WebGLFlightSimulator:
                         targetPitch = rawPitchCmd * 0.70;
                         targetRoll = rawRollCmd * 0.70;
                         rotationSpeed = Math.max(-0.12, Math.min(0.12, neuralAct[2] * 0.15));
-                        throttleAcc = Math.max(-6.0, Math.min(14.0, neuralAct[3] * 10.0));
+                        throttleAcc = Math.max(-6.0, Math.min(14.0, altErr * 1.8 - velocity.y * 1.2 + neuralAct[3] * 6.0));
                         aiConfidence = 45.0;
                     }} else if (currentStudentStageKey === 'stage_1_half_trained' && neuralAct) {{
                         // Stage 1: Half-trained network - partial obstacle evasion, slight wobble
@@ -2674,9 +2702,6 @@ class WebGLFlightSimulator:
                         targetRoll = rawRollCmd * 0.70;
 
                         // 6. Yaw Heading Alignment & Deadzone
-                        const desiredYaw = Math.atan2(-toLeadX, -toLeadZ);
-                        const yawErr = (desiredYaw - yaw + Math.PI) % (2 * Math.PI) - Math.PI;
-
                         if (!isApproachingGate && latestLiDARReading.dist < 1.8 && (latestLiDARReading.direction.includes('前') || latestLiDARReading.direction.includes('舷'))) {{
                             rotationSpeed = latestLiDARReading.direction.includes('左') ? -0.07 : 0.07;
                         }} else {{
@@ -2684,7 +2709,6 @@ class WebGLFlightSimulator:
                         }}
 
                         // 7. Damped Altitude Hold & Vertical Climb Control
-                        const altErr = targetAlt - drone.position.y;
                         throttleAcc = Math.max(-6.0, Math.min(14.0, altErr * 3.8 - velocity.y * 1.8));
 
                         // AI Telemetry

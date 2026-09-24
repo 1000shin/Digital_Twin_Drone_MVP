@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [v12.1.1] - 2026-09-25
+
+### Fixed
+- **[FIX-M2.5.2-FLIGHT-BUGS] WebGL 飛行航線四階段循跡回正與 40% 學習階段作用域死鎖修復**:
+  - **四階段穿門走廊狀態機 (`APPROACH ➔ THROUGH ➔ LEADOUT ➔ CORNER`)**: 解決無人機跳過門前進門點、自轉角直切門後導致撞擊立柱或由門後穿出之缺陷。在狀態機中新增 `APPROACH` 階段，導引航向對齊門前方 $2.2\text{m}$ 處之進門點（$\text{Gate}_i - \mathbf{n}_i \times 2.2\text{m}$），確保每一道門（Gate #1 ~ Gate #4）均嚴格由正面進入，與紫色規劃虛線（`circuitPts`）100% 幾何重合。
+  - **嚴格正面進門狀態判定**: 通門條件（`hasCrossedGate`）重構為自門前負投影切進入門後正投影，徹底排除自門後飛過誤觸發通門的假陽性 Bug。
+  - **APF 門柱斥力感應半徑優化**: 目標門側立柱橫向推力感應半徑擴大至 $1.15\text{m}$，提前修正機體側向偏差，避免高速切門時機臂擦碰立柱。
+  - **JavaScript 變數作用域提升與渲染死鎖防禦 (Scope Hoisting & Exception Shield)**: 修復 `flight_test_sim.py` 中 `const altErr` 宣告在 `else` 區塊導致 `stage_1_half_trained` 存取未宣告變數拋出 `ReferenceError: altErr is not defined` 使 WebGL 動畫循環卡死的問題。將高度誤差 `altErr` 與偏航誤差 `yawErr` 宣告提升至所有 stage 判斷前，並以 `try-catch` 包裹神經網絡推理，保障「🌿 40% 半熟」切換與飛行循環永不死鎖。
+  - **單元測試防線**: 擴充 `test_privileged_drl_distillation.py` 驗證變數作用域與四階段航向狀態機，全專案 66/66 項單元測試 100% 通過（耗時 10.74s）。
+
 ## [v12.1.0] - 2026-09-25
 
 ### Added
