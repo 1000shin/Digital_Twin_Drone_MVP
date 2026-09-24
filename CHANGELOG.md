@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [v12.0.2] - 2026-09-24
+
+### Fixed
+- **[FIX-M2-AI-AUTONOMOUS-MULTIGATE] WebGL AI 自主飛行多道穿越門導航與避障控制重構**:
+  - **全局閉合巡檢走廊 (`circuitLine`)**: 新增 5 頂點霓虹紫虛線走廊貫穿 Gate 1 ➔ 2 ➔ 3 ➔ 4 ➔ 1，搭配動態高亮青色即時導引線（`trajectoryLine`），消除了過門時導航線憑空消失問題。
+  - **APF 目標門自斥解耦（根除空氣牆）**: 在障礙物斥力計算中識別 `obs.gateId === targetGate.id`，徹底過濾頂樑垂直排斥力；立柱僅保留 $< 0.85\text{m}$ 極近距離的純切向置中推力，引入前方 $1.6\text{m}$ 超前引導點（`leadTarget`）牽引機身平穩穿透。
+  - **門面法向穿越狀態機**: 廢除無方向歐氏半徑切換，改採帶符號法向投影距離（`signedDot >= 0.35m`）與橫向距軸心限制（`lateralDist < 2.5m`），確保機身完全穿透門框物理厚度後才推進航點，徹底杜絕早熟轉向撞柱。
+  - **競技場門框 3D 朝向旋轉**: 4 道門均賦予精確 `yaw`（$0^\circ, 90^\circ, 180^\circ, -90^\circ$）並以 `gateGroup` 封裝旋轉，呼叫 `updateMatrixWorld(true)` 生成世界座標系精準 `Box3` 碰撞盒。
+  - **LiDAR 門洞穿梭死區濾波**: 靠近門框 $< 2.8\text{m}$ 且對準門心時，主動抑制 LiDAR 針對門柱引發的恐慌性偏航甩尾，穩定保持進門航向。
+  - **輕微碰撞韌性自穩**: 臨界解編閾值收斂至 $\le 15$，配合主動姿態回正（Active Leveling）與高度爬升補償，消除極輕微擦撞失速墜毀。
+  - **單元測試全綠燈**: 新增多門走廊與狀態機單元測試，51/51 項全套單元測試 100% 通過（耗時 9.0s）。
+
 ## [v12.0.1] - 2026-09-24
 
 ### Fixed
