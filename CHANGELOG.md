@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [v12.0.1] - 2026-09-24
+
+### Fixed
+- **[FIX-M2-WEBGL-PLANE-TEARING] 3D 檢視器 WebGL 網格渲染平面破圖與 Z-Fighting 修復**:
+  - 修復離岸風場動態海面網格缺乏即時法向量計算引發的面片撕裂與陰影斷裂，在 `view_3d_drone.py` 與 `flight_test_sim.py` 的逐幀渲染迴圈注入 `oceanGeo.computeVertexNormals()`。
+  - 全域啟用 `THREE.WebGLRenderer({ antialias: true, logarithmicDepthBuffer: true })`，大幅提高大跨度深度緩衝精度，根除微小高度差平面的深度閃爍。
+  - 擴展相機視椎體遠裁切面 `camera.far`（檢視器擴至 `1000m`，模擬器擴至 `2000m`），消除大場景拉遠時 350m 大地平面邊緣發生的直線對角硬裁切。
+  - 離岸風場場景將基準空間格線 `currentGrid.position.y` 調整至 `-0.8m`，徹底避免正弦波峰穿刺格線；全地面材質加入 `side: THREE.DoubleSide` 與 `polygonOffset: true`（factor 1.0, units 1.0），徹底解決 Z-Fighting 穿透。
+  - 單元測試套件 `test_webgl_environments.py` 新增防破圖斷言驗證，50/50 項全套單元測試 100% 通過（耗時 9.0s）。
+
 ## [v12.0.0] - 2026-09-24
 
 ### Added

@@ -67,6 +67,10 @@ class STLViewerGenerator:
 
         return models
 
+    def generate_standalone_viewer(self, drone_data: Any = None, output_filename: str = "stl_viewer.html") -> Path:
+        """Alias for generate_viewer_html supporting drone_data argument."""
+        return self.generate_viewer_html(output_filename=output_filename)
+
     def generate_viewer_html(self, output_filename: str = "stl_viewer.html") -> Path:
         """Generates self-contained stl_viewer.html in output directory."""
         models = self.collect_archived_models()
@@ -430,7 +434,7 @@ class STLViewerGenerator:
             camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 6000);
             camera.position.set(580, 450, 580);
 
-            renderer = new THREE.WebGLRenderer({{ canvas, antialias: true, alpha: false }});
+            renderer = new THREE.WebGLRenderer({{ canvas, antialias: true, alpha: false, logarithmicDepthBuffer: true }});
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
             renderer.shadowMap.enabled = true;
@@ -489,7 +493,11 @@ class STLViewerGenerator:
             const plateMat = new THREE.MeshStandardMaterial({{
                 color: 0x0f172a,
                 roughness: 0.8,
-                metalness: 0.2
+                metalness: 0.2,
+                side: THREE.DoubleSide,
+                polygonOffset: true,
+                polygonOffsetFactor: 1.0,
+                polygonOffsetUnits: 1.0
             }});
             const plate = new THREE.Mesh(plateGeo, plateMat);
             plate.position.y = -2;

@@ -7,6 +7,7 @@ import unittest
 from pathlib import Path
 from flight_test_sim import WebGLFlightSimulator
 from view_3d_drone import Interactive3DViewer
+from stl_viewer import STLViewerGenerator
 
 class TestWebGLEnvironments(unittest.TestCase):
 
@@ -35,7 +36,7 @@ class TestWebGLEnvironments(unittest.TestCase):
         }
 
     def tearDown(self):
-        for f in ["test_flight_simulator.html", "test_3d_scene.html"]:
+        for f in ["test_flight_simulator.html", "test_3d_scene.html", "test_stl_viewer.html"]:
             p = self.output_dir / f
             if p.exists():
                 p.unlink()
@@ -135,6 +136,40 @@ class TestWebGLEnvironments(unittest.TestCase):
         self.assertIn("repairCADModel", content)
         self.assertIn('id="bom-tag-frame"', content)
         self.assertIn('id="bom-tag-props"', content)
+
+    def test_webgl_mesh_plane_tearing_prevention(self):
+        """Validates that all WebGL renderers and scenes include anti-tearing and Z-fighting countermeasures."""
+        sim = WebGLFlightSimulator(self.output_dir)
+        sim_html = sim.generate_simulator_html(self.sample_drone, self.sample_world, "test_flight_simulator.html")
+        sim_content = sim_html.read_text(encoding="utf-8")
+
+        self.assertIn("logarithmicDepthBuffer: true", sim_content)
+        self.assertIn("PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 2000)", sim_content)
+        self.assertIn("oceanGeo.computeVertexNormals()", sim_content)
+        self.assertIn("side: THREE.DoubleSide", sim_content)
+        self.assertIn("polygonOffset: true", sim_content)
+        self.assertIn("polygonOffsetFactor: 1.0", sim_content)
+        self.assertIn("(envKey === 'offshore_wind') ? -0.8 : 0.0", sim_content)
+
+        viewer = Interactive3DViewer(self.output_dir)
+        viewer_html = viewer.generate_html_3d_scene(self.sample_drone, self.sample_world, "test_3d_scene.html")
+        viewer_content = viewer_html.read_text(encoding="utf-8")
+
+        self.assertIn("logarithmicDepthBuffer: true", viewer_content)
+        self.assertIn("PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000)", viewer_content)
+        self.assertIn("oceanGeo.computeVertexNormals()", viewer_content)
+        self.assertIn("side: THREE.DoubleSide", viewer_content)
+        self.assertIn("polygonOffset: true", viewer_content)
+        self.assertIn("polygonOffsetFactor: 1.0", viewer_content)
+        self.assertIn("(envKey === 'offshore_wind') ? -0.8 : 0.0", viewer_content)
+
+        generator = STLViewerGenerator(self.workspace_dir)
+        stl_html = generator.generate_viewer_html("test_stl_viewer.html")
+        stl_content = stl_html.read_text(encoding="utf-8")
+
+        self.assertIn("logarithmicDepthBuffer: true", stl_content)
+        self.assertIn("side: THREE.DoubleSide", stl_content)
+        self.assertIn("polygonOffset: true", stl_content)
 
 if __name__ == "__main__":
     unittest.main()

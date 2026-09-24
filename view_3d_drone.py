@@ -327,10 +327,10 @@ class Interactive3DViewer:
         scene.background = new THREE.Color(0x0c2136);
         scene.fog = new THREE.FogExp2(0x0c2136, 0.015);
 
-        const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 200);
+        const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
         camera.position.set(3.5, 2.5, 3.5);
 
-        const renderer = new THREE.WebGLRenderer({{ antialias: true }});
+        const renderer = new THREE.WebGLRenderer({{ antialias: true, logarithmicDepthBuffer: true }});
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.shadowMap.enabled = true;
         renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -352,6 +352,7 @@ class Interactive3DViewer:
         scene.add(dirLight);
 
         let currentGrid = new THREE.GridHelper(40, 40, 0x0284c7, 0x082f49);
+        currentGrid.position.y = -0.8;
         scene.add(currentGrid);
 
         // 2. Build Drone 3D Group
@@ -571,7 +572,9 @@ class Interactive3DViewer:
                 roughness: 0.15,
                 metalness: 0.7,
                 transparent: true,
-                opacity: 0.92
+                opacity: 0.92,
+                depthWrite: true,
+                side: THREE.DoubleSide
             }});
             const oceanMesh = new THREE.Mesh(oceanGeo, oceanMat);
             oceanMesh.rotation.x = -Math.PI / 2;
@@ -644,10 +647,17 @@ class Interactive3DViewer:
             const group = envGroups.urban_city;
 
             const streetGeo = new THREE.PlaneGeometry(300, 300);
-            const streetMat = new THREE.MeshStandardMaterial({{ color: 0x18181b, roughness: 0.95 }});
+            const streetMat = new THREE.MeshStandardMaterial({{
+                color: 0x18181b,
+                roughness: 0.95,
+                side: THREE.DoubleSide,
+                polygonOffset: true,
+                polygonOffsetFactor: 1.0,
+                polygonOffsetUnits: 1.0
+            }});
             const streetMesh = new THREE.Mesh(streetGeo, streetMat);
             streetMesh.rotation.x = -Math.PI / 2;
-            streetMesh.position.y = -0.05;
+            streetMesh.position.y = -0.02;
             group.add(streetMesh);
 
             const buildings = [
@@ -700,10 +710,18 @@ class Interactive3DViewer:
             const group = envGroups.collision_arena;
 
             const floorGeo = new THREE.PlaneGeometry(100, 100);
-            const floorMat = new THREE.MeshStandardMaterial({{ color: 0x020617, roughness: 0.25, metalness: 0.8 }});
+            const floorMat = new THREE.MeshStandardMaterial({{
+                color: 0x020617,
+                roughness: 0.25,
+                metalness: 0.8,
+                side: THREE.DoubleSide,
+                polygonOffset: true,
+                polygonOffsetFactor: 1.0,
+                polygonOffsetUnits: 1.0
+            }});
             const floorMesh = new THREE.Mesh(floorGeo, floorMat);
             floorMesh.rotation.x = -Math.PI / 2;
-            floorMesh.position.y = -0.05;
+            floorMesh.position.y = -0.02;
             group.add(floorMesh);
 
             const cageBox = new THREE.BoxGeometry(40, 12, 40);
@@ -755,10 +773,17 @@ class Interactive3DViewer:
             const group = envGroups.night_thermal;
 
             const nightFloorGeo = new THREE.PlaneGeometry(300, 300);
-            const nightFloorMat = new THREE.MeshStandardMaterial({{ color: 0x050714, roughness: 0.9 }});
+            const nightFloorMat = new THREE.MeshStandardMaterial({{
+                color: 0x050714,
+                roughness: 0.9,
+                side: THREE.DoubleSide,
+                polygonOffset: true,
+                polygonOffsetFactor: 1.0,
+                polygonOffsetUnits: 1.0
+            }});
             const nightFloorMesh = new THREE.Mesh(nightFloorGeo, nightFloorMat);
             nightFloorMesh.rotation.x = -Math.PI / 2;
-            nightFloorMesh.position.y = -0.05;
+            nightFloorMesh.position.y = -0.02;
             group.add(nightFloorMesh);
 
             const xfmrGeo = new THREE.BoxGeometry(5.0, 3.6, 4.0);
@@ -890,6 +915,7 @@ class Interactive3DViewer:
                 scene.remove(currentGrid);
                 currentGrid.geometry.dispose();
                 currentGrid = new THREE.GridHelper(40, 40, cfg.gridColor1, cfg.gridColor2);
+                currentGrid.position.y = (envKey === 'offshore_wind') ? -0.8 : 0.0;
                 scene.add(currentGrid);
             }}
 
@@ -946,6 +972,7 @@ class Interactive3DViewer:
                         pos.setZ(i, Math.sin(u * 0.15 + t) * 0.2 + Math.cos(v * 0.15 + t * 0.8) * 0.15);
                     }}
                     pos.needsUpdate = true;
+                    oceanGeo.computeVertexNormals();
                 }}
             }} else if (activeEnvKey === 'urban_city') {{
                 if (rescueBeacon) {{

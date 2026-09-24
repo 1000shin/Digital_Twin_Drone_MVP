@@ -354,7 +354,7 @@
             camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 6000);
             camera.position.set(580, 450, 580);
 
-            renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+            renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, logarithmicDepthBuffer: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
             renderer.shadowMap.enabled = true;
@@ -413,7 +413,11 @@
             const plateMat = new THREE.MeshStandardMaterial({
                 color: 0x0f172a,
                 roughness: 0.8,
-                metalness: 0.2
+                metalness: 0.2,
+                side: THREE.DoubleSide,
+                polygonOffset: true,
+                polygonOffsetFactor: 1.0,
+                polygonOffsetUnits: 1.0
             });
             const plate = new THREE.Mesh(plateGeo, plateMat);
             plate.position.y = -2;
