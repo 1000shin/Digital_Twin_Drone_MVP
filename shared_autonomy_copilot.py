@@ -139,13 +139,13 @@ class SharedAutonomyCopilot:
             safe_p, safe_r = cmd_p, cmd_r
             repel_p, repel_r = 0.0, 0.0
 
-        elif min_dist >= self.emergency_dist or human_escaped:
-            # Warning Zone OR Pilot already executing escape maneuver
+        elif min_dist >= self.emergency_dist:
+            # Warning Zone (1.2m <= min_dist < 2.0m)
             level = CopilotInterventionLevel.WARNING
-            # Smooth velocity damping factor alpha in [0.4, 0.85]
+            # Smooth velocity damping factor alpha in [0.40, 1.00] (Jerk-Free continuous at 2.0m)
             norm_w = (min_dist - self.emergency_dist) / max(0.01, (self.warning_dist - self.emergency_dist))
             norm_w = max(0.0, min(1.0, norm_w))
-            damping_factor = 0.40 + 0.45 * norm_w
+            damping_factor = 0.40 + 0.60 * norm_w
             beta = round(1.0 - damping_factor, 3)
 
             if human_escaped:
@@ -179,20 +179,20 @@ class SharedAutonomyCopilot:
             repel_p = -obs_fwd * repel_magnitude
             repel_r = -obs_right * repel_magnitude
 
-            # Tangential escape deflection (steer along perimeter)
-            # Tan vector is orthogonal to obstacle vector: (-obs_right, obs_fwd)
+            # Tangential escape deflection (steer along perimeter with smooth onset)
             tan_fwd = -obs_right
             tan_right = obs_fwd
-            # Choose sign based on existing pilot lateral bias
             pilot_lateral = cmd_p * tan_fwd + cmd_r * tan_right
             tan_dir = 1.0 if pilot_lateral >= 0.0 else -1.0
-            tan_p = tan_fwd * tan_dir * self.k_tan
-            tan_r = tan_right * tan_dir * self.k_tan
+            tan_scale = (1.0 - norm_e) * self.k_tan
+            tan_p = tan_fwd * tan_dir * tan_scale
+            tan_r = tan_right * tan_dir * tan_scale
 
             if human_escaped:
-                # Retain human escape maneuvers with full weight
+                # Retain human escape maneuvers with full weight + repulsion assist away from obstacle
                 safe_p = cmd_p + repel_p * 0.35
                 safe_r = cmd_r + repel_r * 0.35
+                beta = 0.25
             else:
                 # Blend pilot command with active repulsion and tangential slide
                 safe_p = (1.0 - beta) * cmd_p + beta * (repel_p + tan_p)

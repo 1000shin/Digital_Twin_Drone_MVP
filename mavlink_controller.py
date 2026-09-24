@@ -241,6 +241,28 @@ class MAVLinkController:
             self.enable_copilot()
         return self.copilot.evaluate(manual_cmd, lidar_ranges, velocity)
 
+    def filter_manual_control(
+        self,
+        telemetry: Dict[str, Any],
+        manual_sp: List[float]
+    ) -> Dict[str, Any]:
+        """
+        Spec AC-4.1 Contract Interface:
+        Filters manual control setpoint given drone telemetry dictionary.
+        """
+        lidar = telemetry.get("lidar_ranges", [99.0] * 8)
+        vel = telemetry.get("velocity", [0.0, 0.0, 0.0])
+        return self.apply_copilot_safety_filter(manual_sp, lidar, vel)
+
+    def close(self):
+        """Closes networking sockets and stops background broadcaster thread."""
+        self._stop_event.set()
+        if hasattr(self, "_udp_sock") and self._udp_sock:
+            try:
+                self._udp_sock.close()
+            except Exception:
+                pass
+
     def _record_telemetry(self):
         self.telemetry_history.append(self.get_telemetry())
 

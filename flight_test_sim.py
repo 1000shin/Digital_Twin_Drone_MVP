@@ -2420,10 +2420,10 @@ class WebGLFlightSimulator:
                         if (curDist >= 2.0 && (copilotTTC > 2.0 || curDist >= 3.0)) {{
                             copilotLevel = 'STANDBY';
                             copilotInterventionBeta = 0.0;
-                        }} else if (curDist >= 1.2 || humanEscaping) {{
+                        }} else if (curDist >= 1.2) {{
                             copilotLevel = 'WARNING';
                             const normW = Math.max(0, Math.min(1.0, (curDist - 1.2) / 0.8));
-                            const damp = 0.40 + 0.45 * normW;
+                            const damp = 0.40 + 0.60 * normW;
                             copilotInterventionBeta = humanEscaping ? 0.0 : (1.0 - damp);
 
                             if (!humanEscaping) {{
@@ -2450,12 +2450,14 @@ class WebGLFlightSimulator:
                             const tanRight = obsFwd;
                             const pilotLat = pilotFwd * tanFwd + pilotRight * tanRight;
                             const tanDir = pilotLat >= 0 ? 1.0 : -1.0;
-                            const tanP = tanFwd * tanDir * 0.35;
-                            const tanR = tanRight * tanDir * 0.35;
+                            const tanScale = (1.0 - normE) * 0.35;
+                            const tanP = tanFwd * tanDir * tanScale;
+                            const tanR = tanRight * tanDir * tanScale;
 
                             if (humanEscaping) {{
-                                copilotSafeP = rawPitchCmd - repelFwd * 0.3;
-                                copilotSafeR = rawRollCmd - repelRight * 0.3;
+                                copilotSafeP = rawPitchCmd - repelFwd * 0.35;
+                                copilotSafeR = rawRollCmd - repelRight * 0.35;
+                                copilotInterventionBeta = 0.25;
                             }} else {{
                                 const blendedFwd = (1.0 - copilotInterventionBeta) * pilotFwd + copilotInterventionBeta * (repelFwd + tanP);
                                 const blendedRight = (1.0 - copilotInterventionBeta) * pilotRight + copilotInterventionBeta * (repelRight + tanR);
@@ -2804,6 +2806,12 @@ class WebGLFlightSimulator:
                     if (copModeText) copModeText.innerText = '副駕駛已關閉 (OFF)';
                     if (copBeta) copBeta.innerText = '0.0%';
                     if (copTtc) copTtc.innerText = '-- s';
+                }} else if (isAIAutopilotActive) {{
+                    copBadge.className = 'copilot-indicator copilot-standby';
+                    copBadge.innerText = '🛡️ BACKUP';
+                    if (copModeText) copModeText.innerText = 'AI 主飛副駕待命 (BACKUP)';
+                    if (copBeta) copBeta.innerText = '0.0%';
+                    if (copTtc) copTtc.innerText = '-- s';
                 }} else {{
                     if (copilotLevel === 'DEFLECTING') {{
                         copBadge.className = 'copilot-indicator copilot-deflect';
@@ -2827,11 +2835,11 @@ class WebGLFlightSimulator:
             if (typeof copilotHalo !== 'undefined' && copilotHalo) {{
                 if (isCopilotActive && !isCatastrophic) {{
                     copilotHalo.visible = true;
-                    if (copilotLevel === 'DEFLECTING') {{
+                    if (!isAIAutopilotActive && copilotLevel === 'DEFLECTING') {{
                         copilotHalo.material.color.setHex(0xf43f5e);
                         copilotHalo.material.opacity = 0.85 + 0.15 * Math.sin(performance.now() * 0.02);
                         copilotHalo.scale.set(1.18, 1.18, 1.18);
-                    }} else if (copilotLevel === 'WARNING') {{
+                    }} else if (!isAIAutopilotActive && copilotLevel === 'WARNING') {{
                         copilotHalo.material.color.setHex(0xfacc15);
                         copilotHalo.material.opacity = 0.55 + 0.15 * Math.sin(performance.now() * 0.01);
                         copilotHalo.scale.set(1.06, 1.06, 1.06);

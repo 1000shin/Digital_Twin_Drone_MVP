@@ -22,6 +22,14 @@ class TestSharedAutonomyCopilot(unittest.TestCase):
             hard_limit_dist_m=0.5,
             ttc_threshold_sec=2.0
         )
+        self._controllers_to_close = []
+
+    def tearDown(self):
+        for c in self._controllers_to_close:
+            try:
+                c.close()
+            except Exception:
+                pass
 
     def test_free_flight_zero_intervention(self):
         """Verifies beta=0.0 and 100% stick passthrough when obstacles are far away (>2.0m)."""
@@ -72,7 +80,7 @@ class TestSharedAutonomyCopilot(unittest.TestCase):
         self.assertLess(decision["repulsion_vector"][0], 0.0)
 
     def test_escape_maneuver_preservation(self):
-        """Verifies pilot escape input (pulling back from front obstacle) is NOT dampened."""
+        """Verifies pilot escape input in emergency zone is preserved and correctly marked DEFLECTING."""
         # Obstacle in front at 0.9m (Emergency zone), but pilot commands backward pitch (-0.8)
         human_cmd = [-0.8, 0.0, 0.0, 0.0]
         emergency_lidar = [0.9, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0]
@@ -80,6 +88,7 @@ class TestSharedAutonomyCopilot(unittest.TestCase):
         decision = self.copilot.evaluate(human_cmd, emergency_lidar)
         
         self.assertTrue(decision["human_escaped"])
+        self.assertEqual(decision["intervention_level"], CopilotInterventionLevel.DEFLECTING.value)
         # Escape command must remain strongly backward (at least <= -0.8)
         self.assertLessEqual(decision["safe_action"][0], -0.8)
 
@@ -97,18 +106,24 @@ class TestSharedAutonomyCopilot(unittest.TestCase):
         self.assertLess(t_elapsed, 0.0005)
 
     def test_mavlink_controller_copilot_integration(self):
-        """Verifies MAVLinkController can enable copilot and filter commands."""
+        """Verifies MAVLinkController can enable copilot and filter commands via both APIs."""
         from mavlink_controller import MAVLinkController
         controller = MAVLinkController(simulate=True)
+        self._controllers_to_close.append(controller)
         self.assertFalse(controller.copilot_enabled)
 
         controller.enable_copilot(self.copilot)
         self.assertTrue(controller.copilot_enabled)
 
-        # Dangerously close forward command (0.8m)
+        # 1. Direct apply_copilot_safety_filter API
         res = controller.apply_copilot_safety_filter([1.0, 0.0, 0.0, 0.0], [0.8] + [5.0]*7)
         self.assertEqual(res["intervention_level"], CopilotInterventionLevel.DEFLECTING.value)
         self.assertLess(res["safe_action"][0], 0.2)
+
+        # 2. Spec AC-4.1 filter_manual_control adapter API
+        telem = {"lidar_ranges": [0.7] + [6.0]*7, "velocity": [0.0, 0.0, 0.0]}
+        res_contract = controller.filter_manual_control(telem, [1.0, 0.0, 0.0, 0.0])
+        self.assertEqual(res_contract["intervention_level"], CopilotInterventionLevel.DEFLECTING.value)
 
         controller.disable_copilot()
         self.assertFalse(controller.copilot_enabled)
