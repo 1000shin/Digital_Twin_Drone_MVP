@@ -48,6 +48,9 @@ class MAVLinkController:
         self.attitude = {"roll": 0.0, "pitch": 0.0, "yaw": 0.0}
         self.battery = {"remaining_pct": 98.0, "voltage_v": 11.8}
         self.telemetry_history: List[Dict[str, Any]] = []
+        # Copilot Safety Layer (Milestone M2.6)
+        self.copilot_enabled = False
+        self.copilot = None
 
         # Socket & Destinations
         self.broadcast_destinations = [("127.0.0.1", 14550), ("127.0.0.1", 14540)]
@@ -211,6 +214,32 @@ class MAVLinkController:
             "attitude": dict(self.attitude),
             "battery": dict(self.battery)
         }
+
+    def enable_copilot(self, copilot_instance: Optional[Any] = None) -> bool:
+        """Enables the Shared Autonomy Copilot safety filter for manual/offboard controls."""
+        if copilot_instance is not None:
+            self.copilot = copilot_instance
+        else:
+            from shared_autonomy_copilot import SharedAutonomyCopilot
+            self.copilot = SharedAutonomyCopilot()
+        self.copilot_enabled = True
+        logging.info("Shared Autonomy Copilot enabled on MAVLink Controller.")
+        return True
+
+    def disable_copilot(self):
+        self.copilot_enabled = False
+        logging.info("Shared Autonomy Copilot disabled on MAVLink Controller.")
+
+    def apply_copilot_safety_filter(
+        self,
+        manual_cmd: List[float],
+        lidar_ranges: List[float],
+        velocity: Optional[List[float]] = None
+    ) -> Dict[str, Any]:
+        """Filters manual stick command using the Copilot safety vector."""
+        if not self.copilot_enabled:
+            self.enable_copilot()
+        return self.copilot.evaluate(manual_cmd, lidar_ranges, velocity)
 
     def _record_telemetry(self):
         self.telemetry_history.append(self.get_telemetry())

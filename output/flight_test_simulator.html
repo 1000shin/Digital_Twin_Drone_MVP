@@ -117,8 +117,44 @@
         .btn-ai-stop {
             background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.5); color: #fbbf24;
         }
-        .btn-ai-stop:hover {
-            background: rgba(245, 158, 11, 0.35); color: #fff;
+        /* Shared Autonomy Copilot HUD Styles (Milestone M2.6) */
+        .copilot-section {
+            margin-top: 10px; padding: 10px 12px;
+            background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(14, 165, 233, 0.4);
+            border-radius: 10px;
+        }
+        .copilot-header {
+            display: flex; align-items: center; justify-content: space-between;
+            font-size: 11px; font-weight: 700; color: #38bdf8; margin-bottom: 5px;
+        }
+        .copilot-indicator {
+            display: inline-flex; align-items: center; gap: 4px; font-size: 10px; font-weight: bold;
+            padding: 2px 7px; border-radius: 10px; font-family: monospace;
+        }
+        .copilot-standby {
+            background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.35);
+        }
+        .copilot-warning {
+            background: rgba(250, 204, 21, 0.2); color: #facc15; border: 1px solid rgba(250, 204, 21, 0.5);
+            animation: blinkCopilot 0.6s infinite alternate;
+        }
+        .copilot-deflect {
+            background: rgba(244, 63, 94, 0.25); color: #f43f5e; border: 1px solid rgba(244, 63, 94, 0.6);
+            animation: blinkCopilot 0.3s infinite alternate;
+        }
+        @keyframes blinkCopilot { 0% { opacity: 0.5; } 100% { opacity: 1; } }
+        .btn-copilot-active {
+            background: linear-gradient(135deg, #0284c7, #0369a1); border: 1px solid #38bdf8; color: #fff;
+            box-shadow: 0 2px 8px rgba(2, 132, 199, 0.4);
+        }
+        .btn-copilot-active:hover {
+            background: linear-gradient(135deg, #0ea5e9, #0284c7); box-shadow: 0 0 12px rgba(56, 189, 248, 0.6);
+        }
+        .btn-copilot-inactive {
+            background: rgba(100, 116, 139, 0.2); border: 1px solid rgba(100, 116, 139, 0.4); color: #94a3b8;
+        }
+        .btn-copilot-inactive:hover {
+            background: rgba(100, 116, 139, 0.35); color: #e2e8f0;
         }
 
         /* Flight Data Recorder HUD Styles */
@@ -384,6 +420,25 @@
             </div>
         </div>
 
+        <!-- Shared Autonomy Copilot HUD Section (Milestone M2.6) -->
+        <div class="copilot-section">
+            <div class="copilot-header">
+                <span>🛡️ AI 協同副駕駛 (Copilot)</span>
+                <span id="copilot-status-badge" class="copilot-indicator copilot-standby">● STANDBY</span>
+            </div>
+            <div class="hud-row" style="font-size: 11px; margin-top: 4px;">
+                <span style="color:#94a3b8;">防護狀態:</span>
+                <span id="copilot-mode-text" style="color:#38bdf8; font-weight:bold;">待命守護 (STANDBY)</span>
+            </div>
+            <div class="hud-row" style="font-size: 11px; margin-top: 2px;">
+                <span style="color:#94a3b8;">排斥干預強度: <span id="copilot-beta" style="color:#facc15; font-weight:bold;">0.0%</span></span>
+                <span style="color:#94a3b8;">TTC 預警: <span id="copilot-ttc" style="color:#e0e7ff; font-weight:bold;">-- s</span></span>
+            </div>
+            <div class="hud-btn-row" style="margin-top: 6px;">
+                <button id="btn-copilot-toggle" class="btn-action btn-copilot-active" onclick="toggleCopilot()">🛡️ 協同副駕駛已啟動 (C)</button>
+            </div>
+        </div>
+
         <div class="hud-btn-row">
             <button id="btn-repair" class="btn-action btn-repair" onclick="promptResetExperience()">🛠️ 維修與重置 (R)</button>
             <button id="btn-crash-test" class="btn-action btn-test-crash" onclick="simulateTestCrash()">💥 撞擊測試</button>
@@ -530,6 +585,7 @@
         <div><span class="key">G</span> 錄製/停止</div>
         <div><span class="key">R</span> 維修重置</div>
         <div><span class="key">P</span> AI 自主飛行/手動切換</div>
+        <div><span class="key">C</span> AI 協同副駕駛 (防撞守護)</div>
         <div style="margin-top: 6px; padding-top: 6px; border-top: 1px solid rgba(255,255,255,0.15); font-size: 10.5px; color: #94a3b8; line-height: 1.4;">
             <span style="color:#ef4444; font-weight:bold;">🔴 左舷紅燈</span> ｜ <span style="color:#22c55e; font-weight:bold;">🟢 右舷綠燈</span><br>
             <span style="color:#f8fafc; font-weight:bold;">⚪ 機頭雙大燈</span> ｜ <span style="color:#f59e0b; font-weight:bold;">🟡 機尾頻閃</span>
@@ -605,6 +661,20 @@
         const batMesh = new THREE.Mesh(batGeo, batMat);
         batMesh.position.set(0, 0.09, 0);
         drone.add(batMesh);
+
+        // 3D Virtual Bumper Halo (Milestone M2.6 Shared Autonomy Copilot)
+        const haloRadius = Math.max(0.45, 0.2 * 1.35);
+        const haloGeo = new THREE.TorusGeometry(haloRadius, 0.02, 16, 64);
+        haloGeo.rotateX(Math.PI / 2);
+        const haloMat = new THREE.MeshBasicMaterial({
+            color: 0x00e5ff,
+            transparent: true,
+            opacity: 0.35,
+            wireframe: false
+        });
+        const copilotHalo = new THREE.Mesh(haloGeo, haloMat);
+        copilotHalo.position.set(0, 0.05, 0);
+        drone.add(copilotHalo);
 
         
 
@@ -789,6 +859,12 @@
         let aiCumulativeReward = 0.0;
         let aiLapsCompleted = 0;
         let aiConfidence = 96.5;
+
+        // Shared Autonomy Copilot State (Milestone M2.6)
+        let isCopilotActive = true;
+        let copilotLevel = 'STANDBY';
+        let copilotInterventionBeta = 0.0;
+        let copilotTTC = 999.0;
 
         // 3. Base Gazebo .world Obstacles & Bounding Boxes
         const baseObstaclesData = [{"type": "cylinder", "pos": [2.5, 0.5, 1.5], "size": [0.4, 0.4, 3.0]}, {"type": "box", "pos": [4.0, -1.5, 1.0], "size": [1.0, 1.0, 2.0]}];
@@ -2063,6 +2139,39 @@
             }
         }
 
+        function toggleCopilot() {
+            isCopilotActive = !isCopilotActive;
+            const badge = document.getElementById('copilot-status-badge');
+            const modeText = document.getElementById('copilot-mode-text');
+            const btn = document.getElementById('btn-copilot-toggle');
+            const betaEl = document.getElementById('copilot-beta');
+            const ttcEl = document.getElementById('copilot-ttc');
+
+            if (isCopilotActive) {
+                if (btn) {
+                    btn.className = 'btn-action btn-copilot-active';
+                    btn.innerText = '🛡️ 協同副駕駛已啟動 (C)';
+                    btn.blur();
+                }
+                showToast('🛡️ AI 協同副駕駛已啟動：手動主飛 ＋ 雙層防撞守護 (警戒阻尼 / 主動排斥)');
+            } else {
+                if (btn) {
+                    btn.className = 'btn-action btn-copilot-inactive';
+                    btn.innerText = '🛡️ 協同副駕駛已停用 (C)';
+                    btn.blur();
+                }
+                if (badge) {
+                    badge.className = 'copilot-indicator copilot-standby';
+                    badge.innerText = '○ OFF';
+                }
+                if (modeText) modeText.innerText = '副駕駛已關閉 (OFF)';
+                if (betaEl) betaEl.innerText = '0.0%';
+                if (ttcEl) ttcEl.innerText = '-- s';
+                if (typeof copilotHalo !== 'undefined' && copilotHalo) copilotHalo.visible = false;
+                showToast('⚠️ AI 協同副駕駛已停用：當前為純手動無保護模式');
+            }
+        }
+
         // 7. Physics & Flight Dynamics (Harmonized 6-DOF Physics)
         const keys = {};
         window.addEventListener('keydown', (e) => {
@@ -2083,6 +2192,7 @@
             if (e.code === 'KeyR' || e.key === 'r' || e.key === 'R') promptResetExperience();
             if (e.code === 'KeyG' || e.key === 'g' || e.key === 'G') toggleRecording();
             if (e.code === 'KeyP' || e.key === 'p' || e.key === 'P') toggleAIAutopilot();
+            if (e.code === 'KeyC' || e.key === 'c' || e.key === 'C') toggleCopilot();
         });
         window.addEventListener('keyup', (e) => keys[e.code] = false);
 
@@ -2239,6 +2349,95 @@
                 if (keys['KeyS']) rawPitchCmd += 1.0;
                 if (keys['KeyA']) rawRollCmd += 1.0;
                 if (keys['KeyD']) rawRollCmd -= 1.0;
+
+                // Shared Autonomy Copilot Multi-Tier Blending (Milestone M2.6)
+                let copilotSafeP = rawPitchCmd;
+                let copilotSafeR = rawRollCmd;
+
+                if (isCopilotActive && !isCatastrophic && latestLiDARReading && latestLiDARReading.dist < 2.5 && latestLiDARReading.name !== '地面 (Ground)') {
+                    const curDist = latestLiDARReading.dist;
+                    const invQuat = drone.quaternion.clone().invert();
+                    const dirVec = latestLiDARReading.point.clone().sub(drone.position);
+                    const localDir = dirVec.applyQuaternion(invQuat);
+                    const dHz = Math.hypot(localDir.x, localDir.z);
+
+                    if (dHz > 0.01) {
+                        // In body frame: Forward is -localDir.z, Right is +localDir.x
+                        const obsFwd = -localDir.z / dHz;
+                        const obsRight = localDir.x / dHz;
+
+                        // Pilot command in body frame: KeyW (rawPitchCmd < 0) is forward, KeyD (rawRollCmd < 0) is right
+                        const pilotFwd = -rawPitchCmd;
+                        const pilotRight = -rawRollCmd;
+                        const approachDot = pilotFwd * obsFwd + pilotRight * obsRight;
+                        const humanEscaping = approachDot <= 0.05;
+
+                        // Approach speed & TTC
+                        const approachSpeed = Math.max(0, approachDot) * 4.8;
+                        copilotTTC = approachSpeed > 0.1 ? (curDist / approachSpeed) : 999.0;
+
+                        if (curDist >= 2.0 && (copilotTTC > 2.0 || curDist >= 3.0)) {
+                            copilotLevel = 'STANDBY';
+                            copilotInterventionBeta = 0.0;
+                        } else if (curDist >= 1.2 || humanEscaping) {
+                            copilotLevel = 'WARNING';
+                            const normW = Math.max(0, Math.min(1.0, (curDist - 1.2) / 0.8));
+                            const damp = 0.40 + 0.45 * normW;
+                            copilotInterventionBeta = humanEscaping ? 0.0 : (1.0 - damp);
+
+                            if (!humanEscaping) {
+                                const appFwd = approachDot * obsFwd;
+                                const appRight = approachDot * obsRight;
+                                const latFwd = pilotFwd - appFwd;
+                                const latRight = pilotRight - appRight;
+                                const safeFwd = latFwd + appFwd * damp;
+                                const safeRight = latRight + appRight * damp;
+                                copilotSafeP = -safeFwd;
+                                copilotSafeR = -safeRight;
+                            }
+                        } else {
+                            // Emergency Zone: Active APF Repulsion and Tangential Slide Deflection
+                            copilotLevel = 'DEFLECTING';
+                            const normE = Math.max(0, Math.min(1.0, (curDist - 0.5) / 0.7));
+                            copilotInterventionBeta = 0.55 + 0.45 * (1.0 - normE);
+
+                            const repelMag = Math.pow((1.2 - curDist) / 1.2, 1.4) * 1.5;
+                            const repelFwd = -obsFwd * repelMag;
+                            const repelRight = -obsRight * repelMag;
+
+                            const tanFwd = -obsRight;
+                            const tanRight = obsFwd;
+                            const pilotLat = pilotFwd * tanFwd + pilotRight * tanRight;
+                            const tanDir = pilotLat >= 0 ? 1.0 : -1.0;
+                            const tanP = tanFwd * tanDir * 0.35;
+                            const tanR = tanRight * tanDir * 0.35;
+
+                            if (humanEscaping) {
+                                copilotSafeP = rawPitchCmd - repelFwd * 0.3;
+                                copilotSafeR = rawRollCmd - repelRight * 0.3;
+                            } else {
+                                const blendedFwd = (1.0 - copilotInterventionBeta) * pilotFwd + copilotInterventionBeta * (repelFwd + tanP);
+                                const blendedRight = (1.0 - copilotInterventionBeta) * pilotRight + copilotInterventionBeta * (repelRight + tanR);
+                                copilotSafeP = -blendedFwd;
+                                copilotSafeR = -blendedRight;
+
+                                velocity.x *= 0.94;
+                                velocity.z *= 0.94;
+                            }
+                        }
+                    }
+                } else if (!isCopilotActive) {
+                    copilotLevel = 'OFF';
+                    copilotInterventionBeta = 0.0;
+                    copilotTTC = 999.0;
+                } else {
+                    copilotLevel = 'STANDBY';
+                    copilotInterventionBeta = 0.0;
+                    copilotTTC = 999.0;
+                }
+
+                rawPitchCmd = Math.max(-1.0, Math.min(1.0, copilotSafeP));
+                rawRollCmd = Math.max(-1.0, Math.min(1.0, copilotSafeR));
 
                 if (keys['ArrowUp']) throttleAcc += 14.0;       // Lift / Up (High TWR)
                 if (keys['ArrowDown']) throttleAcc -= 9.0;       // Descend
@@ -2550,6 +2749,60 @@
             if (lapsEl) lapsEl.innerText = aiLapsCompleted + ' 圈';
             if (confEl) confEl.innerText = aiConfidence.toFixed(1) + '%';
             if (rewEl) rewEl.innerText = (aiCumulativeReward >= 0 ? '+' : '') + aiCumulativeReward.toFixed(1);
+
+            // Update Shared Autonomy Copilot HUD Telemetry (Milestone M2.6)
+            const copBadge = document.getElementById('copilot-status-badge');
+            const copModeText = document.getElementById('copilot-mode-text');
+            const copBeta = document.getElementById('copilot-beta');
+            const copTtc = document.getElementById('copilot-ttc');
+
+            if (copBadge) {
+                if (!isCopilotActive) {
+                    copBadge.className = 'copilot-indicator copilot-standby';
+                    copBadge.innerText = '○ OFF';
+                    if (copModeText) copModeText.innerText = '副駕駛已關閉 (OFF)';
+                    if (copBeta) copBeta.innerText = '0.0%';
+                    if (copTtc) copTtc.innerText = '-- s';
+                } else {
+                    if (copilotLevel === 'DEFLECTING') {
+                        copBadge.className = 'copilot-indicator copilot-deflect';
+                        copBadge.innerText = '🛡️ DEFLECTING';
+                        if (copModeText) copModeText.innerText = '主動避障排斥 (DEFLECTING)';
+                    } else if (copilotLevel === 'WARNING') {
+                        copBadge.className = 'copilot-indicator copilot-warning';
+                        copBadge.innerText = '⚠️ WARNING';
+                        if (copModeText) copModeText.innerText = '警戒阻尼箝位 (DAMPING)';
+                    } else {
+                        copBadge.className = 'copilot-indicator copilot-standby';
+                        copBadge.innerText = '● STANDBY';
+                        if (copModeText) copModeText.innerText = '待命守護 (STANDBY)';
+                    }
+                    if (copBeta) copBeta.innerText = (copilotInterventionBeta * 100).toFixed(1) + '%';
+                    if (copTtc) copTtc.innerText = (copilotTTC > 50.0 || copilotTTC === 999.0) ? '-- s' : copilotTTC.toFixed(1) + ' s';
+                }
+            }
+
+            // Update 3D Copilot Virtual Bumper Halo Visuals
+            if (typeof copilotHalo !== 'undefined' && copilotHalo) {
+                if (isCopilotActive && !isCatastrophic) {
+                    copilotHalo.visible = true;
+                    if (copilotLevel === 'DEFLECTING') {
+                        copilotHalo.material.color.setHex(0xf43f5e);
+                        copilotHalo.material.opacity = 0.85 + 0.15 * Math.sin(performance.now() * 0.02);
+                        copilotHalo.scale.set(1.18, 1.18, 1.18);
+                    } else if (copilotLevel === 'WARNING') {
+                        copilotHalo.material.color.setHex(0xfacc15);
+                        copilotHalo.material.opacity = 0.55 + 0.15 * Math.sin(performance.now() * 0.01);
+                        copilotHalo.scale.set(1.06, 1.06, 1.06);
+                    } else {
+                        copilotHalo.material.color.setHex(0x00e5ff);
+                        copilotHalo.material.opacity = 0.25;
+                        copilotHalo.scale.set(1.0, 1.0, 1.0);
+                    }
+                } else {
+                    copilotHalo.visible = false;
+                }
+            }
         }
 
         // 7. Animation Loop with Real-time Environment FX & Dynamic Particle Lifecycle

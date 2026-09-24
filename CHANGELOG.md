@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [v12.0.0] - 2026-09-24
+
+### Added
+- **[M2.6] 「人類主飛，AI 輔助介入」協同飛控副駕駛 (Shared Autonomy Copilot)**:
+  - 新增 `shared_autonomy_copilot.py`：以雙層動態安全邊界（警戒區 2.0m ~ 1.2m 與緊急避險區 < 1.2m）為核心的自適應向量混合控制器。
+  - 人類主控權優先與逃逸通道：支援操縱桿自由穿透（$\beta = 0.0$）、指向障礙物的速度平滑法向阻尼（$\alpha \in [0.4, 0.9]$）、人工勢能場主動排斥力（APF）與切線偏轉滑行推力。當飛手反向逃逸時完全釋放操縱阻力。
+  - WebGL 3D 飛行模擬器 HUD 深度整合：新增鍵盤快捷鍵 `C` / HUD 切換按鈕、動態防護狀態徽章（`STANDBY` / `WARNING` / `DEFLECTING`）、即時排斥力場指示器與 3D 機身虛擬防護光環（Virtual Bumper Halo）。
+  - MAVLink 飛控橋接整合：在 `MAVLinkController` 注入安全防撞過濾器 (`apply_copilot_safety_filter`)。
+  - 單元測試套件 `test_shared_autonomy_copilot.py`：9/9 項測試 100% 通過，全專案 49 項單元測試 100% 通過（耗時 9.1s）。
+- **[M2.1 Viewer] 3D STL 列印實體檢視器升級**:
+  - 新增 `stl_viewer.py` 與 `output/stl_viewer.html`：獨立 Three.js WebGL STL 檢視器，內置 4 個世代（Gen 1 ~ Gen 4）Base64 幾何切換、500mm 工業級加溫底板、三角網格檢視、360° 自動巡檢、多重材質切換與本地 STL 拖放支援。
+  - 修復毫米座標系下霧化遮蔽 Bug（Fog density 轉換為線性景深）與標準 CAD $Z$-up 旋轉修正。
+
 ## [v11.0.0] - 2026-09-24
 
 ### Added
