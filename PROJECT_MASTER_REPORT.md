@@ -93,8 +93,10 @@ python3 test_choice_2.py           # ✅ PASSED (2/2 tests)
 python3 test_choice_3.py           # ✅ PASSED (2/2 tests)
 python3 test_webgl_environments.py # ✅ PASSED (4/4 tests)
 python3 test_ai_autonomous_pipeline.py # ✅ PASSED (8/8 tests: RL環境/動態角速度/勢能場/暖機/TDZ全通)
+python3 test_organic_cad.py            # ✅ PASSED (5/5 tests: 仿生網格/STL二進位/ASCII/列印分析全通)
+python3 test_shared_autonomy_copilot.py # ✅ PASSED (9/9 tests: 協同副駕駛/動態混合/安全區/光環全通)
 # 全專案全域迴歸測試
-python3 -m unittest discover -s . -p "test_*.py" # ✅ PASSED (35/35 tests 100%, 8.9s)
+python3 -m unittest discover -s . -p "test_*.py" # ✅ PASSED (49/49 tests 100%, 9.1s)
 ```
 
 ---
