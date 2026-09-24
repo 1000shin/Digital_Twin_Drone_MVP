@@ -30,6 +30,13 @@ class Interactive3DViewer:
         """Builds a standalone Three.js WebGL HTML 3D visualization file."""
         html_path = self.output_dir / filename
 
+        try:
+            from stl_viewer import STLViewerGenerator
+            stl_gen = STLViewerGenerator(self.output_dir.parent if self.output_dir.name == "output" else self.output_dir)
+            stl_gen.generate_viewer_html()
+        except Exception:
+            pass
+
         num_arms = drone_spec.get("num_arms", 4)
         arm_length = drone_spec.get("arm_length_m", 0.25)
         is_vtol = drone_spec.get("aircraft_type") == "vtol_tilt_rotor"
@@ -195,6 +202,11 @@ class Interactive3DViewer:
                 <div><b>包絡尺寸</b>: {cad_profile['bounding_box_mm']['x']} × {cad_profile['bounding_box_mm']['y']} × {cad_profile['bounding_box_mm']['z']} mm</div>
                 <div><b>耗材預估</b>: {cad_profile['estimated_print_weight_g']}g ({cad_profile['material']}) | 體積: {cad_profile['airframe_volume_cm3']} cm³</div>
                 <div><b>幾何特性</b>: 仿生漸變機臂 + 力流鏤空肋條 ({cad_profile['total_triangles']} 三角面)</div>
+            </div>
+            <div style="margin-top: 8px;">
+                <a href="stl_viewer.html" target="_blank" style="display: block; text-align: center; background: linear-gradient(135deg, #10b981, #059669); color: #fff; text-decoration: none; padding: 6px 10px; border-radius: 6px; font-size: 11px; font-weight: bold; border: 1px solid #34d399; box-shadow: 0 2px 8px rgba(16,185,129,0.3);">
+                    🖨️ 在 WebGL 檢視 3D 列印 STL 實體 ↗
+                </a>
             </div>
         </div>
 
