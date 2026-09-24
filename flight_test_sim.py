@@ -2316,7 +2316,7 @@ class WebGLFlightSimulator:
             // Damage evaluation on flight physics (Hoisted to eliminate TDZ ReferenceError)
             const brokenCount = droneArmComponents.filter(a => a.isArmBroken || a.isPropBroken).length;
             const intactRatio = (numArms - brokenCount) / numArms;
-            const isCatastrophic = droneStructuralIntegrity <= 20 || intactRatio <= 0.5;
+            const isCatastrophic = droneStructuralIntegrity <= 15 || intactRatio <= 0.5;
 
             // Auto-disengage AI autopilot on catastrophic damage
             if (isCatastrophic && isAIAutopilotActive) {{
@@ -2359,25 +2359,74 @@ class WebGLFlightSimulator:
                     const text = document.getElementById('ai-status-text');
                     if (text) text.innerText = 'AI 航線巡檢中 (' + targetGate.label + ')';
 
-                    // Waypoint Passage Check
-                    if (dist3D < 1.8) {{
+                    // 1. Gate Normal Crossing & State Machine Check
+                    // Relative vector from gate center to drone in horizontal plane
+                    const dxFromGate = drone.position.x - targetGate.x;
+                    const dzFromGate = drone.position.z - targetGate.z;
+                    // Signed distance along gate normal (positive = crossed through the gate)
+                    const signedDot = dxFromGate * targetGate.nx + dzFromGate * targetGate.nz;
+                    // Lateral distance from the center line of the gate
+                    const lateralDist = Math.hypot(
+                        dxFromGate - signedDot * targetGate.nx,
+                        dzFromGate - signedDot * targetGate.nz
+                    );
+                    const vertDist = Math.abs(drone.position.y - targetGate.y);
+
+                    // A gate is cleared when the drone has passed beyond the gate plane (signedDot >= 0.35m)
+                    // within the gate lateral aperture and vertical clearance, OR reached close proximity.
+                    const hasCrossedGate = (signedDot >= 0.35 && lateralDist < 2.5 && vertDist < 2.5) ||
+                                           (dist3D < 1.0 && signedDot >= 0.1);
+
+                    if (hasCrossedGate) {{
                         currentAIGateIndex = (currentAIGateIndex + 1) % aiGates.length;
-                        aiCumulativeReward += 120.0;
+                        aiCumulativeReward += 150.0;
                         if (currentAIGateIndex === 0) {{
                             aiLapsCompleted++;
-                            aiCumulativeReward += 300.0;
+                            aiCumulativeReward += 400.0;
                             showToast('🏆 AI 順利完成第 ' + aiLapsCompleted + ' 圈全場穿越巡檢！');
                         }}
                     }}
 
-                    // 2. Goal Attraction Vector in World Frame
-                    let attractX = (dist2D > 0.01) ? (relX / dist2D) * 1.5 : 0;
-                    let attractZ = (dist2D > 0.01) ? (relZ / dist2D) * 1.5 : 0;
+                    // 2. Goal Attraction Vector: Lead-through Target point
+                    // Aim at a point slightly ahead through the gate so the drone flies through rather than stopping at the threshold
+                    const leadDist = 1.6;
+                    const leadX = targetGate.x + targetGate.nx * leadDist;
+                    const leadZ = targetGate.z + targetGate.nz * leadDist;
+                    const toLeadX = leadX - drone.position.x;
+                    const toLeadZ = leadZ - drone.position.z;
+                    const leadDist2D = Math.hypot(toLeadX, toLeadZ);
 
-                    // 3. Obstacle Repulsion Vector in World Frame (activeObstacles + boundary walls)
+                    let attractX = (leadDist2D > 0.01) ? (toLeadX / leadDist2D) * 1.6 : 0;
+                    let attractZ = (leadDist2D > 0.01) ? (toLeadZ / leadDist2D) * 1.6 : 0;
+
+                    // 3. Smart Obstacle Repulsion Vector (Excluding current target gate's top beam & back repulsion)
                     let repelX = 0;
                     let repelZ = 0;
                     activeObstacles.forEach(obs => {{
+                        // Check if obstacle belongs to current target gate
+                        if (obs.gateId === targetGate.id) {{
+                            // Smart tunnel filtering:
+                            // Completely ignore top beam repulsion to allow clean under-flight
+                            if (obs.isGateTop) return;
+
+                            // For side posts, only apply lateral push toward center if dangerously close (< 0.85m)
+                            const center = new THREE.Vector3();
+                            obs.box.getCenter(center);
+                            const dX = drone.position.x - center.x;
+                            const dZ = drone.position.z - center.z;
+                            const d = Math.hypot(dX, dZ);
+                            if (d < 0.85 && d > 0.05 && vertDist < 2.2) {{
+                                const latX = -targetGate.nz;
+                                const latZ = targetGate.nx;
+                                const postDotLat = (dX * latX + dZ * latZ);
+                                const pushLat = (postDotLat > 0 ? 1 : -1) * Math.pow((0.85 - d) / 0.85, 1.5) * 1.8;
+                                repelX += latX * pushLat;
+                                repelZ += latZ * pushLat;
+                            }}
+                            return;
+                        }}
+
+                        // Normal obstacle repulsion for pillars, other gates, and ramps
                         const center = new THREE.Vector3();
                         obs.box.getCenter(center);
                         const dX = drone.position.x - center.x;
@@ -2400,13 +2449,15 @@ class WebGLFlightSimulator:
                     let desVx = attractX + repelX;
                     let desVz = attractZ + repelZ;
 
-                    if (latestLiDARReading.dist < 1.6) {{
+                    // 4. LiDAR Gate Passage Deadzone Filter
+                    const isApproachingGate = dist2D < 2.8 && vertDist < 2.5;
+                    if (!isApproachingGate && latestLiDARReading.dist < 1.6) {{
                         const damp = Math.max(0.3, latestLiDARReading.dist / 1.6);
                         desVx *= damp;
                         desVz *= damp;
                     }}
 
-                    // 4. Project onto Body Frame
+                    // 5. Project onto Body Frame
                     const cosY = Math.cos(yaw);
                     const sinY = Math.sin(yaw);
                     const bodyFwd = desVx * sinY - desVz * cosY;
@@ -2421,25 +2472,26 @@ class WebGLFlightSimulator:
                     targetPitch = rawPitchCmd * 0.70;
                     targetRoll = rawRollCmd * 0.70;
 
-                    // 5. Yaw Heading Alignment
-                    const desiredYaw = Math.atan2(relX, -relZ);
+                    // 6. Yaw Heading Alignment & Deadzone
+                    const desiredYaw = Math.atan2(toLeadX, -toLeadZ);
                     const yawErr = (desiredYaw - yaw + Math.PI) % (2 * Math.PI) - Math.PI;
-                    if (latestLiDARReading.dist < 1.8 && (latestLiDARReading.direction.includes('前') || latestLiDARReading.direction.includes('舷'))) {{
+
+                    if (!isApproachingGate && latestLiDARReading.dist < 1.8 && (latestLiDARReading.direction.includes('前') || latestLiDARReading.direction.includes('舷'))) {{
                         rotationSpeed = latestLiDARReading.direction.includes('左') ? -0.07 : 0.07;
                     }} else {{
                         rotationSpeed = Math.max(-0.08, Math.min(0.08, yawErr * 0.08));
                     }}
 
-                    // 6. Vertical Climb Control
+                    // 7. Damped Altitude Hold & Vertical Climb Control
                     const altErr = targetGate.y - drone.position.y;
-                    throttleAcc = Math.max(-6.0, Math.min(12.0, altErr * 3.5 - velocity.y * 1.5));
+                    throttleAcc = Math.max(-6.0, Math.min(14.0, altErr * 3.8 - velocity.y * 1.8));
 
                     // AI Telemetry
-                    aiConfidence = Math.max(50.0, Math.min(99.6, 98.5 - (3.0 - Math.min(3.0, latestLiDARReading.dist)) * 14.0));
+                    aiConfidence = Math.max(50.0, Math.min(99.6, 98.5 - (3.0 - Math.min(3.0, latestLiDARReading.dist)) * 12.0));
                     aiCumulativeReward += 0.05;
                 }}
 
-                // Update Trajectory Line
+                // Update Dynamic Trajectory Line (Drone position -> Target Gate)
                 if (trajectoryLine && trajectoryLine.geometry) {{
                     const posArr = trajectoryLine.geometry.attributes.position.array;
                     posArr[0] = drone.position.x; posArr[1] = drone.position.y; posArr[2] = drone.position.z;
