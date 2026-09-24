@@ -108,7 +108,7 @@ Digital_Twin_Drone_MVP/
 * [ ] **[M2.4] 抽象感測器軟韌體介面合約定義 (Abstract Sensor Contract)**：定義採樣頻率、延遲限制、頻寬與 FOV 規格，暫不硬性綁定特定中介層。
 * [x] **[M2.5] 虛擬環境無人干預強化學習 (RL) 訓練管線與 AI 自駕巡航系統 (Autonomous RL Training & Cruise Pipeline)**（規格詳見 [`.specs/features/m2_5_rl_pipeline/spec.md`](./features/m2_5_rl_pipeline/spec.md)）：
   * [x] **[M2.5.1] 強化數位孿生擬真環境的建立**：建立標準 Gymnasium 相容強化學習環境 (`drone_rl_env.py`)，涵蓋 23 維觀測狀態、4 維連續動作、8 向 360° LiDAR 測距、剛體解穿透防卡死機制，以及複合式多目標高擬真獎懲函數矩陣（進展距離獎勵、穿門獎勵、平穩飛行獎勵、貼障指數懲罰、碰撞終止重罰）。
-  * [x] **[M2.5.2] AI 自主極限避障演算法的升級**：實作輕量自律策略學習器 (`autonomous_flight_learner.py`)，融合人類飛手 2Hz 遙測示範先驗暖機（Behavioral Cloning Prior）與非線性人工勢能場（APF），升級引力-斥力動態解耦與已過門冷卻遮罩，達成微秒級超低延遲（<0.05ms）極限避障推論。
+  * [x] **[M2.5.2] AI 自主極限避障演算法的升級**：實作特權導師-學生蒸餾架構 (`train_privileged_distillation.py`)，融合 32D 特權真值、23D 帶噪聲機載感知、方案 2 多階段學習時光軸快照（0% 初學 / 40% 半熟 / 100% 精通）、純 NumPy 學生推論器 (`StudentPolicyNumpy`，單步推論 0.0867ms）與 WebGL HUD 即時時光軸檢視器。（規格詳見 [`.specs/features/m2_5_2_privileged_drl_distillation/spec.md`](./features/m2_5_2_privileged_drl_distillation/spec.md)）
   * [x] **[M2.5.3] AI 自主巡航完成任務**：在 3D WebGL 模擬器 (`flight_test_sim.py`) 落地兩階段起飛保護、全場閉環多門巡檢導航狀態機（`THROUGH` ➔ `LEADOUT` ➔ `CORNER`）與動態引導走廊，達成健康度 $\ge 80\%$ 零卡死完成全場穿門巡航，並萃取試錯數據回饋閉環驅動第四代機身形態演化。
 * [x] **[M2.6] 「人類主飛，AI 輔助介入」協同飛控副駕駛 (Shared Autonomy Copilot)**：將虛擬環境透過 RL 訓練出的策略模型部署為實機飛行的安全副駕駛；飛手掌握最高操縱權，當飛手操作即將導致碰撞或失控時，AI 即時介入推力與排斥力場避障。（規格詳見 [`.specs/features/m2_6_shared_autonomy_copilot/spec.md`](./features/m2_6_shared_autonomy_copilot/spec.md)）
 

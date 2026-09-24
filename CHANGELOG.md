@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [v12.1.0] - 2026-09-25
+
+### Added
+- **[M2.5.2] 深度強化學習與特權導師-學生蒸餾極限避障系統 (Privileged Teacher-Student DRL)**:
+  - **特權導師-學生蒸餾架構 (Privileged DRL / Teacher-Student Framework)**：借鑒國際頂尖研究（UZH RPG *Learning High-Speed Flight in the Wild*, Science Robotics 2021），實作特權導師網絡（讀取 32 維全域真值 $p, v, q, \omega$、全場立柱座標與門法向）與學生網絡（機載 23 維帶噪聲感知）。
+  - **解耦離線 PyTorch 訓練器 (`train_privileged_distillation.py`)**：支援 Apple Silicon MPS / CPU 自動硬體加速，以 PPO 與 DAgger 策略蒸餾在 50 Episodes 內迅速收斂（蒸餾 MSE 達 0.01742）。
+  - **方案 2 多階段學習時光軸快照 (Stage Checkpoints)**：訓練過程中自動打包三階段權重（`stage_0_untrained` 0% 初學、`stage_1_half_trained` 40% 半熟、`stage_2_mastered` 100% 精通），儲存於 `output/neural_models/student_policy_stages.json`。
+  - **純 NumPy 學生推論器 (`StudentPolicyNumpy` & `HybridAutonomousPolicy`)**：在 `autonomous_flight_learner.py` 實作純 Python/NumPy 前向矩陣運算，單步推論僅 0.0867ms，數值誤差與 PyTorch 嚴格比對 $\le 10^{-6}$；缺失權重時具備 APF 平滑自動降級保護。
+  - **WebGL 3D 模擬器即時神經推論與學習時光軸檢視器 (`flight_test_sim.py` & HTML)**：Three.js 模擬器內建純 JavaScript Float32Array 矩陣運算；HUD 增設「🎓 學生策略歷程」切換器（`[🌱0%初學 | 🌿40%半熟 | 🏆100%精通]`），支援一鍵熱切換即時觀摩 AI 從隨機擦撞進化至極限避障的飛行手感。
+  - **全套單元測試與憲章防線**：新增 `test_privileged_drl_distillation.py`，全專案 64/64 項自動化測試 100% 通過（耗時 9.448 秒）。
+
 ## [v12.0.4] - 2026-09-24
 
 ### Fixed

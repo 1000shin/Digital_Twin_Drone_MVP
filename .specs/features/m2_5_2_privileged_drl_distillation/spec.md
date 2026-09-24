@@ -2,12 +2,12 @@
 
 > **版本**: 1.0  
 > **功能 ID**: `FEAT-M2.5.2-PRIVILEGED-DRL-DISTILLATION`  
-> **狀態**: `Review Pending (Awaiting Architect Confirmation)`  
+> **狀態**: `Completed & Verified`  
 > **對應專案憲章**: `Constitution Phase 2 [M2.5.2]`  
 > **目標分支**: `feature/m2.5.2-privileged-drl-distillation`  
 > **負責架構師**: Human Architect (Brain)  
 > **執行 Agent**: Antigravity (Muscle)  
-> **技術選型決策**: 選項 A（解耦 PyTorch 離線特權訓練器 ➔ 匯出純 NumPy/JSON 輕量權重部署）
+> **技術選型決策**: 選項 A（解耦 PyTorch 離線特權訓練器 ➔ 匯出純 NumPy/JSON 輕量權重部署）＋ 方案 2（多階段學習時光軸快照）
 
 ---
 
@@ -47,12 +47,12 @@ flowchart TD
 
 ### 2.1 功能性需求 (Functional Requirements)
 
-- [ ] **FR-1: 強化學習環境特權真值與學生觀測介面擴充 (`drone_rl_env.py`)**
+- [x] **FR-1: 強化學習環境特權真值與學生觀測介面擴充 (`drone_rl_env.py`)**
   - **說明**: 擴展現有 `DroneRLEnvironment`，明確劃分特權真值狀態與機載學生觀測。
   - **驗收標準 (AC-1.1)**: 提供 `get_privileged_state()` 介面，輸出包含機體精確狀態（12D：$p, v, q, \omega$）、目標門 3D 法向量與距中心距離、以及全場 6 根立柱精確相對向量與半徑（特權維度約 32D）。
   - **驗收標準 (AC-1.2)**: 提供 `get_student_observation(noise_std=0.05, dropout_prob=0.02)` 介面，模擬實機感測器的高斯測距雜訊與隨機 LiDAR 射線丟失。
 
-- [ ] **FR-2: 解耦特權導師訓練、多階段策略蒸餾與快照工具鏈 (`train_privileged_distillation.py`)**
+- [x] **FR-2: 解耦特權導師訓練、多階段策略蒸餾與快照工具鏈 (`train_privileged_distillation.py`)**
   - **說明**: 基於 PyTorch 實作獨立離線訓練腳本，支援 Apple Silicon MPS / CPU 自動加速，並支援學習演化時光軸快照儲存。
   - **驗收標準 (AC-2.1)**: 實作 `TeacherPolicy`（MLP 架構：特權狀態 ➔ 隱藏層 [128, 128] ➔ 4D 動作），以 PPO 與多目標獎懲函數快速收斂，無碰撞穿門率達 $\ge 90\%$。
   - **驗收標準 (AC-2.2)**: 實作 `StudentPolicy`（輕量架構：學生觀測 ➔ 隱藏層 [64, 64] ➔ 4D 動作），透過 DAgger 蒸餾學習導師動作，輸出動作 MSE 損失 $< 0.05$。
@@ -63,13 +63,13 @@ flowchart TD
       3. `stage_2_mastered`: 極限精通期（100% 完訓，流暢貼柱滑行與極限避障）
     - 統一打包匯出至 `output/neural_models/student_policy_stages.json` 與標準 `student_policy_weights.json`。
 
-- [ ] **FR-3: 純 NumPy 輕量學生神經網絡推論器 (`autonomous_flight_learner.py`)**
+- [x] **FR-3: 純 NumPy 輕量學生神經網絡推論器 (`autonomous_flight_learner.py`)**
   - **說明**: 在現有策略學習器中整合學生網絡推論引擎，完全不依賴 PyTorch。
   - **驗收標準 (AC-3.1)**: 實作 `StudentPolicyNumpy` 類別，直接載入 JSON 權重檔案，使用純 NumPy 矩陣乘法與 ReLU/Tanh 激活函數進行前向推論。
   - **驗收標準 (AC-3.2)**: 數值一致性驗證：NumPy 推論輸出與 PyTorch 原生推論輸出在相同輸入下的最大絕對誤差 $\le 10^{-5}$。
   - **驗收標準 (AC-3.3)**: 韌性回退（Graceful Degradation）：若找不到權重檔，自動平滑切換回現有的經典幾何 APF 避障控制，保證系統永不崩潰。
 
-- [ ] **FR-4: WebGL 3D 模擬器即時神經推論與學習時光軸檢視器 (`flight_test_sim.py` & HTML)**
+- [x] **FR-4: WebGL 3D 模擬器即時神經推論與學習時光軸檢視器 (`flight_test_sim.py` & HTML)**
   - **說明**: 將蒸餾後的學生網絡矩陣整合至 Three.js 模擬器中，並提供多階段學習歷程切換面板。
   - **驗收標準 (AC-4.1)**: 在 HTML 模擬器中載入三階段權重（初學/半熟/精通），利用純 JS 陣列乘法執行即時推論（單步計算耗時 $< 0.1\text{ms}$）。
   - **驗收標準 (AC-4.2) 學習時光軸切換面板 (Stage Inspector UI)**:
@@ -78,7 +78,7 @@ flowchart TD
   - **驗收標準 (AC-4.3)**: 顯示神經策略狀態徽章：`[AI AGENT: DISTILLED STUDENT (STAGE X)]` 與即時推力向量。
   - **驗收標準 (AC-4.4)**: 在極限精通階段下，無人機能在 WebGL 競技場中平穩連續穿門，安全繞行所有立柱。
 
-- [ ] **FR-5: 全套自動化單元測試覆蓋 (`test_privileged_drl_distillation.py`)**
+- [x] **FR-5: 全套自動化單元測試覆蓋 (`test_privileged_drl_distillation.py`)**
   - **說明**: 建立獨立單元測試，涵蓋特權狀態導出、學生噪聲生成、NumPy 推論精度、延遲效能與回退機制。
   - **驗收標準 (AC-5.1)**: 測試特權與學生觀測維度及數值邊界合規。
   - **驗收標準 (AC-5.2)**: 測試純 NumPy 前向推論單步延遲 $< 0.05\text{ms}$（滿足 100Hz 即時飛控）。

@@ -1,17 +1,17 @@
 {
   "model_id": "evolved_unit_test_inspection",
-  "num_arms": 6,
-  "arm_length_m": 0.2,
+  "num_arms": 4,
+  "arm_length_m": 0.21,
   "bounding_box_mm": {
-    "x": 434.0,
-    "y": 380.1,
+    "x": 454.0,
+    "y": 454.0,
     "z": 81.0
   },
-  "airframe_volume_cm3": 682.21,
+  "airframe_volume_cm3": 620.21,
   "material": "PETG-CF",
   "density_g_cm3": 1.25,
-  "estimated_print_weight_g": 298.5,
-  "total_triangles": 1008,
+  "estimated_print_weight_g": 271.3,
+  "total_triangles": 672,
   "recommended_slicer_settings": {
     "nozzle_size_mm": 0.4,
     "layer_height_mm": 0.2,

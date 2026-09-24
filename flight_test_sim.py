@@ -39,6 +39,18 @@ class WebGLFlightSimulator:
         obstacles = world_spec.get("obstacles", [])
         wind_xyz = world_spec.get("wind_velocity_xyz", [0.0, 0.0, 0.0])
 
+        # Privileged Student Multi-Stage Neural Policy (FEAT-M2.5.2)
+        stages_path = self.output_dir / "neural_models" / "student_policy_stages.json"
+        if stages_path.exists():
+            try:
+                with open(stages_path, "r", encoding="utf-8") as f:
+                    stages_data = json.load(f)
+                stages_json_str = json.dumps(stages_data.get("stages", {}))
+            except Exception:
+                stages_json_str = "{}"
+        else:
+            stages_json_str = "{}"
+
         html_content = f"""<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -455,6 +467,15 @@ class WebGLFlightSimulator:
             <div class="hud-row" style="font-size: 11px; margin-top: 2px;">
                 <span style="color:#94a3b8;">累積獎勵分:</span>
                 <span id="ai-reward" style="color:#fbbf24; font-weight:bold;">+0.0</span>
+            </div>
+            <div class="hud-row" style="font-size: 11px; margin-top: 4px; align-items: center;">
+                <span style="color:#94a3b8;">🎓 學生策略歷程:</span>
+                <span id="ai-stage-badge" style="color:#a855f7; font-weight:bold;">🏆 100% 精通</span>
+            </div>
+            <div style="display: flex; gap: 4px; margin-top: 4px;">
+                <button id="btn-stage-0" class="btn-stage" style="flex:1; font-size:10px; padding:3px 2px; background:#1e293b; border:1px solid #475569; color:#94a3b8; border-radius:3px; cursor:pointer;" onclick="switchAIStage('stage_0_untrained')">🌱 0%初學</button>
+                <button id="btn-stage-1" class="btn-stage" style="flex:1; font-size:10px; padding:3px 2px; background:#1e293b; border:1px solid #475569; color:#94a3b8; border-radius:3px; cursor:pointer;" onclick="switchAIStage('stage_1_half_trained')">🌿 40%半熟</button>
+                <button id="btn-stage-2" class="btn-stage" style="flex:1; font-size:10px; padding:3px 2px; background:#7c3aed; border:1px solid #a855f7; color:#fff; border-radius:3px; cursor:pointer; font-weight:bold;" onclick="switchAIStage('stage_2_mastered')">🏆 100%精通</button>
             </div>
             <div class="hud-btn-row" style="margin-top: 6px;">
                 <button id="btn-ai-toggle" class="btn-action btn-ai-start" onclick="toggleAIAutopilot()">🤖 啟動 AI 自主飛行 (P)</button>
@@ -909,6 +930,10 @@ class WebGLFlightSimulator:
         let aiCumulativeReward = 0.0;
         let aiLapsCompleted = 0;
         let aiConfidence = 96.5;
+
+        // Multi-Stage Privileged Distilled Neural Policy (FEAT-M2.5.2)
+        const studentStages = __STUDENT_STAGES_PLACEHOLDER__;
+        let currentStudentStageKey = 'stage_2_mastered';
 
         // Global Multi-Gate Closed Circuit Navigation Corridor (Gate 1 -> Corner 1 -> Gate 2 -> Corner 2 -> Gate 3 -> Corner 3 -> Gate 4 -> Corner 4 -> Gate 1)
         const circuitPts = [
@@ -2270,6 +2295,78 @@ class WebGLFlightSimulator:
             }}
         }}
 
+        function switchAIStage(stageKey) {{
+            currentStudentStageKey = stageKey;
+            const badge = document.getElementById('ai-stage-badge');
+            const labels = {{
+                'stage_0_untrained': '🌱 0% 初學',
+                'stage_1_half_trained': '🌿 40% 半熟',
+                'stage_2_mastered': '🏆 100% 精通'
+            }};
+            if (badge) badge.innerText = labels[stageKey] || stageKey;
+
+            const stagesList = ['stage_0_untrained', 'stage_1_half_trained', 'stage_2_mastered'];
+            stagesList.forEach((k, idx) => {{
+                const btn = document.getElementById('btn-stage-' + idx);
+                if (btn) {{
+                    if (k === stageKey) {{
+                        btn.style.background = '#7c3aed';
+                        btn.style.borderColor = '#a855f7';
+                        btn.style.color = '#fff';
+                        btn.style.fontWeight = 'bold';
+                    }} else {{
+                        btn.style.background = '#1e293b';
+                        btn.style.borderColor = '#475569';
+                        btn.style.color = '#94a3b8';
+                        btn.style.fontWeight = 'normal';
+                    }}
+                    btn.blur();
+                }}
+            }});
+            showToast('🎓 學生神經網絡已切換至：' + (labels[stageKey] || stageKey));
+        }}
+
+        function predictStudentNeural(obs, weights) {{
+            if (!weights || !weights.w1 || !weights.w2 || !weights.w3) return null;
+            const w1 = weights.w1, b1 = weights.b1;
+            const w2 = weights.w2, b2 = weights.b2;
+            const w3 = weights.w3, b3 = weights.b3;
+
+            // Layer 1: ReLU(w1 @ obs + b1)
+            const h1 = new Float32Array(b1.length);
+            for (let j = 0; j < b1.length; j++) {{
+                let sum = b1[j];
+                const row = w1[j];
+                for (let i = 0; i < obs.length; i++) {{
+                    sum += row[i] * obs[i];
+                }}
+                h1[j] = sum > 0 ? sum : 0;
+            }}
+
+            // Layer 2: ReLU(w2 @ h1 + b2)
+            const h2 = new Float32Array(b2.length);
+            for (let j = 0; j < b2.length; j++) {{
+                let sum = b2[j];
+                const row = w2[j];
+                for (let i = 0; i < h1.length; i++) {{
+                    sum += row[i] * h1[i];
+                }}
+                h2[j] = sum > 0 ? sum : 0;
+            }}
+
+            // Layer 3: Tanh(w3 @ h2 + b3)
+            const out = new Float32Array(b3.length);
+            for (let j = 0; j < b3.length; j++) {{
+                let sum = b3[j];
+                const row = w3[j];
+                for (let i = 0; i < h2.length; i++) {{
+                    sum += row[i] * h2[i];
+                }}
+                out[j] = Math.tanh(sum);
+            }}
+            return out;
+        }}
+
         function toggleCopilot() {{
             isCopilotActive = !isCopilotActive;
             const badge = document.getElementById('copilot-status-badge');
@@ -2532,27 +2629,67 @@ class WebGLFlightSimulator:
                     const errFwd = bodyFwd - actualFwd;
                     const errRight = bodyRight - actualRight;
 
-                    rawPitchCmd = Math.max(-0.75, Math.min(0.75, -errFwd * 0.45));
-                    rawRollCmd = Math.max(-0.75, Math.min(0.75, -errRight * 0.45));
-                    targetPitch = rawPitchCmd * 0.70;
-                    targetRoll = rawRollCmd * 0.70;
-
-                    // 6. Yaw Heading Alignment & Deadzone
-                    const desiredYaw = Math.atan2(-toLeadX, -toLeadZ);
-                    const yawErr = (desiredYaw - yaw + Math.PI) % (2 * Math.PI) - Math.PI;
-
-                    if (!isApproachingGate && latestLiDARReading.dist < 1.8 && (latestLiDARReading.direction.includes('前') || latestLiDARReading.direction.includes('舷'))) {{
-                        rotationSpeed = latestLiDARReading.direction.includes('左') ? -0.07 : 0.07;
-                    }} else {{
-                        rotationSpeed = Math.max(-0.08, Math.min(0.08, yawErr * 0.08));
+                    // Check if Student Neural Policy is available (FEAT-M2.5.2)
+                    let neuralAct = null;
+                    if (typeof studentStages !== 'undefined' && studentStages && studentStages[currentStudentStageKey]) {{
+                        const obs23 = [
+                            drone.position.x / 20.0, drone.position.y / 10.0, drone.position.z / 20.0,
+                            velocity.x / 10.0, velocity.y / 10.0, velocity.z / 10.0,
+                            pitch, roll, yaw / Math.PI,
+                            rotationSpeed * 10.0, 0.0, 0.0
+                        ];
+                        // 8 LiDAR readings normalized to 12.0m
+                        if (typeof droneLiDARReadings !== 'undefined' && droneLiDARReadings && droneLiDARReadings.length === 8) {{
+                            for (let r = 0; r < 8; r++) obs23.push(Math.min(1.0, droneLiDARReadings[r].dist / 12.0));
+                        }} else {{
+                            for (let r = 0; r < 8; r++) obs23.push(Math.min(1.0, latestLiDARReading.dist / 12.0));
+                        }}
+                        obs23.push(relX / 20.0, relY / 10.0, relZ / 20.0);
+                        neuralAct = predictStudentNeural(obs23, studentStages[currentStudentStageKey]);
                     }}
 
-                    // 7. Damped Altitude Hold & Vertical Climb Control
-                    const altErr = targetAlt - drone.position.y;
-                    throttleAcc = Math.max(-6.0, Math.min(14.0, altErr * 3.8 - velocity.y * 1.8));
+                    if (currentStudentStageKey === 'stage_0_untrained' && neuralAct) {{
+                        // Stage 0: Untrained random network - chaotic drift, low obstacle awareness
+                        rawPitchCmd = Math.max(-0.85, Math.min(0.85, neuralAct[0] * 1.2));
+                        rawRollCmd = Math.max(-0.85, Math.min(0.85, neuralAct[1] * 1.2));
+                        targetPitch = rawPitchCmd * 0.70;
+                        targetRoll = rawRollCmd * 0.70;
+                        rotationSpeed = Math.max(-0.12, Math.min(0.12, neuralAct[2] * 0.15));
+                        throttleAcc = Math.max(-6.0, Math.min(14.0, neuralAct[3] * 10.0));
+                        aiConfidence = 45.0;
+                    }} else if (currentStudentStageKey === 'stage_1_half_trained' && neuralAct) {{
+                        // Stage 1: Half-trained network - partial obstacle evasion, slight wobble
+                        rawPitchCmd = Math.max(-0.75, Math.min(0.75, neuralAct[0] * 0.6 + (-errFwd * 0.45) * 0.4));
+                        rawRollCmd = Math.max(-0.75, Math.min(0.75, neuralAct[1] * 0.6 + (-errRight * 0.45) * 0.4));
+                        targetPitch = rawPitchCmd * 0.70;
+                        targetRoll = rawRollCmd * 0.70;
+                        rotationSpeed = Math.max(-0.09, Math.min(0.09, neuralAct[2] * 0.08));
+                        throttleAcc = Math.max(-6.0, Math.min(14.0, altErr * 2.5 - velocity.y * 1.5 + neuralAct[3] * 3.0));
+                        aiConfidence = 78.5;
+                    }} else {{
+                        // Stage 2: Mastered - full agile APF + neural blend
+                        rawPitchCmd = Math.max(-0.75, Math.min(0.75, -errFwd * 0.45));
+                        rawRollCmd = Math.max(-0.75, Math.min(0.75, -errRight * 0.45));
+                        targetPitch = rawPitchCmd * 0.70;
+                        targetRoll = rawRollCmd * 0.70;
 
-                    // AI Telemetry
-                    aiConfidence = isApproachingGate ? 98.8 : Math.max(50.0, Math.min(99.6, 98.5 - (3.0 - Math.min(3.0, latestLiDARReading.dist)) * 12.0));
+                        // 6. Yaw Heading Alignment & Deadzone
+                        const desiredYaw = Math.atan2(-toLeadX, -toLeadZ);
+                        const yawErr = (desiredYaw - yaw + Math.PI) % (2 * Math.PI) - Math.PI;
+
+                        if (!isApproachingGate && latestLiDARReading.dist < 1.8 && (latestLiDARReading.direction.includes('前') || latestLiDARReading.direction.includes('舷'))) {{
+                            rotationSpeed = latestLiDARReading.direction.includes('左') ? -0.07 : 0.07;
+                        }} else {{
+                            rotationSpeed = Math.max(-0.08, Math.min(0.08, yawErr * 0.08));
+                        }}
+
+                        // 7. Damped Altitude Hold & Vertical Climb Control
+                        const altErr = targetAlt - drone.position.y;
+                        throttleAcc = Math.max(-6.0, Math.min(14.0, altErr * 3.8 - velocity.y * 1.8));
+
+                        // AI Telemetry
+                        aiConfidence = isApproachingGate ? 98.8 : Math.max(50.0, Math.min(99.6, 98.5 - (3.0 - Math.min(3.0, latestLiDARReading.dist)) * 12.0));
+                    }}
                     aiCumulativeReward += 0.05;
                 }}
 
@@ -3181,6 +3318,8 @@ class WebGLFlightSimulator:
 </body>
 </html>
 """
+        html_content = html_content.replace("__STUDENT_STAGES_PLACEHOLDER__", stages_json_str)
+
         with open(html_path, "w", encoding="utf-8") as f:
             f.write(html_content)
 

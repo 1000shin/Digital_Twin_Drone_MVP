@@ -268,7 +268,9 @@ class DroneRLEnvironment:
             "hit_object": self.collision_object,
             "min_lidar_m": min_lidar_dist,
             "gate_distance_m": curr_gate_dist,
-            "speed_mps": math.sqrt(self.vel[0]**2 + self.vel[1]**2 + self.vel[2]**2)
+            "speed_mps": math.sqrt(self.vel[0]**2 + self.vel[1]**2 + self.vel[2]**2),
+            "privileged_state": self.get_privileged_state(),
+            "student_obs": self.get_student_observation()
         }
 
         return obs, step_reward, terminated, truncated, info
@@ -360,3 +362,92 @@ class DroneRLEnvironment:
         obs.append(rel_z / 20.0)
 
         return obs
+
+    def get_privileged_state(self) -> List[float]:
+        """
+        Builds 32-dimensional privileged ground-truth state vector for Teacher Policy:
+        - [0:12]: Kinematics (pos/20, vel/10, pitch, roll, yaw/pi, ang_vel)
+        - [12:15]: Relative vector to target gate center [dx/20, dy/10, dz/20]
+        - [15:18]: Target gate 3D normal vector [nx, ny, nz]
+        - [18]: Distance to target gate [dist/20]
+        - [19:31]: Exact relative 2D positions of all 6 obstacle pillars [(px-x)/20, (pz-z)/20]
+        - [31]: Distance to closest pillar [min_dist/20]
+        """
+        target_gate = self.gates[self.current_gate_idx]
+        rel_x = target_gate.x - self.pos[0]
+        rel_y = target_gate.y - self.pos[1]
+        rel_z = target_gate.z - self.pos[2]
+        gate_dist = math.sqrt(rel_x**2 + rel_y**2 + rel_z**2)
+
+        # Gate normal orientation
+        gate_normals = [
+            [0.0, 0.0, 1.0],   # Gate 1
+            [-1.0, 0.0, 0.0],  # Gate 2
+            [0.0, 0.0, -1.0],  # Gate 3
+            [1.0, 0.0, 0.0]    # Gate 4
+        ]
+        gnorm = gate_normals[self.current_gate_idx % len(gate_normals)]
+
+        state = [
+            self.pos[0] / 20.0,
+            self.pos[1] / 10.0,
+            self.pos[2] / 20.0,
+            self.vel[0] / 10.0,
+            self.vel[1] / 10.0,
+            self.vel[2] / 10.0,
+            self.pitch,
+            self.roll,
+            self.yaw / math.pi,
+            self.ang_vel[0],
+            self.ang_vel[1],
+            self.ang_vel[2],
+            rel_x / 20.0,
+            rel_y / 10.0,
+            rel_z / 20.0,
+            gnorm[0],
+            gnorm[1],
+            gnorm[2],
+            min(1.0, gate_dist / 20.0)
+        ]
+
+        # 6 Pillars relative positions
+        min_p_dist = 999.0
+        for pillar in self.pillars:
+            p_dx = (pillar.x - self.pos[0]) / 20.0
+            p_dz = (pillar.z - self.pos[2]) / 20.0
+            d_sq = (pillar.x - self.pos[0])**2 + (pillar.z - self.pos[2])**2
+            dist = math.sqrt(d_sq)
+            if dist < min_p_dist:
+                min_p_dist = dist
+            state.append(p_dx)
+            state.append(p_dz)
+
+        state.append(min(1.0, min_p_dist / 20.0))
+        return state
+
+    def get_student_observation(self, noise_std: float = 0.03, dropout_prob: float = 0.02) -> List[float]:
+        """
+        Builds 23-dimensional deployable sensory observation with real-world sensor noise:
+        - 12D Kinematics with slight IMU measurement jitter
+        - 8D LiDAR normalized range with Gaussian noise & beam dropouts
+        - 3D Relative target gate center
+        """
+        raw_obs = self._get_observation()
+        if noise_std <= 0.0 and dropout_prob <= 0.0:
+            return raw_obs
+
+        noisy_obs = list(raw_obs)
+        # Add slight IMU noise to velocities (idx 3..5) and angular rates (idx 9..11)
+        for i in [3, 4, 5, 9, 10, 11]:
+            noisy_obs[i] += random.gauss(0.0, noise_std * 0.2)
+
+        # Add range noise and dropout to 8 LiDAR rays (idx 12..19)
+        for i in range(12, 20):
+            if random.random() < dropout_prob:
+                noisy_obs[i] = 1.0 # Echo loss/dropout
+            else:
+                val = noisy_obs[i] + random.gauss(0.0, noise_std)
+                noisy_obs[i] = max(0.0, min(1.0, val))
+
+        return noisy_obs
+

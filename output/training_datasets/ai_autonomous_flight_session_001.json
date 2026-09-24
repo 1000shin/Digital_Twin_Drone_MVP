@@ -2,38 +2,37 @@
   "session_id": "ai_autonomous_session_001",
   "drone_model": "evolved_shield_sentinel_v3",
   "flight_mode": "autonomous_rl_guided",
-  "timestamp": "2026-09-25 00:12:34",
+  "timestamp": "2026-09-25 01:26:14",
   "total_episodes": 5,
-  "total_steps": 1866,
-  "elapsed_seconds": 0.09,
-  "sim_fps": 20943.5,
+  "total_steps": 318,
+  "elapsed_seconds": 0.04,
+  "sim_fps": 8206.0,
   "summary": {
-    "total_duration_sec": 0.09,
-    "gates_cleared": 9,
+    "total_duration_sec": 0.04,
+    "gates_cleared": 0,
     "laps_completed": 0,
-    "collisions": 3,
-    "cumulative_reward": 437.61,
-    "safe_pass_rate_pct": 40.0
+    "collisions": 5,
+    "cumulative_reward": -371.88,
+    "safe_pass_rate_pct": 0.0
   },
   "metrics": {
-    "average_reward": 437.61,
-    "average_survival_steps": 373.2,
-    "total_gates_passed": 9,
+    "average_reward": -371.88,
+    "average_survival_steps": 63.6,
+    "total_gates_passed": 0,
     "total_laps_completed": 0,
-    "safe_flight_rate_pct": 40.0,
-    "total_collisions": 3
+    "safe_flight_rate_pct": 0.0,
+    "total_collisions": 5
   },
   "failure_distribution": {
-    "競技場外邊界 (Boundary)": 2,
-    "立體立柱 #1": 1
+    "競技場外邊界 (Boundary)": 5
   },
   "adapted_policy_params": {
     "k_goal_attract": 1.6,
-    "k_lidar_repel": 2.4400000000000004,
-    "repel_threshold_m": 2.992,
+    "k_lidar_repel": 2.2,
+    "repel_threshold_m": 2.8,
     "climb_kp": 1.75,
     "climb_kd": 0.65,
-    "max_turn_rate": 0.946,
+    "max_turn_rate": 0.85,
     "speed_brake_gain": 0.75
   },
   "warm_up_status": {
@@ -51,7 +50,7 @@
     "source_dataset": "flight_training_data_sample.json"
   },
   "morphological_feedback": {
-    "diagnosed_weakness": "高曲率轉彎時涵道邊緣與穿越門立柱側向擦碰",
+    "diagnosed_weakness": "低空穿門升力裕度穩定",
     "recommended_hardware_actions": [
       "縮減機架臂長 1.5cm (減少過彎旋轉半徑，提高穿越門通過容許裕度)",
       "選配更高靜態推力馬達 (提升低空穿門向上急爬升瞬態響應)",
@@ -62,9 +61,9 @@
     {
       "timestamp": 0.05,
       "position": [
-        0.084,
+        -0.229,
         1.2,
-        -0.285
+        0.285
       ],
       "velocity": [
         0.0,
@@ -74,1047 +73,1047 @@
       "attitude": {
         "pitch": 0.0,
         "roll": 0.0,
-        "yaw": -0.09
+        "yaw": -0.042
       },
-      "lidar_min_dist": 3.57,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 3.36,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 0.1,
       "position": [
-        0.083,
-        1.21,
-        -0.29
+        -0.229,
+        1.214,
+        0.289
       ],
       "velocity": [
-        -0.018,
-        0.199,
-        -0.091
+        -0.005,
+        0.285,
+        0.084
       ],
       "attitude": {
-        "pitch": -0.118,
-        "roll": 0.035,
-        "yaw": -0.097
+        "pitch": 0.111,
+        "roll": 0.002,
+        "yaw": -0.042
       },
-      "lidar_min_dist": 3.57,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 3.36,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 0.15,
       "position": [
-        0.081,
-        1.234,
-        -0.301
+        -0.229,
+        1.242,
+        0.302
       ],
       "velocity": [
-        -0.029,
-        0.474,
-        -0.228
+        0.008,
+        0.556,
+        0.262
       ],
       "attitude": {
-        "pitch": -0.182,
-        "roll": 0.03,
-        "yaw": -0.083
+        "pitch": 0.239,
+        "roll": -0.023,
+        "yaw": -0.023
       },
-      "lidar_min_dist": 3.55,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 3.33,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 0.2,
       "position": [
-        0.08,
-        1.27,
-        -0.321
+        -0.228,
+        1.28,
+        0.326
       ],
       "velocity": [
-        -0.025,
-        0.735,
-        -0.411
+        0.008,
+        0.755,
+        0.481
       ],
       "attitude": {
-        "pitch": -0.25,
-        "roll": 0.013,
-        "yaw": -0.072
+        "pitch": 0.301,
+        "roll": -0.002,
+        "yaw": -0.004
       },
-      "lidar_min_dist": 3.53,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 3.31,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 0.25,
       "position": [
-        0.08,
-        1.317,
-        -0.353
+        -0.227,
+        1.328,
+        0.364
       ],
       "velocity": [
-        -0.002,
-        0.939,
-        -0.625
+        0.013,
+        0.974,
+        0.744
       ],
       "attitude": {
-        "pitch": -0.3,
-        "roll": -0.003,
-        "yaw": -0.088
+        "pitch": 0.37,
+        "roll": 0.005,
+        "yaw": 0.03
       },
-      "lidar_min_dist": 3.51,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 3.28,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 0.3,
       "position": [
-        0.081,
-        1.374,
-        -0.393
+        -0.225,
+        1.388,
+        0.414
       ],
       "velocity": [
-        0.019,
-        1.138,
-        -0.798
+        0.057,
+        1.185,
+        1.018
       ],
       "attitude": {
-        "pitch": -0.251,
-        "roll": -0.006,
-        "yaw": -0.087
+        "pitch": 0.395,
+        "roll": -0.046,
+        "yaw": 0.033
       },
-      "lidar_min_dist": 3.49,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 3.24,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 0.35,
       "position": [
-        0.081,
-        1.443,
-        -0.44
+        -0.221,
+        1.457,
+        0.479
       ],
       "velocity": [
-        -0.007,
-        1.366,
-        -0.943
+        0.077,
+        1.377,
+        1.287
       ],
       "attitude": {
-        "pitch": -0.212,
-        "roll": 0.052,
-        "yaw": -0.085
+        "pitch": 0.395,
+        "roll": -0.011,
+        "yaw": 0.042
       },
-      "lidar_min_dist": 3.46,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 3.2,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 0.4,
       "position": [
-        0.078,
-        1.519,
-        -0.492
+        -0.216,
+        1.532,
+        0.556
       ],
       "velocity": [
-        -0.044,
-        1.533,
-        -1.052
+        0.105,
+        1.51,
+        1.539
       ],
       "attitude": {
-        "pitch": -0.166,
-        "roll": 0.066,
-        "yaw": -0.099
+        "pitch": 0.381,
+        "roll": -0.016,
+        "yaw": 0.066
       },
-      "lidar_min_dist": 3.42,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 3.16,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 0.45,
       "position": [
-        0.076,
-        1.606,
-        -0.55
+        -0.209,
+        1.611,
+        0.645
       ],
       "velocity": [
-        -0.04,
-        1.733,
-        -1.158
+        0.122,
+        1.584,
+        1.795
       ],
       "attitude": {
-        "pitch": -0.172,
-        "roll": 0.009,
-        "yaw": -0.081
+        "pitch": 0.393,
+        "roll": 0.002,
+        "yaw": 0.072
       },
-      "lidar_min_dist": 3.39,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 3.1,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 0.5,
       "position": [
-        0.076,
+        -0.203,
         1.699,
-        -0.615
+        0.747
       ],
       "velocity": [
-        -0.013,
-        1.87,
-        -1.291
+        0.128,
+        1.745,
+        2.039
       ],
       "attitude": {
-        "pitch": -0.213,
-        "roll": -0.015,
-        "yaw": -0.095
+        "pitch": 0.383,
+        "roll": 0.014,
+        "yaw": 0.067
       },
-      "lidar_min_dist": 3.35,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 3.06,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 0.55,
       "position": [
-        0.077,
-        1.802,
-        -0.686
+        -0.195,
+        1.792,
+        0.862
       ],
       "velocity": [
-        0.026,
-        2.062,
-        -1.428
+        0.152,
+        1.872,
+        2.291
       ],
       "attitude": {
-        "pitch": -0.223,
-        "roll": -0.033,
-        "yaw": -0.081
+        "pitch": 0.404,
+        "roll": -0.012,
+        "yaw": 0.062
       },
-      "lidar_min_dist": 3.34,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 3.03,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 0.6,
       "position": [
-        0.079,
-        1.912,
-        -0.763
+        -0.186,
+        1.89,
+        0.99
       ],
       "velocity": [
-        0.045,
-        2.195,
-        -1.534
+        0.184,
+        1.958,
+        2.557
       ],
       "attitude": {
-        "pitch": -0.184,
+        "pitch": 0.434,
         "roll": -0.011,
-        "yaw": -0.076
+        "yaw": 0.081
       },
-      "lidar_min_dist": 3.34,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 2.98,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 0.65,
       "position": [
-        0.081,
-        2.025,
-        -0.844
+        -0.175,
+        1.993,
+        1.131
       ],
       "velocity": [
-        0.026,
-        2.254,
-        -1.615
+        0.223,
+        2.053,
+        2.817
       ],
       "attitude": {
-        "pitch": -0.15,
-        "roll": 0.035,
-        "yaw": -0.08
+        "pitch": 0.433,
+        "roll": -0.019,
+        "yaw": 0.09
       },
-      "lidar_min_dist": 3.32,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 2.96,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 0.7,
       "position": [
-        0.08,
-        2.134,
-        -0.927
+        -0.163,
+        2.102,
+        1.284
       ],
       "velocity": [
-        -0.009,
-        2.185,
-        -1.662
+        0.249,
+        2.189,
+        3.065
       ],
       "attitude": {
-        "pitch": -0.106,
-        "roll": 0.052,
-        "yaw": -0.059
+        "pitch": 0.423,
+        "roll": 0.002,
+        "yaw": 0.104
       },
-      "lidar_min_dist": 3.44,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 2.97,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 0.75,
       "position": [
-        0.079,
-        2.238,
-        -1.012
+        -0.148,
+        2.212,
+        1.45
       ],
       "velocity": [
-        -0.027,
-        2.076,
-        -1.694
+        0.303,
+        2.205,
+        3.314
       ],
       "attitude": {
-        "pitch": -0.088,
-        "roll": 0.029,
-        "yaw": -0.057
+        "pitch": 0.438,
+        "roll": -0.041,
+        "yaw": 0.086
       },
-      "lidar_min_dist": 4.64,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 10.36,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 0.8,
       "position": [
-        0.075,
-        2.334,
-        -1.099
+        -0.13,
+        2.326,
+        1.629
       ],
       "velocity": [
-        -0.081,
-        1.923,
-        -1.751
+        0.349,
+        2.27,
+        3.589
       ],
       "attitude": {
-        "pitch": -0.12,
-        "roll": 0.08,
-        "yaw": -0.065
+        "pitch": 0.481,
+        "roll": -0.026,
+        "yaw": 0.095
       },
-      "lidar_min_dist": 4.73,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 10.51,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 0.85,
       "position": [
-        0.071,
-        2.423,
-        -1.188
+        -0.111,
+        2.446,
+        1.822
       ],
       "velocity": [
-        -0.079,
-        1.77,
-        -1.788
+        0.38,
+        2.407,
+        3.85
       ],
       "attitude": {
-        "pitch": -0.099,
-        "roll": 0.007,
-        "yaw": -0.06
+        "pitch": 0.469,
+        "roll": -0.007,
+        "yaw": 0.098
       },
-      "lidar_min_dist": 4.91,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 10.71,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 0.9,
       "position": [
-        0.067,
-        2.506,
-        -1.277
+        -0.09,
+        2.56,
+        2.027
       ],
       "velocity": [
-        -0.081,
-        1.673,
-        -1.776
+        0.412,
+        2.273,
+        4.1
       ],
       "attitude": {
-        "pitch": -0.036,
-        "roll": 0.006,
-        "yaw": -0.058
+        "pitch": 0.46,
+        "roll": -0.002,
+        "yaw": 0.116
       },
-      "lidar_min_dist": 8.74,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 10.85,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 0.95,
       "position": [
-        0.063,
-        2.585,
-        -1.362
+        -0.069,
+        2.668,
+        2.245
       ],
       "velocity": [
-        -0.066,
-        1.587,
-        -1.705
+        0.42,
+        2.173,
+        4.375
       ],
       "attitude": {
-        "pitch": 0.041,
-        "roll": -0.02,
-        "yaw": -0.062
+        "pitch": 0.503,
+        "roll": 0.037,
+        "yaw": 0.122
       },
-      "lidar_min_dist": 8.71,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 2.74,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 1.0,
       "position": [
-        0.06,
-        2.657,
-        -1.446
+        -0.048,
+        2.776,
+        2.477
       ],
       "velocity": [
-        -0.079,
-        1.429,
-        -1.676
+        0.43,
+        2.142,
+        4.642
       ],
       "attitude": {
-        "pitch": -0.01,
-        "roll": 0.02,
-        "yaw": -0.069
+        "pitch": 0.499,
+        "roll": 0.035,
+        "yaw": 0.126
       },
-      "lidar_min_dist": 8.66,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 2.56,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 1.05,
       "position": [
-        0.054,
-        2.723,
-        -1.528
+        -0.026,
+        2.876,
+        2.721
       ],
       "velocity": [
-        -0.112,
-        1.324,
-        -1.642
+        0.444,
+        2.018,
+        4.871
       ],
       "attitude": {
-        "pitch": -0.0,
-        "roll": 0.046,
-        "yaw": -0.066
+        "pitch": 0.452,
+        "roll": 0.021,
+        "yaw": 0.119
       },
-      "lidar_min_dist": 8.76,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 2.49,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 1.1,
       "position": [
-        0.048,
-        2.788,
-        -1.608
+        -0.002,
+        2.968,
+        2.977
       ],
       "velocity": [
-        -0.119,
-        1.306,
-        -1.586
+        0.484,
+        1.834,
+        5.121
       ],
       "attitude": {
-        "pitch": 0.026,
-        "roll": 0.01,
-        "yaw": -0.054
+        "pitch": 0.496,
+        "roll": -0.008,
+        "yaw": 0.124
       },
-      "lidar_min_dist": 12.0,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 2.56,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 1.15,
       "position": [
-        0.042,
-        2.844,
-        -1.685
+        0.024,
+        3.056,
+        3.244
       ],
       "velocity": [
-        -0.116,
-        1.111,
-        -1.546
+        0.505,
+        1.753,
+        5.344
       ],
       "attitude": {
-        "pitch": 0.007,
-        "roll": -0.001,
-        "yaw": -0.045
+        "pitch": 0.462,
+        "roll": 0.015,
+        "yaw": 0.128
       },
-      "lidar_min_dist": 12.0,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 2.5,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 1.2,
       "position": [
-        0.038,
-        2.891,
-        -1.762
+        0.051,
+        3.132,
+        3.523
       ],
       "velocity": [
-        -0.078,
-        0.935,
-        -1.536
+        0.542,
+        1.525,
+        5.569
       ],
       "attitude": {
-        "pitch": -0.033,
-        "roll": -0.045,
-        "yaw": -0.047
+        "pitch": 0.474,
+        "roll": -0.002,
+        "yaw": 0.134
       },
-      "lidar_min_dist": 12.0,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 2.55,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 1.25,
       "position": [
-        0.034,
-        2.928,
-        -1.841
+        0.079,
+        3.203,
+        3.812
       ],
       "velocity": [
-        -0.089,
-        0.747,
-        -1.578
+        0.569,
+        1.415,
+        5.79
       ],
       "attitude": {
-        "pitch": -0.098,
-        "roll": 0.024,
-        "yaw": -0.078
+        "pitch": 0.473,
+        "roll": 0.007,
+        "yaw": 0.13
       },
-      "lidar_min_dist": 12.0,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 2.79,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 1.3,
       "position": [
-        0.029,
-        2.955,
-        -1.921
+        0.11,
+        3.266,
+        4.112
       ],
       "velocity": [
-        -0.089,
-        0.54,
-        -1.598
+        0.618,
+        1.266,
+        5.988
       ],
       "attitude": {
-        "pitch": -0.072,
-        "roll": 0.009,
-        "yaw": -0.077
+        "pitch": 0.452,
+        "roll": -0.018,
+        "yaw": 0.145
       },
       "lidar_min_dist": 12.0,
-      "ai_confidence": 76.0
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 1.35,
       "position": [
-        0.025,
-        2.976,
-        -2.002
+        0.143,
+        3.321,
+        4.419
       ],
       "velocity": [
-        -0.079,
-        0.418,
-        -1.62
+        0.659,
+        1.09,
+        6.153
       ],
       "attitude": {
-        "pitch": -0.075,
-        "roll": -0.005,
-        "yaw": -0.076
+        "pitch": 0.409,
+        "roll": -0.018,
+        "yaw": 0.138
       },
       "lidar_min_dist": 12.0,
-      "ai_confidence": 76.0
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 1.4,
       "position": [
-        0.022,
-        2.991,
-        -2.084
+        0.179,
+        3.362,
+        4.735
       ],
       "velocity": [
-        -0.077,
-        0.305,
-        -1.647
+        0.713,
+        0.835,
+        6.308
       ],
       "attitude": {
-        "pitch": -0.083,
-        "roll": 0.003,
-        "yaw": -0.047
+        "pitch": 0.404,
+        "roll": -0.03,
+        "yaw": 0.154
       },
-      "lidar_min_dist": 12.0,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 2.82,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 1.45,
       "position": [
-        0.017,
-        3.008,
-        -2.167
+        0.217,
+        3.395,
+        5.058
       ],
       "velocity": [
-        -0.096,
-        0.328,
-        -1.657
+        0.764,
+        0.652,
+        6.464
       ],
       "attitude": {
-        "pitch": -0.061,
-        "roll": 0.03,
-        "yaw": -0.032
+        "pitch": 0.409,
+        "roll": -0.023,
+        "yaw": 0.165
       },
-      "lidar_min_dist": 12.0,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 2.91,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 1.5,
       "position": [
-        0.012,
-        3.018,
-        -2.249
+        0.258,
+        3.421,
+        5.388
       ],
       "velocity": [
-        -0.092,
-        0.199,
-        -1.64
+        0.815,
+        0.515,
+        6.597
       ],
       "attitude": {
-        "pitch": -0.025,
-        "roll": -0.002,
-        "yaw": -0.041
+        "pitch": 0.383,
+        "roll": -0.023,
+        "yaw": 0.179
       },
-      "lidar_min_dist": 12.0,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 3.24,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 1.55,
       "position": [
-        0.007,
-        3.024,
-        -2.329
+        0.301,
+        3.434,
+        5.724
       ],
       "velocity": [
-        -0.114,
-        0.124,
-        -1.596
+        0.865,
+        0.259,
+        6.73
       ],
       "attitude": {
-        "pitch": 0.012,
-        "roll": 0.031,
-        "yaw": -0.06
+        "pitch": 0.386,
+        "roll": -0.019,
+        "yaw": 0.189
       },
-      "lidar_min_dist": 2.78,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 6.27,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 1.6,
       "position": [
-        0.0,
-        3.028,
-        -2.406
+        0.346,
+        3.437,
+        6.067
       ],
       "velocity": [
-        -0.123,
-        0.091,
-        -1.555
+        0.909,
+        0.067,
+        6.848
       ],
       "attitude": {
-        "pitch": 0.009,
-        "roll": 0.014,
-        "yaw": -0.058
+        "pitch": 0.369,
+        "roll": -0.011,
+        "yaw": 0.201
       },
-      "lidar_min_dist": 2.67,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 6.34,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 1.65,
       "position": [
-        -0.005,
-        3.029,
-        -2.48
+        0.395,
+        3.431,
+        6.415
       ],
       "velocity": [
-        -0.105,
-        0.022,
-        -1.474
+        0.964,
+        -0.128,
+        6.96
       ],
       "attitude": {
-        "pitch": 0.06,
-        "roll": -0.023,
-        "yaw": -0.049
+        "pitch": 0.369,
+        "roll": -0.019,
+        "yaw": 0.226
       },
-      "lidar_min_dist": 2.62,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 9.42,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 1.7,
       "position": [
-        -0.01,
-        3.029,
-        -2.548
+        0.446,
+        3.419,
+        6.769
       ],
       "velocity": [
-        -0.102,
-        -0.005,
-        -1.37
+        1.032,
+        -0.239,
+        7.084
       ],
       "attitude": {
-        "pitch": 0.095,
-        "roll": -0.004,
-        "yaw": -0.04
+        "pitch": 0.393,
+        "roll": -0.024,
+        "yaw": 0.249
       },
-      "lidar_min_dist": 2.59,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 9.55,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 1.75,
       "position": [
-        -0.015,
-        3.024,
-        -2.614
+        0.5,
+        3.403,
+        7.13
       ],
       "velocity": [
-        -0.094,
-        -0.096,
-        -1.301
+        1.08,
+        -0.31,
+        7.231
       ],
       "attitude": {
-        "pitch": 0.05,
-        "roll": -0.009,
-        "yaw": -0.036
+        "pitch": 0.422,
+        "roll": 0.01,
+        "yaw": 0.254
       },
-      "lidar_min_dist": 2.55,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 9.9,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 1.8,
       "position": [
-        -0.02,
-        3.02,
-        -2.675
+        0.556,
+        3.385,
+        7.499
       ],
       "velocity": [
-        -0.101,
-        -0.096,
-        -1.239
+        1.113,
+        -0.367,
+        7.38
       ],
       "attitude": {
-        "pitch": 0.045,
-        "roll": 0.009,
-        "yaw": -0.043
+        "pitch": 0.424,
+        "roll": 0.038,
+        "yaw": 0.276
       },
-      "lidar_min_dist": 2.52,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 10.56,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 1.85,
       "position": [
-        -0.024,
-        3.018,
-        -2.735
+        0.613,
+        3.36,
+        7.874
       ],
       "velocity": [
-        -0.083,
-        -0.028,
-        -1.184
+        1.144,
+        -0.489,
+        7.501
       ],
       "attitude": {
-        "pitch": 0.036,
-        "roll": -0.021,
-        "yaw": -0.036
+        "pitch": 0.389,
+        "roll": 0.038,
+        "yaw": 0.292
       },
-      "lidar_min_dist": 2.5,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 12.0,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 1.9,
       "position": [
-        -0.026,
-        3.024,
-        -2.792
+        0.671,
+        3.332,
+        8.255
       ],
       "velocity": [
-        -0.05,
-        0.107,
-        -1.155
+        1.153,
+        -0.57,
+        7.612
       ],
       "attitude": {
-        "pitch": 0.002,
-        "roll": -0.042,
-        "yaw": -0.049
+        "pitch": 0.37,
+        "roll": 0.066,
+        "yaw": 0.306
       },
-      "lidar_min_dist": 2.49,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 12.0,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 1.95,
       "position": [
-        -0.026,
-        3.027,
-        -2.85
+        0.731,
+        3.297,
+        8.641
       ],
       "velocity": [
-        -0.001,
-        0.068,
-        -1.158
+        1.197,
+        -0.703,
+        7.719
       ],
       "attitude": {
-        "pitch": -0.04,
-        "roll": -0.061,
-        "yaw": -0.052
+        "pitch": 0.382,
+        "roll": 0.022,
+        "yaw": 0.306
       },
-      "lidar_min_dist": 2.48,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 5.77,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 2.0,
       "position": [
-        -0.025,
-        3.028,
-        -2.909
+        0.792,
+        3.263,
+        9.031
       ],
       "velocity": [
-        0.018,
-        0.021,
-        -1.17
+        1.233,
+        -0.683,
+        7.805
       ],
       "attitude": {
-        "pitch": -0.05,
-        "roll": -0.022,
-        "yaw": -0.056
+        "pitch": 0.354,
+        "roll": 0.023,
+        "yaw": 0.302
       },
-      "lidar_min_dist": 2.48,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 5.96,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 2.05,
       "position": [
-        -0.024,
-        3.027,
-        -2.968
+        0.856,
+        3.222,
+        9.425
       ],
       "velocity": [
-        0.025,
-        -0.022,
-        -1.188
+        1.267,
+        -0.803,
+        7.879
       ],
       "attitude": {
-        "pitch": -0.059,
-        "roll": -0.007,
-        "yaw": -0.059
+        "pitch": 0.34,
+        "roll": 0.018,
+        "yaw": 0.298
       },
-      "lidar_min_dist": 2.46,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 6.25,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 2.1,
       "position": [
-        -0.022,
-        3.026,
-        -3.027
+        0.921,
+        3.178,
+        9.823
       ],
       "velocity": [
-        0.053,
-        -0.016,
-        -1.175
+        1.302,
+        -0.883,
+        7.957
       ],
       "attitude": {
-        "pitch": -0.019,
-        "roll": -0.037,
-        "yaw": -0.046
+        "pitch": 0.349,
+        "roll": 0.017,
+        "yaw": 0.296
       },
-      "lidar_min_dist": 2.44,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 6.29,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 2.15,
       "position": [
-        -0.017,
-        3.029,
-        -3.086
+        0.989,
+        3.13,
+        10.225
       ],
       "velocity": [
-        0.085,
-        0.054,
-        -1.183
+        1.359,
+        -0.973,
+        8.034
       ],
       "attitude": {
-        "pitch": -0.045,
-        "roll": -0.043,
-        "yaw": -0.023
+        "pitch": 0.359,
+        "roll": -0.006,
+        "yaw": 0.311
       },
-      "lidar_min_dist": 2.43,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 6.28,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 2.2,
       "position": [
-        -0.012,
-        3.026,
-        -3.147
+        1.06,
+        3.078,
+        10.631
       ],
       "velocity": [
-        0.115,
-        -0.054,
-        -1.219
+        1.423,
+        -1.024,
+        8.118
       ],
       "attitude": {
-        "pitch": -0.083,
-        "roll": -0.041,
-        "yaw": -0.016
+        "pitch": 0.374,
+        "roll": -0.009,
+        "yaw": 0.319
       },
-      "lidar_min_dist": 2.45,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 8.13,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 2.25,
       "position": [
-        -0.005,
-        3.024,
-        -3.21
+        1.134,
+        3.028,
+        11.041
       ],
       "velocity": [
-        0.123,
-        -0.034,
-        -1.25
+        1.49,
+        -1.0,
+        8.214
       ],
       "attitude": {
-        "pitch": -0.076,
-        "roll": -0.011,
-        "yaw": -0.027
+        "pitch": 0.394,
+        "roll": -0.01,
+        "yaw": 0.32
       },
-      "lidar_min_dist": 2.46,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 8.5,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 2.3,
       "position": [
-        0.0,
-        3.017,
-        -3.275
+        1.212,
+        2.975,
+        11.457
       ],
       "velocity": [
-        0.117,
-        -0.155,
-        -1.311
+        1.558,
+        -1.062,
+        8.31
       ],
       "attitude": {
-        "pitch": -0.118,
-        "roll": 0.009,
-        "yaw": -0.042
+        "pitch": 0.399,
+        "roll": -0.004,
+        "yaw": 0.337
       },
-      "lidar_min_dist": 2.48,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 8.91,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 2.35,
       "position": [
-        0.005,
-        3.014,
-        -3.342
+        1.294,
+        2.923,
+        11.878
       ],
       "velocity": [
-        0.095,
-        -0.05,
-        -1.342
+        1.629,
+        -1.042,
+        8.427
       ],
       "attitude": {
-        "pitch": -0.078,
-        "roll": 0.03,
-        "yaw": -0.053
+        "pitch": 0.432,
+        "roll": 0.003,
+        "yaw": 0.345
       },
-      "lidar_min_dist": 2.5,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 8.63,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 2.4,
       "position": [
-        0.008,
-        3.013,
-        -3.411
+        1.378,
+        2.875,
+        12.304
       ],
       "velocity": [
-        0.062,
-        -0.03,
-        -1.367
+        1.681,
+        -0.956,
+        8.51
       ],
       "attitude": {
-        "pitch": -0.069,
-        "roll": 0.045,
-        "yaw": -0.062
+        "pitch": 0.382,
+        "roll": 0.009,
+        "yaw": 0.339
       },
-      "lidar_min_dist": 2.52,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 8.16,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 2.45,
       "position": [
-        0.009,
-        3.01,
-        -3.48
+        1.466,
+        2.828,
+        12.733
       ],
       "velocity": [
-        0.02,
-        -0.052,
-        -1.387
+        1.768,
+        -0.939,
+        8.594
       ],
       "attitude": {
-        "pitch": -0.065,
-        "roll": 0.057,
-        "yaw": -0.046
+        "pitch": 0.402,
+        "roll": -0.03,
+        "yaw": 0.352
       },
-      "lidar_min_dist": 2.6,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 7.74,
+      "ai_confidence": 82.0
     },
     {
       "timestamp": 2.5,
       "position": [
-        0.01,
-        3.011,
-        -3.549
+        1.559,
+        2.789,
+        13.167
       ],
       "velocity": [
-        0.008,
-        0.009,
-        -1.384
+        1.851,
+        -0.796,
+        8.682
       ],
       "attitude": {
-        "pitch": -0.036,
-        "roll": 0.015,
-        "yaw": 0.003
+        "pitch": 0.409,
+        "roll": -0.033,
+        "yaw": 0.333
       },
-      "lidar_min_dist": 2.89,
-      "ai_confidence": 76.0
+      "lidar_min_dist": 7.23,
+      "ai_confidence": 82.0
     }
   ],
   "episodes": [
     {
       "episode": 1,
-      "reward": 992.93,
-      "steps": 600,
-      "gates_passed": 3,
+      "reward": -380.2,
+      "steps": 65,
+      "gates_passed": 0,
       "laps": 0,
-      "collided": false,
-      "hit_object": "",
-      "min_clearance_m": 0.329,
-      "final_speed_mps": 1.47
+      "collided": true,
+      "hit_object": "競技場外邊界 (Boundary)",
+      "min_clearance_m": 0.59,
+      "final_speed_mps": 10.04
     },
     {
       "episode": 2,
-      "reward": 22.06,
-      "steps": 192,
-      "gates_passed": 1,
+      "reward": -365.27,
+      "steps": 62,
+      "gates_passed": 0,
       "laps": 0,
       "collided": true,
       "hit_object": "競技場外邊界 (Boundary)",
-      "min_clearance_m": 0.925,
-      "final_speed_mps": 7.57
+      "min_clearance_m": 0.881,
+      "final_speed_mps": 9.92
     },
     {
       "episode": 3,
-      "reward": 415.3,
-      "steps": 244,
-      "gates_passed": 2,
-      "laps": 0,
-      "collided": true,
-      "hit_object": "立體立柱 #1",
-      "min_clearance_m": 0.165,
-      "final_speed_mps": 10.11
-    },
-    {
-      "episode": 4,
-      "reward": 730.38,
-      "steps": 600,
-      "gates_passed": 2,
-      "laps": 0,
-      "collided": false,
-      "hit_object": "",
-      "min_clearance_m": 0.239,
-      "final_speed_mps": 1.21
-    },
-    {
-      "episode": 5,
-      "reward": 27.38,
-      "steps": 230,
-      "gates_passed": 1,
+      "reward": -371.3,
+      "steps": 62,
+      "gates_passed": 0,
       "laps": 0,
       "collided": true,
       "hit_object": "競技場外邊界 (Boundary)",
-      "min_clearance_m": 0.804,
-      "final_speed_mps": 7.71
+      "min_clearance_m": 0.557,
+      "final_speed_mps": 10.29
+    },
+    {
+      "episode": 4,
+      "reward": -371.83,
+      "steps": 65,
+      "gates_passed": 0,
+      "laps": 0,
+      "collided": true,
+      "hit_object": "競技場外邊界 (Boundary)",
+      "min_clearance_m": 0.91,
+      "final_speed_mps": 10.17
+    },
+    {
+      "episode": 5,
+      "reward": -370.82,
+      "steps": 64,
+      "gates_passed": 0,
+      "laps": 0,
+      "collided": true,
+      "hit_object": "競技場外邊界 (Boundary)",
+      "min_clearance_m": 0.779,
+      "final_speed_mps": 10.03
     }
   ]
 }
