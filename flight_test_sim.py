@@ -889,14 +889,23 @@ class WebGLFlightSimulator:
         trajectoryLine.frustumCulled = false;
         scene.add(trajectoryLine);
 
-        // Global Multi-Gate Closed Circuit Navigation Corridor (Gate 1 -> 2 -> 3 -> 4 -> 1)
-        const circuitPts = [
-            new THREE.Vector3(0.0, 3.2, -7.0),
-            new THREE.Vector3(9.0, 4.5, 0.0),
-            new THREE.Vector3(0.0, 6.0, 9.0),
-            new THREE.Vector3(-9.0, 3.8, 0.0),
-            new THREE.Vector3(0.0, 3.2, -7.0)
+        // AI Autopilot Waypoint Circuit Gates with 3D Orientation & Normal Vectors
+        const aiGates = [
+            {{ id: 1, x: 0.0, y: 3.2, z: -7.0, yaw: 0, nx: 0, nz: -1, label: 'Gate #1' }},
+            {{ id: 2, x: 9.0, y: 4.5, z: 0.0, yaw: Math.PI / 2, nx: 1, nz: 0, label: 'Gate #2' }},
+            {{ id: 3, x: 0.0, y: 6.0, z: 9.0, yaw: Math.PI, nx: 0, nz: 1, label: 'Gate #3' }},
+            {{ id: 4, x: -9.0, y: 3.8, z: 0.0, yaw: -Math.PI / 2, nx: -1, nz: 0, label: 'Gate #4' }}
         ];
+        let currentAIGateIndex = 0;
+        let isAIAutopilotActive = false;
+        let aiCumulativeReward = 0.0;
+        let aiLapsCompleted = 0;
+        let aiConfidence = 96.5;
+
+        // Global Multi-Gate Closed Circuit Navigation Corridor (Gate 1 -> 2 -> 3 -> 4 -> 1)
+        const circuitPts = aiGates.map(g => new THREE.Vector3(g.x, g.y, g.z)).concat([
+            new THREE.Vector3(aiGates[0].x, aiGates[0].y, aiGates[0].z)
+        ]);
         const circuitGeo = new THREE.BufferGeometry().setFromPoints(circuitPts);
         const circuitMat = new THREE.LineDashedMaterial({{
             color: 0xa855f7,
@@ -911,19 +920,6 @@ class WebGLFlightSimulator:
         circuitLine.visible = false;
         circuitLine.frustumCulled = false;
         scene.add(circuitLine);
-
-        // AI Autopilot Waypoint Circuit Gates with 3D Orientation & Normal Vectors
-        const aiGates = [
-            {{ id: 1, x: 0.0, y: 3.2, z: -7.0, yaw: 0, nx: 0, nz: -1, label: 'Gate #1' }},
-            {{ id: 2, x: 9.0, y: 4.5, z: 0.0, yaw: Math.PI / 2, nx: 1, nz: 0, label: 'Gate #2' }},
-            {{ id: 3, x: 0.0, y: 6.0, z: 9.0, yaw: Math.PI, nx: 0, nz: 1, label: 'Gate #3' }},
-            {{ id: 4, x: -9.0, y: 3.8, z: 0.0, yaw: -Math.PI / 2, nx: -1, nz: 0, label: 'Gate #4' }}
-        ];
-        let currentAIGateIndex = 0;
-        let isAIAutopilotActive = false;
-        let aiCumulativeReward = 0.0;
-        let aiLapsCompleted = 0;
-        let aiConfidence = 96.5;
 
         // Shared Autonomy Copilot State (Milestone M2.6)
         let isCopilotActive = true;
@@ -2312,6 +2308,7 @@ class WebGLFlightSimulator:
         let pitchRamp = 0;
         let rollRamp = 0;
         let latestLiDARReading = {{ dist: 99.0, name: '無障礙物', direction: '周圍', point: new THREE.Vector3() }};
+        const _tempObsCenter = new THREE.Vector3();
 
         function updatePhysics() {{
             // Damage evaluation on flight physics (Hoisted to eliminate TDZ ReferenceError)
@@ -2411,10 +2408,9 @@ class WebGLFlightSimulator:
                             if (obs.isGateTop) return;
 
                             // For side posts, only apply lateral push toward center if dangerously close (< 0.85m)
-                            const center = new THREE.Vector3();
-                            obs.box.getCenter(center);
-                            const dX = drone.position.x - center.x;
-                            const dZ = drone.position.z - center.z;
+                            obs.box.getCenter(_tempObsCenter);
+                            const dX = drone.position.x - _tempObsCenter.x;
+                            const dZ = drone.position.z - _tempObsCenter.z;
                             const d = Math.hypot(dX, dZ);
                             if (d < 0.85 && d > 0.05 && vertDist < 2.2) {{
                                 const latX = -targetGate.nz;
@@ -2428,13 +2424,12 @@ class WebGLFlightSimulator:
                         }}
 
                         // Normal obstacle repulsion for pillars, other gates, and ramps
-                        const center = new THREE.Vector3();
-                        obs.box.getCenter(center);
-                        const dX = drone.position.x - center.x;
-                        const dZ = drone.position.z - center.z;
+                        obs.box.getCenter(_tempObsCenter);
+                        const dX = drone.position.x - _tempObsCenter.x;
+                        const dZ = drone.position.z - _tempObsCenter.z;
                         const d = Math.hypot(dX, dZ);
                         const safeDist = 3.2;
-                        if (d < safeDist && d > 0.1 && Math.abs(drone.position.y - center.y) < 3.5) {{
+                        if (d < safeDist && d > 0.1 && Math.abs(drone.position.y - _tempObsCenter.y) < 3.5) {{
                             const strength = Math.pow((safeDist - d) / safeDist, 1.8) * 2.5;
                             repelX += (dX / d) * strength;
                             repelZ += (dZ / d) * strength;
@@ -2488,7 +2483,7 @@ class WebGLFlightSimulator:
                     throttleAcc = Math.max(-6.0, Math.min(14.0, altErr * 3.8 - velocity.y * 1.8));
 
                     // AI Telemetry
-                    aiConfidence = Math.max(50.0, Math.min(99.6, 98.5 - (3.0 - Math.min(3.0, latestLiDARReading.dist)) * 12.0));
+                    aiConfidence = isApproachingGate ? 98.8 : Math.max(50.0, Math.min(99.6, 98.5 - (3.0 - Math.min(3.0, latestLiDARReading.dist)) * 12.0));
                     aiCumulativeReward += 0.05;
                 }}
 
