@@ -474,7 +474,7 @@ class WebGLFlightSimulator:
             </div>
             <div style="display: flex; gap: 4px; margin-top: 4px;">
                 <button id="btn-stage-0" class="btn-stage" style="flex:1; font-size:10px; padding:3px 2px; background:#1e293b; border:1px solid #475569; color:#94a3b8; border-radius:3px; cursor:pointer;" onclick="switchAIStage('stage_0_untrained')">🌱 0%初學</button>
-                <button id="btn-stage-1" class="btn-stage" style="flex:1; font-size:10px; padding:3px 2px; background:#1e293b; border:1px solid #475569; color:#94a3b8; border-radius:3px; cursor:pointer;" onclick="switchAIStage('stage_1_half_trained')">🌿 40%半熟</button>
+                <button id="btn-stage-1" class="btn-stage" style="flex:1; font-size:10px; padding:3px 2px; background:#1e293b; border:1px solid #475569; color:#94a3b8; border-radius:3px; cursor:pointer;" onclick="switchAIStage('stage_1_half_trained')">🌿 40%中級</button>
                 <button id="btn-stage-2" class="btn-stage" style="flex:1; font-size:10px; padding:3px 2px; background:#7c3aed; border:1px solid #a855f7; color:#fff; border-radius:3px; cursor:pointer; font-weight:bold;" onclick="switchAIStage('stage_2_mastered')">🏆 100%精通</button>
             </div>
             <div class="hud-btn-row" style="margin-top: 6px;">
@@ -2383,7 +2383,7 @@ class WebGLFlightSimulator:
             const badge = document.getElementById('ai-stage-badge');
             const labels = {{
                 'stage_0_untrained': '🌱 0% 初學',
-                'stage_1_half_trained': '🌿 40% 半熟',
+                'stage_1_half_trained': '🌿 40% 中級',
                 'stage_2_mastered': '🏆 100% 精通'
             }};
             if (badge) badge.innerText = labels[stageKey] || stageKey;
@@ -2754,17 +2754,21 @@ class WebGLFlightSimulator:
                         }}
 
                         // Predictive Slit Feasibility Check in Forward Sector
-                        const toObsX = _tempObsCenter.x - drone.position.x;
-                        const toObsZ = _tempObsCenter.z - drone.position.z;
-                        const cosY0 = Math.cos(yaw);
-                        const sinY0 = Math.sin(yaw);
-                        const obsBodyFwd = -toObsX * sinY0 - toObsZ * cosY0;
-                        const obsBodyRight = toObsX * cosY0 - toObsZ * sinY0;
-                        if (obsBodyFwd > 0.6 && obsBodyFwd < 3.6 && Math.abs(obsBodyRight) < 1.4 && !isApproachingGate) {{
-                            detectedNarrowSlit = true;
-                            if (obsBodyFwd < slitDist) {{
-                                slitDist = obsBodyFwd;
-                                slitRollSign = (obsBodyRight > 0) ? -1.0 : 1.0;
+                        // Note: Only true paired narrow slits (< 1.6m aperture) should trigger knife-edge roll.
+                        // Isolated pillars (such as 立體立柱) and dynamic test obstacles must use standard APF deflection!
+                        if (obs.isSlitObstacle) {{
+                            const toObsX = _tempObsCenter.x - drone.position.x;
+                            const toObsZ = _tempObsCenter.z - drone.position.z;
+                            const cosY0 = Math.cos(yaw);
+                            const sinY0 = Math.sin(yaw);
+                            const obsBodyFwd = -toObsX * sinY0 - toObsZ * cosY0;
+                            const obsBodyRight = toObsX * cosY0 - toObsZ * sinY0;
+                            if (obsBodyFwd > 0.6 && obsBodyFwd < 3.6 && Math.abs(obsBodyRight) < 1.4 && !isApproachingGate) {{
+                                detectedNarrowSlit = true;
+                                if (obsBodyFwd < slitDist) {{
+                                    slitDist = obsBodyFwd;
+                                    slitRollSign = (obsBodyRight > 0) ? -1.0 : 1.0;
+                                }}
                             }}
                         }}
                     }});
@@ -2784,10 +2788,10 @@ class WebGLFlightSimulator:
                         }}
                     }}
 
-                    // During ballistic slit sprint, suppress lateral APF repulsion to avoid hesitation
+                    // During narrow slit sprint, maintain centering repulsion to avoid wall clipping
                     if (isTiltedSlitSprint) {{
-                        repelX = 0;
-                        repelZ = 0;
+                        repelX *= 0.5;
+                        repelZ *= 0.5;
                     }}
 
                     // Boundary Repulsion
@@ -2895,9 +2899,8 @@ class WebGLFlightSimulator:
                         // Tilted Slit Sprint Override (Task Group 3)
                         if (isTiltedSlitSprint) {{
                             targetRoll = slitSprintRollTarget;
-                            targetPitch = -0.45;
-                            throttleAcc = 13.0;
-                            rotationSpeed = 0;
+                            targetPitch = -0.32;
+                            throttleAcc = Math.max(-2.0, Math.min(14.0, altErr * 3.8 - velocity.y * 1.8));
                             aiConfidence = 99.5;
                         }} else {{
                             // Damped Altitude Hold & Vertical Climb Control
