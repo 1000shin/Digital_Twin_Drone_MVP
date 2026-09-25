@@ -219,7 +219,44 @@ class TestPrivilegedDRLDistillation(unittest.TestCase):
         self.assertIn("targetGate.z - targetGate.nz * 2.2", content)
         self.assertIn("AI 門前進門對齊", content)
 
+    def test_simulator_html_adaptive_velocity_profiling(self):
+        """FEAT-M2.5.3-TASK-1: Verify Adaptive Cruise Velocity Profiling in simulator HTML."""
+        html_file = Path(__file__).parent / "output" / "flight_test_simulator.html"
+        self.assertTrue(html_file.exists(), "Simulator HTML file must exist")
+        content = html_file.read_text(encoding="utf-8")
+
+        self.assertIn("cruiseSpeed = 4.8", content)
+        self.assertIn("cruiseSpeed = 2.4", content)
+        self.assertIn("cruiseSpeed = 3.6", content)
+        self.assertIn("cruiseSpeed = 4.2", content)
+        self.assertIn("toLeadX / leadDist2D) * cruiseSpeed", content)
+
+    def test_simulator_html_coordinated_banking_and_yaw_smoothing(self):
+        """FEAT-M2.5.3-TASK-2: Verify S-Curve Yaw Rate Limiting and Aerodynamic Coordinated Banking."""
+        html_file = Path(__file__).parent / "output" / "flight_test_simulator.html"
+        self.assertTrue(html_file.exists(), "Simulator HTML file must exist")
+        content = html_file.read_text(encoding="utf-8")
+
+        self.assertIn("aiYawRateSmoothed", content)
+        self.assertIn("coordinatedRoll", content)
+        self.assertIn("rotationSpeed = aiYawRateSmoothed", content)
+        self.assertIn("rawRollCmd * 0.70 + coordinatedRoll", content)
+
+    def test_simulator_html_narrow_gap_knife_edge_sprint(self):
+        """FEAT-M2.5.3-TASK-3: Verify Narrow Slit Predictive Traversability and Tilted Ballistic Sprint."""
+        html_file = Path(__file__).parent / "output" / "flight_test_simulator.html"
+        self.assertTrue(html_file.exists(), "Simulator HTML file must exist")
+        content = html_file.read_text(encoding="utf-8")
+
+        self.assertIn("detectedNarrowSlit", content)
+        self.assertIn("isTiltedSlitSprint", content)
+        self.assertIn("slitSprintRollTarget", content)
+        self.assertIn("function toggleTestObstacle()", content)
+        self.assertIn("id=\"btn-test-obstacle\"", content)
+        self.assertIn("KeyO", content)
+
 
 if __name__ == "__main__":
     unittest.main()
+
 

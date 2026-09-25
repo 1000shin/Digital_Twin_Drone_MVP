@@ -427,6 +427,9 @@
             <div class="hud-btn-row" style="margin-top: 6px;">
                 <button id="btn-ai-toggle" class="btn-action btn-ai-start" onclick="toggleAIAutopilot()">🤖 啟動 AI 自主飛行 (P)</button>
             </div>
+            <div class="hud-btn-row" style="margin-top: 5px;">
+                <button id="btn-test-obstacle" class="btn-action" style="background: linear-gradient(135deg, #dc2626, #b91c1c); border: 1px solid #ef4444; color: #fff; box-shadow: 0 2px 8px rgba(220, 38, 38, 0.4); font-size: 11px;" onclick="toggleTestObstacle()">🚨 插入突發紅色柱子 (避障實測) (O)</button>
+            </div>
         </div>
 
         <!-- Shared Autonomy Copilot HUD Section (Milestone M2.6) -->
@@ -1433,6 +1436,9 @@
 
             // 2. Update Active Collisions (Base Obstacles + Active Environment Obstacles)
             activeObstacles = baseObstacleMeshes.concat(envObstacles[envKey]);
+            if (typeof dynamicTestObstacleObj !== 'undefined' && dynamicTestObstacleObj) {
+                activeObstacles.push(dynamicTestObstacleObj);
+            }
 
             if (typeof circuitLine !== 'undefined' && circuitLine) {
                 circuitLine.visible = (envKey === 'collision_arena' && isAIAutopilotActive);
@@ -2242,6 +2248,84 @@
             }
         }
 
+        let dynamicTestObstacleObj = null;
+
+        function toggleTestObstacle() {
+            const btn = document.getElementById('btn-test-obstacle');
+            if (!dynamicTestObstacleObj) {
+                let posX = 0.35;
+                let posY = 2.6;
+                let posZ = -3.2;
+
+                if (drone.position.length() > 3.0) {
+                    const fwd = new THREE.Vector3(-Math.sin(yaw), 0, -Math.cos(yaw)).normalize();
+                    posX = drone.position.x + fwd.x * 3.6 + 0.15;
+                    posY = Math.max(2.2, drone.position.y);
+                    posZ = drone.position.z + fwd.z * 3.6;
+                }
+
+                const obsGeo = new THREE.CylinderGeometry(0.45, 0.45, 5.5, 24);
+                const obsMat = new THREE.MeshStandardMaterial({
+                    color: 0xef4444,
+                    emissive: 0x991b1b,
+                    emissiveIntensity: 0.7,
+                    roughness: 0.25,
+                    metalness: 0.6
+                });
+                const mesh = new THREE.Mesh(obsGeo, obsMat);
+                mesh.position.set(posX, posY, posZ);
+                mesh.castShadow = true;
+                mesh.receiveShadow = true;
+
+                const ringGeo = new THREE.TorusGeometry(0.65, 0.04, 8, 24);
+                const ringMat = new THREE.MeshBasicMaterial({ color: 0xfacc15, wireframe: true });
+                const ringTop = new THREE.Mesh(ringGeo, ringMat);
+                ringTop.rotation.x = Math.PI / 2;
+                ringTop.position.y = 1.6;
+                mesh.add(ringTop);
+                const ringBot = new THREE.Mesh(ringGeo, ringMat);
+                ringBot.rotation.x = Math.PI / 2;
+                ringBot.position.y = -1.6;
+                mesh.add(ringBot);
+
+                scene.add(mesh);
+                mesh.geometry.computeBoundingBox();
+
+                const obsObj = {
+                    mesh: mesh,
+                    box: new THREE.Box3().setFromObject(mesh),
+                    name: '🚨 突發測試障礙物 (Hazard Pillar)'
+                };
+                activeObstacles.push(obsObj);
+                dynamicTestObstacleObj = obsObj;
+
+                if (btn) {
+                    btn.innerHTML = '🟢 移除突發障礙物 (恢復航道) (O)';
+                    btn.style.background = 'linear-gradient(135deg, #059669, #047857)';
+                    btn.style.borderColor = '#10b981';
+                    btn.style.boxShadow = '0 2px 8px rgba(16, 185, 129, 0.4)';
+                    btn.blur();
+                }
+                showToast('🚨 已插入突發障礙柱 (' + posX.toFixed(1) + ', ' + posY.toFixed(1) + ', ' + posZ.toFixed(1) + ')！觀察 8向LiDAR 與神經網絡避障！');
+            } else {
+                scene.remove(dynamicTestObstacleObj.mesh);
+                const idx = activeObstacles.indexOf(dynamicTestObstacleObj);
+                if (idx !== -1) {
+                    activeObstacles.splice(idx, 1);
+                }
+                dynamicTestObstacleObj = null;
+
+                if (btn) {
+                    btn.innerHTML = '🚨 插入突發紅色柱子 (避障實測) (O)';
+                    btn.style.background = 'linear-gradient(135deg, #dc2626, #b91c1c)';
+                    btn.style.borderColor = '#ef4444';
+                    btn.style.boxShadow = '0 2px 8px rgba(220, 38, 38, 0.4)';
+                    btn.blur();
+                }
+                showToast('✅ 突發障礙物已移除，航道已完全淨空！');
+            }
+        }
+
         function switchAIStage(stageKey) {
             currentStudentStageKey = stageKey;
             const badge = document.getElementById('ai-stage-badge');
@@ -2368,6 +2452,7 @@
             if (e.code === 'KeyG' || e.key === 'g' || e.key === 'G') toggleRecording();
             if (e.code === 'KeyP' || e.key === 'p' || e.key === 'P') toggleAIAutopilot();
             if (e.code === 'KeyC' || e.key === 'c' || e.key === 'C') toggleCopilot();
+            if (e.code === 'KeyO' || e.key === 'o' || e.key === 'O') toggleTestObstacle();
         });
         window.addEventListener('keyup', (e) => keys[e.code] = false);
 
@@ -2382,6 +2467,12 @@
         let rollRamp = 0;
         let latestLiDARReading = { dist: 99.0, name: '無障礙物', direction: '周圍', point: new THREE.Vector3() };
         const _tempObsCenter = new THREE.Vector3();
+
+        // Advanced AI Flight Dynamics State Variables (FEAT-M2.5.3)
+        let aiYawRateSmoothed = 0;
+        let isTiltedSlitSprint = false;
+        let slitSprintRollTarget = 0;
+        let slitSprintTimer = 0;
 
         function updatePhysics() {
             // Damage evaluation on flight physics (Hoisted to eliminate TDZ ReferenceError)
@@ -2477,8 +2568,9 @@
                         }
                     } else if (aiNavStage === 'CORNER') {
                         const distToCorner = Math.hypot(drone.position.x - targetCorner.x, drone.position.z - targetCorner.z);
+                        const nextGateIndex = (currentAIGateIndex + 1) % aiGates.length;
                         if (distToCorner < 2.2) {
-                            currentAIGateIndex = (currentAIGateIndex + 1) % aiGates.length;
+                            currentAIGateIndex = nextGateIndex;
                             aiNavStage = 'APPROACH';
                             if (currentAIGateIndex === 0) {
                                 aiLapsCompleted++;
@@ -2488,7 +2580,12 @@
                         }
                     }
 
-                    // 2. Goal Attraction Vector: Multi-stage Waypoint Targets
+                    // 2. Goal Attraction Vector: Multi-stage Waypoint Targets with Smooth Lookahead (Task Group 2)
+                    const nextGateIdx = (currentAIGateIndex + 1) % aiGates.length;
+                    const nextGateObj = aiGates[nextGateIdx];
+                    const nextApproachPtX = nextGateObj.x - nextGateObj.nx * 2.2;
+                    const nextApproachPtZ = nextGateObj.z - nextGateObj.nz * 2.2;
+
                     if (aiNavStage === 'APPROACH') {
                         leadX = approachPtX;
                         leadZ = approachPtZ;
@@ -2499,55 +2596,88 @@
                         leadZ = targetGate.z + targetGate.nz * leadDist;
                         targetAlt = targetGate.y;
                     } else if (aiNavStage === 'LEADOUT') {
-                        leadX = targetGate.x + targetGate.nx * 2.8;
-                        leadZ = targetGate.z + targetGate.nz * 2.8;
-                        targetAlt = targetGate.y;
+                        const leadOutPtX = targetGate.x + targetGate.nx * 2.8;
+                        const leadOutPtZ = targetGate.z + targetGate.nz * 2.8;
+                        const distToLeadOut = Math.hypot(drone.position.x - leadOutPtX, drone.position.z - leadOutPtZ);
+                        const blendOut = Math.min(1.0, Math.max(0.0, 1.0 - distToLeadOut / 2.8));
+                        leadX = (1 - blendOut) * leadOutPtX + blendOut * targetCorner.x;
+                        leadZ = (1 - blendOut) * leadOutPtZ + blendOut * targetCorner.z;
+                        targetAlt = (1 - blendOut) * targetGate.y + blendOut * targetCorner.y;
                     } else if (aiNavStage === 'CORNER') {
-                        leadX = targetCorner.x;
-                        leadZ = targetCorner.z;
-                        targetAlt = targetCorner.y;
+                        const distToCorner = Math.hypot(drone.position.x - targetCorner.x, drone.position.z - targetCorner.z);
+                        const cornerBlend = Math.min(1.0, Math.max(0.0, 1.0 - distToCorner / 3.2));
+                        leadX = (1 - cornerBlend) * targetCorner.x + cornerBlend * nextApproachPtX;
+                        leadZ = (1 - cornerBlend) * targetCorner.z + cornerBlend * nextApproachPtZ;
+                        targetAlt = (1 - cornerBlend) * targetCorner.y + cornerBlend * nextGateObj.y;
+                    }
+
+                    // Adaptive Velocity Profiling (FEAT-M2.5.3 Task Group 1)
+                    let cruiseSpeed = 2.4;
+                    if (aiNavStage === 'APPROACH') {
+                        if (distToApproach > 3.0) {
+                            cruiseSpeed = 4.8; // High speed sprint on straightaways
+                        } else {
+                            cruiseSpeed = 2.4; // Smooth gate entry deceleration
+                        }
+                    } else if (aiNavStage === 'THROUGH') {
+                        cruiseSpeed = isTiltedSlitSprint ? 4.8 : 2.2;
+                    } else if (aiNavStage === 'LEADOUT') {
+                        cruiseSpeed = 3.6; // Accelerate out of gate
+                    } else if (aiNavStage === 'CORNER') {
+                        const distToCorner = Math.hypot(drone.position.x - targetCorner.x, drone.position.z - targetCorner.z);
+                        if (distToCorner > 3.0) {
+                            cruiseSpeed = 4.2; // Rapid transit to corner
+                        } else {
+                            cruiseSpeed = 2.8; // Smooth coordinated cornering
+                        }
                     }
 
                     const text = document.getElementById('ai-status-text');
                     if (aiNavStage === 'APPROACH') {
                         if (text) text.innerText = 'AI 門前進門對齊 (' + targetGate.label + ' 正面)';
                     } else if (aiNavStage === 'THROUGH') {
-                        if (text) text.innerText = 'AI 航線穿門巡檢 (' + targetGate.label + ')';
+                        if (text) text.innerText = isTiltedSlitSprint ? '⚡ AI 刀鋒特技加速穿縫 (Knife-Edge Sprint)' : ('AI 航線穿門巡檢 (' + targetGate.label + ')');
                     } else if (aiNavStage === 'LEADOUT') {
                         if (text) text.innerText = 'AI 出門走廊導引 (' + targetGate.label + ' 出口)';
                     } else if (aiNavStage === 'CORNER') {
-                        if (text) text.innerText = 'AI 外環轉角巡航 (' + targetCorner.label + ')';
+                        if (text) text.innerText = 'AI 外環協同轉彎 (' + targetCorner.label + ')';
                     }
 
                     const toLeadX = leadX - drone.position.x;
                     const toLeadZ = leadZ - drone.position.z;
                     const leadDist2D = Math.hypot(toLeadX, toLeadZ);
 
-                    let attractX = (leadDist2D > 0.01) ? (toLeadX / leadDist2D) * 1.6 : 0;
-                    let attractZ = (leadDist2D > 0.01) ? (toLeadZ / leadDist2D) * 1.6 : 0;
+                    let attractX = (leadDist2D > 0.01) ? (toLeadX / leadDist2D) * cruiseSpeed : 0;
+                    let attractZ = (leadDist2D > 0.01) ? (toLeadZ / leadDist2D) * cruiseSpeed : 0;
 
-                    // 3. Smart Obstacle Repulsion Vector (Excluding current target gate & recently cleared gate)
+                    // 3. Smart Obstacle Repulsion & Narrow Slit Predictive Check (Task Group 3)
                     let repelX = 0;
                     let repelZ = 0;
+                    let detectedNarrowSlit = false;
+                    let slitDist = 99.0;
+                    let slitRollSign = 1.0;
+
+                    const isApproachingGate = (aiNavStage === 'APPROACH' || aiNavStage === 'THROUGH' || aiNavStage === 'LEADOUT') && dist2D < 3.2 && vertDist < 2.5;
+
                     activeObstacles.forEach(obs => {
                         const isTargetGateObs = (obs.gateId === targetGate.id);
                         const isClearedGateObs = (clearedGateId && obs.gateId === clearedGateId);
 
-                        // Smart tunnel filtering:
+                        // Smart tunnel filtering for gates:
                         if (isTargetGateObs || isClearedGateObs) {
                             if (obs.isGateTop) return;
 
-                            // For side posts, apply smooth lateral push toward center if within 1.15m
+                            // For side posts, apply smooth lateral push toward center if within 1.25m
                             obs.box.getCenter(_tempObsCenter);
                             const dX = drone.position.x - _tempObsCenter.x;
                             const dZ = drone.position.z - _tempObsCenter.z;
                             const d = Math.hypot(dX, dZ);
-                            if (d < 1.15 && d > 0.05 && vertDist < 2.2) {
+                            if (d < 1.25 && d > 0.05 && vertDist < 2.2) {
                                 const gRef = isTargetGateObs ? targetGate : (aiGates.find(g => g.id === clearedGateId) || targetGate);
                                 const latX = -gRef.nz;
                                 const latZ = gRef.nx;
                                 const postDotLat = (dX * latX + dZ * latZ);
-                                const pushLat = (postDotLat > 0 ? 1 : -1) * Math.pow((1.15 - d) / 1.15, 1.5) * 2.2;
+                                const pushLat = (postDotLat > 0 ? 1 : -1) * Math.pow((1.25 - d) / 1.25, 1.5) * 2.5;
                                 repelX += latX * pushLat;
                                 repelZ += latZ * pushLat;
                             }
@@ -2556,16 +2686,57 @@
 
                         // Normal obstacle repulsion for pillars, other gates, and ramps
                         obs.box.getCenter(_tempObsCenter);
-                        const dX = drone.position.x - _tempObsCenter.x;
-                        const dZ = drone.position.z - _tempObsCenter.z;
-                        const d = Math.hypot(dX, dZ);
+                        let dX = drone.position.x - _tempObsCenter.x;
+                        let dZ = drone.position.z - _tempObsCenter.z;
+                        let d = Math.hypot(dX, dZ);
                         const safeDist = 3.2;
                         if (d < safeDist && d > 0.1 && Math.abs(drone.position.y - _tempObsCenter.y) < 3.5) {
+                            // Symmetry breaking perturbation to eliminate APF saddle deadlock
+                            if (Math.abs(dX) < 0.08) {
+                                dX += 0.25;
+                                d = Math.hypot(dX, dZ);
+                            }
                             const strength = Math.pow((safeDist - d) / safeDist, 1.8) * 2.5;
                             repelX += (dX / d) * strength;
                             repelZ += (dZ / d) * strength;
                         }
+
+                        // Predictive Slit Feasibility Check in Forward Sector
+                        const toObsX = _tempObsCenter.x - drone.position.x;
+                        const toObsZ = _tempObsCenter.z - drone.position.z;
+                        const cosY0 = Math.cos(yaw);
+                        const sinY0 = Math.sin(yaw);
+                        const obsBodyFwd = -toObsX * sinY0 - toObsZ * cosY0;
+                        const obsBodyRight = toObsX * cosY0 - toObsZ * sinY0;
+                        if (obsBodyFwd > 0.6 && obsBodyFwd < 3.6 && Math.abs(obsBodyRight) < 1.4 && !isApproachingGate) {
+                            detectedNarrowSlit = true;
+                            if (obsBodyFwd < slitDist) {
+                                slitDist = obsBodyFwd;
+                                slitRollSign = (obsBodyRight > 0) ? -1.0 : 1.0;
+                            }
+                        }
                     });
+
+                    // Trigger Knife-Edge Slit Sprint Mode
+                    if (detectedNarrowSlit && slitDist < 2.6 && !isTiltedSlitSprint) {
+                        isTiltedSlitSprint = true;
+                        slitSprintRollTarget = slitRollSign * 1.0; // ~57.3 deg knife-edge roll
+                        slitSprintTimer = 0.95; // ~1 sec sprint to clear narrow gap
+                        showToast('⚡ 狹縫可行性預判通過！機身側傾 58° 刀鋒彈射加速穿障 (Knife-Edge Sprint)！');
+                    }
+
+                    if (slitSprintTimer > 0) {
+                        slitSprintTimer -= 0.016;
+                        if (slitSprintTimer <= 0) {
+                            isTiltedSlitSprint = false;
+                        }
+                    }
+
+                    // During ballistic slit sprint, suppress lateral APF repulsion to avoid hesitation
+                    if (isTiltedSlitSprint) {
+                        repelX = 0;
+                        repelZ = 0;
+                    }
 
                     // Boundary Repulsion
                     if (drone.position.x > 14) repelX -= Math.pow((drone.position.x - 14) / 4, 2) * 3.0;
@@ -2577,9 +2748,8 @@
                     let desVz = attractZ + repelZ;
 
                     // 4. LiDAR Gate Passage Deadzone Filter
-                    const isApproachingGate = (aiNavStage === 'APPROACH' || aiNavStage === 'THROUGH' || aiNavStage === 'LEADOUT') && dist2D < 3.2 && vertDist < 2.5;
-                    if (!isApproachingGate && latestLiDARReading.dist < 1.6) {
-                        const damp = Math.max(0.3, latestLiDARReading.dist / 1.6);
+                    if (!isApproachingGate && !isTiltedSlitSprint && latestLiDARReading.dist < 1.4) {
+                        const damp = Math.max(0.4, latestLiDARReading.dist / 1.4);
                         desVx *= damp;
                         desVz *= damp;
                     }
@@ -2623,13 +2793,25 @@
                     const yawErr = (desiredYaw - yaw + Math.PI) % (2 * Math.PI) - Math.PI;
                     const altErr = targetAlt - drone.position.y;
 
+                    // Second-order S-Curve Yaw Rate Limiter (Task Group 2)
+                    let targetRotSpeed = 0;
+                    if (!isApproachingGate && latestLiDARReading.dist < 1.8 && (latestLiDARReading.direction.includes('前') || latestLiDARReading.direction.includes('舷'))) {
+                        targetRotSpeed = latestLiDARReading.direction.includes('左') ? -0.07 : 0.07;
+                    } else {
+                        targetRotSpeed = Math.max(-0.09, Math.min(0.09, yawErr * 0.08));
+                    }
+                    aiYawRateSmoothed += Math.max(-0.012, Math.min(0.012, targetRotSpeed - aiYawRateSmoothed));
+                    rotationSpeed = aiYawRateSmoothed;
+
+                    // Coordinated Banking Turn Angle (Aerodynamic centrifugal tilt)
+                    const coordinatedRoll = Math.max(-0.32, Math.min(0.32, (actualFwd * rotationSpeed * 1.6) / 9.81));
+
                     if (currentStudentStageKey === 'stage_0_untrained' && neuralAct) {
                         // Stage 0: Untrained random network - chaotic drift, low obstacle awareness
                         rawPitchCmd = Math.max(-0.85, Math.min(0.85, neuralAct[0] * 1.2));
                         rawRollCmd = Math.max(-0.85, Math.min(0.85, neuralAct[1] * 1.2));
                         targetPitch = rawPitchCmd * 0.70;
-                        targetRoll = rawRollCmd * 0.70;
-                        rotationSpeed = Math.max(-0.12, Math.min(0.12, neuralAct[2] * 0.15));
+                        targetRoll = rawRollCmd * 0.70 + coordinatedRoll;
                         throttleAcc = Math.max(-6.0, Math.min(14.0, altErr * 1.8 - velocity.y * 1.2 + neuralAct[3] * 6.0));
                         aiConfidence = 45.0;
                     } else if (currentStudentStageKey === 'stage_1_half_trained' && neuralAct) {
@@ -2637,29 +2819,39 @@
                         rawPitchCmd = Math.max(-0.75, Math.min(0.75, neuralAct[0] * 0.6 + (-errFwd * 0.45) * 0.4));
                         rawRollCmd = Math.max(-0.75, Math.min(0.75, neuralAct[1] * 0.6 + (-errRight * 0.45) * 0.4));
                         targetPitch = rawPitchCmd * 0.70;
-                        targetRoll = rawRollCmd * 0.70;
-                        rotationSpeed = Math.max(-0.09, Math.min(0.09, neuralAct[2] * 0.08));
+                        targetRoll = rawRollCmd * 0.70 + coordinatedRoll;
                         throttleAcc = Math.max(-6.0, Math.min(14.0, altErr * 2.5 - velocity.y * 1.5 + neuralAct[3] * 3.0));
                         aiConfidence = 78.5;
                     } else {
                         // Stage 2: Mastered - full agile APF + neural blend
-                        rawPitchCmd = Math.max(-0.75, Math.min(0.75, -errFwd * 0.45));
-                        rawRollCmd = Math.max(-0.75, Math.min(0.75, -errRight * 0.45));
-                        targetPitch = rawPitchCmd * 0.70;
-                        targetRoll = rawRollCmd * 0.70;
+                        rawPitchCmd = Math.max(-0.95, Math.min(0.95, -errFwd * 0.55));
+                        rawRollCmd = Math.max(-0.85, Math.min(0.85, -errRight * 0.50));
 
-                        // 6. Yaw Heading Alignment & Deadzone
-                        if (!isApproachingGate && latestLiDARReading.dist < 1.8 && (latestLiDARReading.direction.includes('前') || latestLiDARReading.direction.includes('舷'))) {
-                            rotationSpeed = latestLiDARReading.direction.includes('左') ? -0.07 : 0.07;
-                        } else {
-                            rotationSpeed = Math.max(-0.08, Math.min(0.08, yawErr * 0.08));
+                        // Dynamic Max Pitch for Straightaways vs Precision Gates
+                        const maxPitchLimit = (aiNavStage === 'APPROACH' && distToApproach > 3.0) ? 0.48 : (isApproachingGate ? 0.20 : 0.38);
+                        targetPitch = Math.max(-maxPitchLimit, Math.min(maxPitchLimit, rawPitchCmd * 0.75));
+
+                        // Coordinated Banking Roll + Lateral Evasion
+                        targetRoll = Math.max(-0.45, Math.min(0.45, rawRollCmd * 0.70 + coordinatedRoll));
+
+                        // Precision Gate Attitude Leveling Constraint
+                        if (isApproachingGate) {
+                            targetPitch = Math.max(-0.20, Math.min(0.20, targetPitch));
+                            targetRoll = Math.max(-0.14, Math.min(0.14, targetRoll));
                         }
 
-                        // 7. Damped Altitude Hold & Vertical Climb Control
-                        throttleAcc = Math.max(-6.0, Math.min(14.0, altErr * 3.8 - velocity.y * 1.8));
-
-                        // AI Telemetry
-                        aiConfidence = isApproachingGate ? 98.8 : Math.max(50.0, Math.min(99.6, 98.5 - (3.0 - Math.min(3.0, latestLiDARReading.dist)) * 12.0));
+                        // Tilted Slit Sprint Override (Task Group 3)
+                        if (isTiltedSlitSprint) {
+                            targetRoll = slitSprintRollTarget;
+                            targetPitch = -0.45;
+                            throttleAcc = 13.0;
+                            rotationSpeed = 0;
+                            aiConfidence = 99.5;
+                        } else {
+                            // Damped Altitude Hold & Vertical Climb Control
+                            throttleAcc = Math.max(-6.0, Math.min(14.0, altErr * 3.8 - velocity.y * 1.8));
+                            aiConfidence = isApproachingGate ? 98.8 : Math.max(50.0, Math.min(99.6, 98.5 - (3.0 - Math.min(3.0, latestLiDARReading.dist)) * 12.0));
+                        }
                     }
                     aiCumulativeReward += 0.05;
                 }

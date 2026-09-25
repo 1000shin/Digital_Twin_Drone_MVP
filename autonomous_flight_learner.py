@@ -198,6 +198,17 @@ class StudentPolicyNumpy:
         for k in req_keys:
             if k not in self.weights:
                 raise KeyError(f"Missing weight tensor '{k}' in student policy weights")
+        try:
+            import numpy as np
+            self._np_w1 = np.asarray(self.weights["w1"], dtype=np.float32)
+            self._np_b1 = np.asarray(self.weights["b1"], dtype=np.float32)
+            self._np_w2 = np.asarray(self.weights["w2"], dtype=np.float32)
+            self._np_b2 = np.asarray(self.weights["b2"], dtype=np.float32)
+            self._np_w3 = np.asarray(self.weights["w3"], dtype=np.float32)
+            self._np_b3 = np.asarray(self.weights["b3"], dtype=np.float32)
+            self._has_np = True
+        except ImportError:
+            self._has_np = False
 
     def predict(self, obs: List[float]) -> List[float]:
         """
@@ -207,6 +218,14 @@ class StudentPolicyNumpy:
         """
         if not self.loaded or self.weights is None:
             raise RuntimeError("StudentPolicyNumpy weights not loaded.")
+
+        if getattr(self, "_has_np", False):
+            import numpy as np
+            x = np.asarray(obs, dtype=np.float32)
+            h1 = np.maximum(0.0, np.dot(self._np_w1, x) + self._np_b1)
+            h2 = np.maximum(0.0, np.dot(self._np_w2, h1) + self._np_b2)
+            out = np.tanh(np.dot(self._np_w3, h2) + self._np_b3)
+            return out.tolist()
 
         w1 = self.weights["w1"] # shape: [64, 23]
         b1 = self.weights["b1"] # shape: [64]
