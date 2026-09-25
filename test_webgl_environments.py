@@ -171,6 +171,24 @@ class TestWebGLEnvironments(unittest.TestCase):
         self.assertIn("side: THREE.DoubleSide", stl_content)
         self.assertIn("polygonOffset: true", stl_content)
 
+    def test_flight_simulator_dynamic_obstacle_declaration_order(self):
+        """Validates dynamicTestObstacleObj is declared before switchEnvironment to prevent Temporal Dead Zone ReferenceError."""
+        sim = WebGLFlightSimulator(self.output_dir)
+        html_file = sim.generate_simulator_html(self.sample_drone, self.sample_world, "test_flight_simulator.html")
+        content = html_file.read_text(encoding="utf-8")
+
+        idx_decl = content.find("let dynamicTestObstacleObj = null;")
+        idx_switch = content.find("function switchEnvironment(envKey)")
+        idx_init_call = content.find("switchEnvironment('offshore_wind');")
+
+        self.assertNotEqual(idx_decl, -1, "dynamicTestObstacleObj must be declared")
+        self.assertNotEqual(idx_switch, -1, "switchEnvironment function must be present")
+        self.assertNotEqual(idx_init_call, -1, "switchEnvironment('offshore_wind') init call must be present")
+
+        # Must be declared BEFORE switchEnvironment and its invocation to prevent TDZ error
+        self.assertLess(idx_decl, idx_switch, "dynamicTestObstacleObj declaration must precede switchEnvironment")
+        self.assertLess(idx_decl, idx_init_call, "dynamicTestObstacleObj declaration must precede initial switchEnvironment call")
+
 if __name__ == "__main__":
     unittest.main()
 

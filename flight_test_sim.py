@@ -1472,6 +1472,7 @@ class WebGLFlightSimulator:
         let activeEnvKey = 'offshore_wind';
         let activeObstacles = [];
         let currentWind = [4.5, 0.8, 0.0];
+        let dynamicTestObstacleObj = null;
 
         function switchEnvironment(envKey) {{
             if (!ENVIRONMENTS[envKey]) return;
@@ -2300,8 +2301,6 @@ class WebGLFlightSimulator:
                 showToast('🎮 已切換回人工手動飛行模式');
             }}
         }}
-
-        let dynamicTestObstacleObj = null;
 
         function toggleTestObstacle() {{
             const btn = document.getElementById('btn-test-obstacle');

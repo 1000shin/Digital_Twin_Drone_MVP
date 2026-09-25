@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [v12.2.1] - 2026-09-25
+
+### Fixed
+- **[FIX-M2.5.3-HTML-MODEL-LOAD] WebGL 飛行測試模擬器 TDZ 作用域死鎖修復與畫面全黑問題根除**:
+  - **ES6 暫時死區（Temporal Dead Zone, TDZ）作用域死鎖修復**: 修復 M2.5.3 實作突發障礙物測試功能時，在 `switchEnvironment()` 函式引用 `dynamicTestObstacleObj` 但其 `let` 宣告位於後方第 2251 行，導致頁面載入至第 1498 行初期化呼叫 `switchEnvironment('offshore_wind')` 時拋出不可攔截的 `ReferenceError: Cannot access 'dynamicTestObstacleObj' before initialization`。將 `let dynamicTestObstacleObj = null;` 提升宣告至全域狀態區，並移除後方重複宣告。
+  - **3D 模型掛載與主動畫迴圈恢復**: 消除阻斷渲染之致命例外，確保末端 `animate()` 與 `updatePhysics()` 正常被排程執行，無人機 32 個組件實體與環境幾何正常被 WebGL 渲染，畫面全黑與無法載入模型問題徹底解決。
+  - **自動化宣告次序回歸測試**: 在 `test_webgl_environments.py` 中新增 `test_flight_simulator_dynamic_obstacle_declaration_order`，自動化驗證變數宣告次序早於環境切換函式與初始化呼叫，保障 70/70 項單元測試全數綠燈通過。
+
 ## [v12.2.0] - 2026-09-25
 
 ### Added
