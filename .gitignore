@@ -37,3 +37,4 @@ TokenUsageInsights/
 
 # Test output
 test_output/
+*.mov
